@@ -181,20 +181,42 @@
     }
     body.light .level-box { background: #f5f5f5; }
     .level-label {
-      font-size: 11px; color: var(--text2); margin-bottom: 4px; text-transform: uppercase;
+      font-size: 11px; color: var(--text2); margin-bottom: 6px; text-transform: uppercase;
     }
-    .level-value { font-size: 16px; font-weight: 700; }
-    .level-entry { color: #00ccff; }
-    .level-sl { color: #ff3b30; }
-    .level-tp { color: #00ff88; }
+    .level-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 700;
+      text-align: center;
+      outline: none;
+      padding: 4px 0;
+    }
+    .level-input.entry { color: #00ccff; }
+    .level-input.sl { color: #ff3b30; }
+    .level-input.tp { color: #00ff88; }
 
     .ai-row {
-      display: flex; justify-content: space-between;
-      padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13.5px;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13.5px;
     }
     .ai-row:last-child { border-bottom: none; }
     .ai-label { color: var(--text2); }
     .ai-value { font-weight: 600; text-align: right; max-width: 58%; }
+
+    .symbol-select {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 14px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      outline: none;
+      max-width: 140px;
+    }
 
     .ai-comment {
       margin-top: 12px; padding: 12px;
@@ -412,7 +434,6 @@
         <option value="breaker">Breaker Blocks</option>
       </select>
 
-      <!-- Only Photo Library -->
       <div class="upload-btn" id="uploadBtn" onclick="document.getElementById('galleryInput').click()">
         <div class="upload-btn-icon">🖼️</div>
         <div class="upload-btn-text">Photo Library</div>
@@ -438,28 +459,38 @@
         <div style="font-size:13px;color:var(--text2);" id="aiPattern">—</div>
       </div>
 
+      <!-- Editable Levels -->
       <div class="levels-grid">
         <div class="level-box">
           <div class="level-label">Entry</div>
-          <div class="level-value level-entry" id="aiEntry">—</div>
+          <input type="number" step="any" class="level-input entry" id="aiEntry" />
         </div>
         <div class="level-box">
           <div class="level-label">Stop Loss</div>
-          <div class="level-value level-sl" id="aiSL">—</div>
+          <input type="number" step="any" class="level-input sl" id="aiSL" />
         </div>
         <div class="level-box">
           <div class="level-label">Take Profit 1</div>
-          <div class="level-value level-tp" id="aiTP1">—</div>
+          <input type="number" step="any" class="level-input tp" id="aiTP1" />
         </div>
         <div class="level-box">
           <div class="level-label">Take Profit 2</div>
-          <div class="level-value level-tp" id="aiTP2">—</div>
+          <input type="number" step="any" class="level-input tp" id="aiTP2" />
         </div>
       </div>
 
       <div class="ai-row">
         <span class="ai-label">Detected Symbol</span>
-        <span class="ai-value" id="aiSymbol" style="color:var(--accent);">—</span>
+        <select id="aiSymbol" class="symbol-select">
+          <option value="NAS100">NAS100</option>
+          <option value="US30">US30</option>
+          <option value="DE30">DE30</option>
+          <option value="UK100">UK100</option>
+          <option value="XAUUSD">XAUUSD</option>
+          <option value="EURUSD">EURUSD</option>
+          <option value="GBPUSD">GBPUSD</option>
+          <option value="USDJPY">USDJPY</option>
+        </select>
       </div>
       <div class="ai-row">
         <span class="ai-label">Strategy</span>
@@ -517,7 +548,6 @@
         Go to Account
       </button>
     </div>
-
     <div id="symbolsList" style="display:none;"></div>
   </div>
 
@@ -608,7 +638,7 @@
     </div>
 
     <div style="margin-top:20px;font-size:12px;color:var(--text2);text-align:center;">
-      EA HOST v2.2 • Market Avenger Pro
+      EA HOST v2.3 • Market Avenger Pro
     </div>
   </div>
 
@@ -780,7 +810,7 @@
       document.getElementById('tradesValue').textContent = numTrades;
     }
 
-    // AI Scan with auto symbol detection
+    // AI Scan
     function runAIScan() {
       if (!selectedImage) return;
       const btn = document.getElementById('scanBtn');
@@ -869,24 +899,27 @@
         const detected = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
         const sym = detected.symbol;
         const base = detected.base;
-        const isJpyOrGold = sym === 'XAUUSD' || sym === 'USDJPY' || sym.includes('USD');
-        const step = isJpyOrGold ? (sym === 'XAUUSD' ? 4.5 : 0.25) : (30 + Math.random()*40);
+        const isFx = ['EURUSD','GBPUSD','USDJPY'].includes(sym);
+        const isGold = sym === 'XAUUSD';
+        const step = isGold ? 4.5 : (isFx ? 0.0025 : (30 + Math.random()*40));
 
         let entry, sl, tp1, tp2, support, resistance;
+        const decimals = isFx ? 5 : (isGold || sym === 'USDJPY' ? 2 : 0);
+
         if (isBuy) {
-          entry = +(base + (Math.random()-0.5)*step*2).toFixed(sym.includes('USD') && sym.length > 6 ? 2 : (sym === 'XAUUSD' || sym === 'USDJPY' ? 2 : 0));
-          sl = +(entry - step * 1.7).toFixed(sym.includes('USD') && sym.length > 6 ? 2 : (sym === 'XAUUSD' || sym === 'USDJPY' ? 2 : 0));
-          tp1 = +(entry + step * 2.5).toFixed(sym.includes('USD') && sym.length > 6 ? 2 : (sym === 'XAUUSD' || sym === 'USDJPY' ? 2 : 0));
-          tp2 = +(entry + step * 4.5).toFixed(sym.includes('USD') && sym.length > 6 ? 2 : (sym === 'XAUUSD' || sym === 'USDJPY' ? 2 : 0));
-          support = +(sl - step * 0.5).toFixed(sym.includes('USD') && sym.length > 6 ? 2 : (sym === 'XAUUSD' || sym === 'USDJPY' ? 2 : 0));
-          resistance = +(tp1 + step * 0.6).toFixed(sym.includes('USD') && sym.length > 6 ? 2 : (sym === 'XAUUSD' || sym === 'USDJPY' ? 2 : 0));
+          entry = +(base + (Math.random()-0.5)*step*2).toFixed(decimals);
+          sl = +(entry - step * 1.7).toFixed(decimals);
+          tp1 = +(entry + step * 2.5).toFixed(decimals);
+          tp2 = +(entry + step * 4.5).toFixed(decimals);
+          support = +(sl - step * 0.5).toFixed(decimals);
+          resistance = +(tp1 + step * 0.6).toFixed(decimals);
         } else {
-          entry = +(base + (Math.random()-0.5)*step*2).toFixed(sym.includes('USD') && sym.length > 6 ? 2 : (sym === 'XAUUSD' || sym === 'USDJPY' ? 2 : 0));
-          sl = +(entry + step * 1.7).toFixed(sym.includes('USD') && sym.length > 6 ? 2 : (sym === 'XAUUSD' || sym === 'USDJPY' ? 2 : 0));
-          tp1 = +(entry - step * 2.5).toFixed(sym.includes('USD') && sym.length > 6 ? 2 : (sym === 'XAUUSD' || sym === 'USDJPY' ? 2 : 0));
-          tp2 = +(entry - step * 4.5).toFixed(sym.includes('USD') && sym.length > 6 ? 2 : (sym === 'XAUUSD' || sym === 'USDJPY' ? 2 : 0));
-          resistance = +(sl + step * 0.5).toFixed(sym.includes('USD') && sym.length > 6 ? 2 : (sym === 'XAUUSD' || sym === 'USDJPY' ? 2 : 0));
-          support = +(tp1 - step * 0.6).toFixed(sym.includes('USD') && sym.length > 6 ? 2 : (sym === 'XAUUSD' || sym === 'USDJPY' ? 2 : 0));
+          entry = +(base + (Math.random()-0.5)*step*2).toFixed(decimals);
+          sl = +(entry + step * 1.7).toFixed(decimals);
+          tp1 = +(entry - step * 2.5).toFixed(decimals);
+          tp2 = +(entry - step * 4.5).toFixed(decimals);
+          resistance = +(sl + step * 0.5).toFixed(decimals);
+          support = +(tp1 - step * 0.6).toFixed(decimals);
         }
 
         const risk = Math.abs(entry - sl);
@@ -899,15 +932,18 @@
           priceaction:'Classic Price Action', breaker:'Breaker Blocks'
         };
 
+        // Fill UI (editable fields)
         document.getElementById('aiConfidence').textContent = conf + '%';
         document.getElementById('aiBias').textContent = bias;
         document.getElementById('aiBias').className = 'big-bias ' + bias.toLowerCase();
         document.getElementById('aiPattern').textContent = pattern;
-        document.getElementById('aiEntry').textContent = entry;
-        document.getElementById('aiSL').textContent = sl;
-        document.getElementById('aiTP1').textContent = tp1;
-        document.getElementById('aiTP2').textContent = tp2;
-        document.getElementById('aiSymbol').textContent = sym;
+
+        document.getElementById('aiEntry').value = entry;
+        document.getElementById('aiSL').value = sl;
+        document.getElementById('aiTP1').value = tp1;
+        document.getElementById('aiTP2').value = tp2;
+
+        document.getElementById('aiSymbol').value = sym;
         document.getElementById('aiStrategy').textContent = strategyNames[currentStrategy];
         document.getElementById('aiRR').textContent = rr;
         document.getElementById('aiSupport').textContent = support;
@@ -928,7 +964,7 @@
       }, 1600 + Math.random()*900);
     }
 
-    // Live symbols (simulated when connected)
+    // Live symbols
     function renderSymbols() {
       document.getElementById('symbolsLocked').style.display = 'none';
       const list = document.getElementById('symbolsList');
@@ -940,6 +976,7 @@
         const price = s.base + change;
         const pct = (change / s.base * 100);
         const isUp = change >= 0;
+        const decimals = ['EURUSD','GBPUSD'].includes(s.symbol) ? 5 : (s.symbol === 'XAUUSD' || s.symbol === 'USDJPY' ? 2 : 1);
 
         const div = document.createElement('div');
         div.className = 'symbol-card';
@@ -949,7 +986,7 @@
             <div class="desc">${s.name}</div>
           </div>
           <div class="symbol-price">
-            <div class="price-value">${price.toFixed(s.symbol.includes('USD') && s.symbol.length > 6 ? 5 : (s.symbol === 'XAUUSD' || s.symbol === 'USDJPY' ? 2 : 1))}</div>
+            <div class="price-value">${price.toFixed(decimals)}</div>
             <div class="price-change ${isUp ? 'price-up' : 'price-down'}">${isUp ? '+' : ''}${pct.toFixed(2)}%</div>
           </div>
         `;
@@ -1015,7 +1052,7 @@
       }
     }
 
-    // Execute
+    // Execute – reads the editable values
     function openExecuteModal() {
       if (!mtConnected) {
         alert('Please connect your MetaTrader account first.');
@@ -1023,6 +1060,20 @@
         return;
       }
       if (!lastAnalysis) return;
+
+      // Read current values from the editable fields
+      const symbol = document.getElementById('aiSymbol').value;
+      const entry = parseFloat(document.getElementById('aiEntry').value);
+      const sl = parseFloat(document.getElementById('aiSL').value);
+      const tp1 = parseFloat(document.getElementById('aiTP1').value);
+      const tp2 = parseFloat(document.getElementById('aiTP2').value);
+
+      lastAnalysis.symbol = symbol;
+      lastAnalysis.entry = entry;
+      lastAnalysis.sl = sl;
+      lastAnalysis.tp1 = tp1;
+      lastAnalysis.tp2 = tp2;
+
       const a = lastAnalysis;
       document.getElementById('modalText').innerHTML =
         `<strong>${a.bias}</strong> <strong>${a.symbol}</strong> @ <strong>${a.entry}</strong><br>
@@ -1031,15 +1082,16 @@
          Confidence: ${a.conf}%`;
       document.getElementById('executeModal').style.display = 'flex';
     }
+
     function closeExecuteModal() {
       document.getElementById('executeModal').style.display = 'none';
     }
+
     function confirmExecute() {
       closeExecuteModal();
-      // Real implementation would POST to your backend → api2trade /Trade
-      // with: symbol, actionType (BUY/SELL), volume (lotSize), stopLoss, takeProfit, count (numTrades)
+      const a = lastAnalysis;
       setTimeout(() => {
-        alert(`✅ ${numTrades} × ${lotSize.toFixed(2)} lot ${lastAnalysis.bias} ${lastAnalysis.symbol} executed (simulated)\n\nLive version sends this to MetaTrader 5 via api2trade.`);
+        alert(`✅ ${numTrades} × ${lotSize.toFixed(2)} lot ${a.bias} ${a.symbol} executed (simulated)\n\nEntry: ${a.entry}\nSL: ${a.sl}\nTP1: ${a.tp1}\n\nLive version sends this to MetaTrader 5 via api2trade.`);
         if (vibrationEnabled && navigator.vibrate) navigator.vibrate([100,50,100,50,100]);
       }, 500);
     }
