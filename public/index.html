@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   
   <!-- Home Screen / PWA Icon -->
-<link rel="apple-touch-icon" href="icon.jpg">
-<link rel="apple-touch-icon" sizes="180x180" href="icon.jpg">
-<link rel="icon" type="image/jpeg" href="icon.jpg">
+  <link rel="apple-touch-icon" href="iconjpg.jpeg">
+  <link rel="apple-touch-icon" sizes="180x180" href="iconjpg.jpeg">
+  <link rel="icon" type="image/jpeg" href="iconjpg.jpeg">
   
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -78,7 +78,7 @@
     .page { display: none; padding: 16px; }
     .page.active { display: block; }
 
-    /* ===== HOME PAGE ===== */
+    /* HOME */
     .home-hero { 
       text-align: center; 
       padding: 40px 10px 20px; 
@@ -132,7 +132,7 @@
       box-shadow: 0 8px 25px rgba(255,59,48,0.25);
     }
 
-    /* Scanner */
+    /* Scanner + rest of styles */
     .scanner-box {
       background: var(--card); border: 1px solid var(--border);
       border-radius: 18px; padding: 18px; margin-bottom: 14px;
@@ -145,9 +145,7 @@
     .form-input:focus, .form-select:focus { border-color: var(--accent); }
     .form-input::placeholder { color: #666; }
 
-    .mode-toggle {
-      display: flex; gap: 8px; margin-bottom: 14px;
-    }
+    .mode-toggle { display: flex; gap: 8px; margin-bottom: 14px; }
     .mode-btn {
       flex: 1; padding: 11px; border-radius: 12px; border: 1px solid var(--border);
       background: var(--card); color: var(--text2); font-size: 13px; font-weight: 600;
@@ -201,7 +199,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* AI Result */
     .ai-result {
       background: var(--card); border: 1px solid var(--border);
       border-radius: 18px; padding: 18px; display: none;
@@ -376,7 +373,6 @@
       background: rgba(255,255,255,0.03); border-radius: 10px;
     }
 
-    /* Bottom Nav */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
       background: #0c0c12;
@@ -440,10 +436,10 @@
     <div class="status offline" id="mtStatus">MT Offline</div>
   </div>
 
-  <!-- ==================== HOME PAGE ==================== -->
+  <!-- HOME -->
   <div class="page active" id="page-home">
     <div class="home-hero">
-      <img src="MarketAvengerPro.jpg" alt="Market Avenger Pro" class="bot-avatar"
+      <img src="MarketAvengerProjpg.jpeg" alt="Market Avenger Pro" class="bot-avatar"
            onerror="this.style.display='none'; document.getElementById('botFallback').style.display='flex';" />
       <div class="bot-fallback" id="botFallback">🤖</div>
 
@@ -565,7 +561,7 @@
       <div class="icon">🔗</div>
       <div style="font-size:16px;font-weight:600;margin-bottom:6px;">Connect MetaTrader for symbols</div>
       <div style="font-size:13px;">Live prices appear only after your account is connected via api2trade.</div>
-      <button class="home-btn" style="margin-top:20px;max-width:220px;background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;border:none;padding:14px;border-radius:14px;font-weight:700;" onclick="showPage('account', document.querySelectorAll('.nav-item')[4])">
+      <button style="margin-top:20px;max-width:220px;background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;border:none;padding:14px;border-radius:14px;font-weight:700;" onclick="showPage('account', document.querySelectorAll('.nav-item')[4])">
         Go to Account
       </button>
     </div>
@@ -730,18 +726,14 @@
       } catch(e) {}
     }
 
-    // Start / Stop button
     function toggleStartStop() {
       const btn = document.getElementById('startStopBtn');
-      
       if (!isStarted) {
-        // START → go to scanner
         isStarted = true;
         btn.textContent = 'Stop';
         btn.classList.add('stop');
         showPage('scanner', document.querySelectorAll('.nav-item')[1]);
       } else {
-        // STOP → go back to home
         isStarted = false;
         btn.textContent = 'Start';
         btn.classList.remove('stop');
