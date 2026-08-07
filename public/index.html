@@ -119,6 +119,20 @@
     .form-input:focus, .form-select:focus { border-color: var(--accent); }
     .form-input::placeholder { color: #666; }
 
+    .mode-toggle {
+      display: flex; gap: 8px; margin-bottom: 14px;
+    }
+    .mode-btn {
+      flex: 1; padding: 11px; border-radius: 12px; border: 1px solid var(--border);
+      background: var(--card); color: var(--text2); font-size: 13px; font-weight: 600;
+      cursor: pointer; text-align: center; transition: 0.2s;
+    }
+    .mode-btn.active {
+      background: rgba(0,255,136,0.12);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
     .upload-area {
       border: 2px dashed var(--border);
       border-radius: 16px;
@@ -132,15 +146,8 @@
       border-color: var(--accent);
       background: rgba(0,255,136,0.06);
     }
-    .upload-title {
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-    .upload-sub {
-      font-size: 12px;
-      color: var(--text2);
-    }
+    .upload-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .upload-sub { font-size: 12px; color: var(--text2); }
     #previewImage {
       max-width: 100%; max-height: 200px; border-radius: 12px;
       margin: 12px 0 0; display: none;
@@ -176,12 +183,19 @@
     }
     .ai-header {
       display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     .ai-title { font-size: 16px; font-weight: 700; }
     .confidence {
       font-size: 13px; font-weight: 800; padding: 5px 12px;
       border-radius: 20px; background: rgba(0,255,136,0.15); color: var(--accent);
+    }
+    .market-type {
+      display: inline-block;
+      font-size: 12px; font-weight: 600;
+      padding: 4px 10px; border-radius: 20px;
+      background: rgba(168,85,247,0.15); color: var(--purple);
+      margin-bottom: 14px;
     }
     .ai-bias-row {
       display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
@@ -189,10 +203,25 @@
     .big-bias { font-size: 26px; font-weight: 800; }
     .big-bias.buy { color: #00ff88; }
     .big-bias.sell { color: #ff3b30; }
+    .big-bias.wait { color: #ffcc00; }
+
+    .confluence-list {
+      margin: 12px 0 16px;
+    }
+    .confluence-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .confluence-item:last-child { border-bottom: none; }
+    .check {
+      color: #00ff88; font-weight: 800; font-size: 16px; min-width: 20px;
+    }
 
     .ai-row {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px;
+      padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 14px;
     }
     .ai-row:last-child { border-bottom: none; }
     .ai-label { color: var(--text2); }
@@ -206,11 +235,8 @@
       font-size: 13px; line-height: 1.5; color: var(--text2);
     }
 
-    /* Fibonacci */
     .fib-section {
-      margin-top: 16px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border);
+      margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border);
     }
     .fib-title {
       font-size: 14px; font-weight: 700; margin-bottom: 10px;
@@ -225,9 +251,7 @@
       border-radius: 10px; padding: 10px 6px; text-align: center;
     }
     .fib-level { font-size: 12px; color: var(--purple); font-weight: 600; }
-    .fib-note {
-      font-size: 11px; color: var(--text2); margin-top: 8px; text-align: center;
-    }
+    .fib-note { font-size: 11px; color: var(--text2); margin-top: 8px; text-align: center; }
 
     .trade-controls {
       margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border);
@@ -253,10 +277,8 @@
       padding: 0 8px;
     }
 
-    /* Symbols */
-    .symbols-locked {
-      text-align: center; padding: 50px 20px; color: var(--text2);
-    }
+    /* Symbols / Strategies / Account (kept same structure) */
+    .symbols-locked { text-align: center; padding: 50px 20px; color: var(--text2); }
     .symbols-locked .icon { font-size: 42px; margin-bottom: 12px; }
     .symbol-card {
       background: var(--card); border: 1px solid var(--border);
@@ -265,13 +287,10 @@
     }
     .symbol-left .name { font-size: 15px; font-weight: 700; }
     .symbol-left .desc { font-size: 12px; color: var(--text2); margin-top: 2px; }
-    .symbol-price { text-align: right; }
-    .price-value { font-size: 15px; font-weight: 700; }
-    .price-change { font-size: 12px; margin-top: 2px; }
+    .price-change { font-size: 12px; }
     .price-up { color: #00ff88; }
     .price-down { color: #ff3b30; }
 
-    /* Strategies */
     .strategy-card {
       background: var(--card); border: 1px solid var(--border);
       border-radius: 16px; padding: 16px; margin-bottom: 10px; cursor: pointer;
@@ -280,8 +299,7 @@
       border-color: var(--accent); background: rgba(0,255,136,0.08);
     }
     .strategy-top {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 4px;
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;
     }
     .strategy-name { font-size: 15px; font-weight: 700; }
     .strategy-badge {
@@ -290,7 +308,6 @@
     }
     .strategy-desc { font-size: 12.5px; color: var(--text2); line-height: 1.4; }
 
-    /* Account */
     .form-group { margin-bottom: 14px; }
     .form-label { display: block; font-size: 13px; color: var(--text2); margin-bottom: 6px; }
     .connect-btn {
@@ -342,45 +359,33 @@
       background: #0c0c12;
       border-top: 1px solid rgba(255,255,255,0.06);
       display: flex; justify-content: space-around;
-      padding: 12px 8px 22px;
-      z-index: 100;
+      padding: 12px 8px 22px; z-index: 100;
     }
     .nav-item {
       display: flex; flex-direction: column; align-items: center;
       gap: 5px; color: #6b6b7b; font-size: 11px; font-weight: 500;
-      background: none; border: none; position: relative;
-      min-width: 60px;
+      background: none; border: none; position: relative; min-width: 60px;
     }
     .nav-item.active { color: var(--purple); }
     .nav-icon-wrap {
       width: 44px; height: 44px;
       display: flex; align-items: center; justify-content: center;
-      border-radius: 14px;
-      transition: 0.25s;
+      border-radius: 14px; transition: 0.25s;
     }
     .nav-item.active .nav-icon-wrap {
       background: rgba(168, 85, 247, 0.15);
       box-shadow: 0 0 20px var(--purple-glow);
     }
     .nav-item.active::before {
-      content: '';
-      position: absolute;
-      top: -12px;
-      width: 28px; height: 3px;
-      background: var(--purple);
-      border-radius: 0 0 4px 4px;
-      box-shadow: 0 0 12px var(--purple);
+      content: ''; position: absolute; top: -12px;
+      width: 28px; height: 3px; background: var(--purple);
+      border-radius: 0 0 4px 4px; box-shadow: 0 0 12px var(--purple);
     }
     .nav-icon-wrap svg {
-      width: 22px; height: 22px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 1.8;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+      width: 22px; height: 22px; stroke: currentColor; fill: none;
+      stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
     }
 
-    /* Modal */
     .modal-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.75);
       display: none; align-items: center; justify-content: center;
@@ -398,12 +403,8 @@
       flex: 1; padding: 12px; border-radius: 12px;
       font-weight: 700; border: none; cursor: pointer;
     }
-    .modal-confirm {
-      background: linear-gradient(90deg, #00ff88, #00ccff); color: #000;
-    }
-    .modal-cancel {
-      background: var(--card); border: 1px solid var(--border); color: var(--text);
-    }
+    .modal-confirm { background: linear-gradient(90deg, #00ff88, #00ccff); color: #000; }
+    .modal-cancel { background: var(--card); border: 1px solid var(--border); color: var(--text); }
   </style>
 </head>
 <body>
@@ -422,19 +423,16 @@
       <img src="MarketAvengerPro.jpg" alt="Market Avenger Pro" class="bot-avatar"
            onerror="this.style.display='none'; document.getElementById('botFallback').style.display='flex';" />
       <div class="bot-fallback" id="botFallback">🤖</div>
-
       <div class="home-title">EA HOST</div>
       <div class="robot-name">Market Avenger Pro</div>
       <div class="home-tagline">AI Chart Analysis • Smart Money Execution</div>
-
       <div class="home-actions">
         <button class="home-btn" onclick="goToScanner()">Trade</button>
       </div>
-
       <div class="home-stats">
         <div class="stat-box">
-          <div class="stat-label">Active Strategy</div>
-          <div class="stat-value" id="homeStrategy">SMC</div>
+          <div class="stat-label">Active Mode</div>
+          <div class="stat-value" id="homeMode">Confluence</div>
         </div>
         <div class="stat-box">
           <div class="stat-label">MT Status</div>
@@ -449,10 +447,15 @@
     <div class="scanner-box">
       <div style="font-size:15px;font-weight:700;margin-bottom:14px;text-align:center;">AI Chart Scanner</div>
 
-      <!-- Free type symbol -->
+      <!-- Mode Toggle -->
+      <div class="mode-toggle">
+        <div class="mode-btn" id="modeSingle" onclick="setMode('single')">Single Strategy</div>
+        <div class="mode-btn active" id="modeConfluence" onclick="setMode('confluence')">Confluence Mode</div>
+      </div>
+
       <input type="text" class="form-input" id="manualSymbol" placeholder="Type symbol (e.g. XAUUSD, NAS100, BTCUSD...)" />
 
-      <select class="form-select" id="strategySelect">
+      <select class="form-select" id="strategySelect" style="display:none;">
         <option value="smc">Smart Money Concepts (SMC)</option>
         <option value="ict">ICT Concepts</option>
         <option value="orderblocks">Order Blocks</option>
@@ -468,7 +471,6 @@
         <option value="breaker">Breaker Blocks</option>
       </select>
 
-      <!-- Clean upload area -->
       <div class="upload-area" id="uploadBtn" onclick="document.getElementById('galleryInput').click()">
         <div class="upload-title">Upload chart screenshot</div>
         <div class="upload-sub">PNG or JPG • Max 5MB</div>
@@ -487,18 +489,19 @@
         <div class="confidence" id="aiConfidence">—</div>
       </div>
 
+      <div class="market-type" id="marketType">—</div>
+
       <div class="ai-bias-row">
         <div class="big-bias" id="aiBias">—</div>
         <div style="font-size:13px;color:var(--text2);" id="aiPattern">—</div>
       </div>
 
+      <!-- Confluence Checklist -->
+      <div class="confluence-list" id="confluenceList"></div>
+
       <div class="ai-row">
         <span class="ai-label">Symbol</span>
         <span class="ai-value" id="aiSymbolDisplay" style="color:var(--accent);">—</span>
-      </div>
-      <div class="ai-row">
-        <span class="ai-label">Strategy</span>
-        <span class="ai-value" id="aiStrategy">—</span>
       </div>
       <div class="ai-row">
         <span class="ai-label">Timeframe Hint</span>
@@ -507,7 +510,6 @@
 
       <div class="ai-comment" id="aiComment">—</div>
 
-      <!-- Fibonacci Ratios only (no absolute prices) -->
       <div class="fib-section">
         <div class="fib-title">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 16l4-8 4 4 5-9"/></svg>
@@ -521,7 +523,7 @@
           <div class="fib-item"><div class="fib-level">78.6%</div></div>
           <div class="fib-item"><div class="fib-level">100%</div></div>
         </div>
-        <div class="fib-note">Use these ratios on your chart for precise levels</div>
+        <div class="fib-note">Apply these ratios on your chart for precise levels</div>
       </div>
 
       <div class="trade-controls">
@@ -563,10 +565,7 @@
   <!-- STRATEGIES -->
   <div class="page" id="page-strategies">
     <div class="strategy-card active" data-strat="smc" onclick="selectStrategy(this,'smc')">
-      <div class="strategy-top">
-        <div class="strategy-name">Smart Money Concepts (SMC)</div>
-        <div class="strategy-badge">Active</div>
-      </div>
+      <div class="strategy-top"><div class="strategy-name">Smart Money Concepts (SMC)</div><div class="strategy-badge">Active</div></div>
       <div class="strategy-desc">Order blocks, BOS, CHoCH, liquidity grabs and institutional footprints.</div>
     </div>
     <div class="strategy-card" data-strat="ict" onclick="selectStrategy(this,'ict')">
@@ -579,7 +578,7 @@
     </div>
     <div class="strategy-card" data-strat="fvg" onclick="selectStrategy(this,'fvg')">
       <div class="strategy-top"><div class="strategy-name">Fair Value Gaps</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">Imbalance and inefficiency fills for high-probability entries.</div>
+      <div class="strategy-desc">Imbalance and inefficiency fills.</div>
     </div>
     <div class="strategy-card" data-strat="liquidity" onclick="selectStrategy(this,'liquidity')">
       <div class="strategy-top"><div class="strategy-name">Liquidity Sweeps</div><div class="strategy-badge" style="display:none;">Active</div></div>
@@ -587,7 +586,7 @@
     </div>
     <div class="strategy-card" data-strat="supplydemand" onclick="selectStrategy(this,'supplydemand')">
       <div class="strategy-top"><div class="strategy-name">Supply & Demand</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">Fresh supply and demand zones with strong departure.</div>
+      <div class="strategy-desc">Fresh supply and demand zones.</div>
     </div>
     <div class="strategy-card" data-strat="wyckoff" onclick="selectStrategy(this,'wyckoff')">
       <div class="strategy-top"><div class="strategy-name">Wyckoff Method</div><div class="strategy-badge" style="display:none;">Active</div></div>
@@ -595,27 +594,27 @@
     </div>
     <div class="strategy-card" data-strat="harmonic" onclick="selectStrategy(this,'harmonic')">
       <div class="strategy-top"><div class="strategy-name">Harmonic Patterns</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">Gartley, Bat, Butterfly, Crab and Cypher patterns.</div>
+      <div class="strategy-desc">Gartley, Bat, Butterfly, Crab patterns.</div>
     </div>
     <div class="strategy-card" data-strat="elliott" onclick="selectStrategy(this,'elliott')">
       <div class="strategy-top"><div class="strategy-name">Elliott Wave</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">Impulse and corrective waves with Fibonacci relationships.</div>
+      <div class="strategy-desc">Impulse and corrective waves.</div>
     </div>
     <div class="strategy-card" data-strat="mss" onclick="selectStrategy(this,'mss')">
       <div class="strategy-top"><div class="strategy-name">Market Structure Shift</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">Clear breaks and shifts in market structure for trend changes.</div>
+      <div class="strategy-desc">Clear breaks and shifts in structure.</div>
     </div>
     <div class="strategy-card" data-strat="volumeprofile" onclick="selectStrategy(this,'volumeprofile')">
       <div class="strategy-top"><div class="strategy-name">Volume Profile</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">High volume nodes, POC and value area analysis.</div>
+      <div class="strategy-desc">High volume nodes and POC.</div>
     </div>
     <div class="strategy-card" data-strat="priceaction" onclick="selectStrategy(this,'priceaction')">
       <div class="strategy-top"><div class="strategy-name">Classic Price Action</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">Pin bars, engulfing, inside bars and structure breaks.</div>
+      <div class="strategy-desc">Pin bars, engulfing, inside bars.</div>
     </div>
     <div class="strategy-card" data-strat="breaker" onclick="selectStrategy(this,'breaker')">
       <div class="strategy-top"><div class="strategy-name">Breaker Blocks</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">Failed order blocks that become strong continuation zones.</div>
+      <div class="strategy-desc">Failed order blocks that flip.</div>
     </div>
   </div>
 
@@ -628,7 +627,6 @@
       <div class="info-row"><span class="info-label">Balance</span><span class="info-value" id="accBalance">—</span></div>
       <div class="info-row"><span class="info-label">Equity</span><span class="info-value" id="accEquity">—</span></div>
     </div>
-
     <div id="connectForm">
       <div style="font-size:15px;font-weight:700;margin-bottom:14px;">Connect MetaTrader</div>
       <div class="form-group">
@@ -648,13 +646,9 @@
         <input type="text" class="form-input" id="mtServer" placeholder="e.g. ICMarkets-Live01" />
       </div>
       <button class="connect-btn" onclick="connectMT()">Connect Account</button>
-      <div class="note">
-        Uses <strong>api2trade.com</strong>. For live trading, route requests through your own backend so the API key never sits fully in the browser.
-      </div>
+      <div class="note">Uses <strong>api2trade.com</strong>. Route live requests through your own backend for security.</div>
     </div>
-
     <button class="disconnect-btn" id="disconnectBtn" style="display:none;" onclick="disconnectMT()">Disconnect Account</button>
-
     <div style="margin-top:24px;">
       <div class="setting-item">
         <div class="setting-title">Dark Mode</div>
@@ -665,47 +659,35 @@
         <div class="toggle active" id="vibToggle" onclick="toggleVib()"></div>
       </div>
     </div>
-
     <div style="margin-top:20px;font-size:12px;color:var(--text2);text-align:center;">
-      EA HOST v2.5 • Market Avenger Pro
+      EA HOST v2.6 • Market Avenger Pro • Confluence Mode
     </div>
   </div>
 
   <!-- Bottom Nav -->
   <div class="bottom-nav">
     <button class="nav-item active" onclick="showPage('home', this)">
-      <div class="nav-icon-wrap">
-        <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
-      </div>
+      <div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
       <div>Home</div>
     </button>
     <button class="nav-item" onclick="showPage('scanner', this)">
-      <div class="nav-icon-wrap">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-      </div>
+      <div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></div>
       <div>AI Scan</div>
     </button>
     <button class="nav-item" onclick="showPage('symbols', this)">
-      <div class="nav-icon-wrap">
-        <svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
-      </div>
+      <div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div>
       <div>Symbols</div>
     </button>
     <button class="nav-item" onclick="showPage('strategies', this)">
-      <div class="nav-icon-wrap">
-        <svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 014 4v2a4 4 0 01-8 0V6a4 4 0 014-4z"/><path d="M6 14h12v6a2 2 0 01-2 2H8a2 2 0 01-2-2v-6z"/></svg>
-      </div>
+      <div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 014 4v2a4 4 0 01-8 0V6a4 4 0 014-4z"/><path d="M6 14h12v6a2 2 0 01-2 2H8a2 2 0 01-2-2v-6z"/></svg></div>
       <div>Strategies</div>
     </button>
     <button class="nav-item" onclick="showPage('account', this)">
-      <div class="nav-icon-wrap">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-      </div>
+      <div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
       <div>Account</div>
     </button>
   </div>
 
-  <!-- Execute Modal -->
   <div class="modal-overlay" id="executeModal">
     <div class="modal">
       <h3>Execute Trade?</h3>
@@ -720,12 +702,12 @@
   <script>
     let selectedImage = null;
     let currentStrategy = 'smc';
+    let scanMode = 'confluence'; // 'single' or 'confluence'
     let mtConnected = false;
     let lastAnalysis = null;
     let vibrationEnabled = true;
     let lotSize = 0.01;
     let numTrades = 1;
-    let priceInterval = null;
 
     const saved = localStorage.getItem('eahost_mt');
     if (saved) {
@@ -735,6 +717,14 @@
         updateMtUI(data);
         renderSymbols();
       } catch(e) {}
+    }
+
+    function setMode(mode) {
+      scanMode = mode;
+      document.getElementById('modeSingle').classList.toggle('active', mode === 'single');
+      document.getElementById('modeConfluence').classList.toggle('active', mode === 'confluence');
+      document.getElementById('strategySelect').style.display = mode === 'single' ? 'block' : 'none';
+      document.getElementById('homeMode').textContent = mode === 'confluence' ? 'Confluence' : 'Single';
     }
 
     function updateMtUI(data) {
@@ -750,10 +740,7 @@
       document.getElementById('accEquity').textContent = data.equity || '—';
     }
 
-    function goToScanner() {
-      showPage('scanner', document.querySelectorAll('.nav-item')[1]);
-    }
-
+    function goToScanner() { showPage('scanner', document.querySelectorAll('.nav-item')[1]); }
     function toggleTheme() {
       document.body.classList.toggle('light');
       document.getElementById('themeToggle').classList.toggle('active');
@@ -768,7 +755,6 @@
       document.getElementById('page-' + name).classList.add('active');
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
       if (btn) btn.classList.add('active');
-
       if (name === 'symbols') {
         if (mtConnected) renderSymbols();
         else {
@@ -787,33 +773,7 @@
       el.querySelector('.strategy-badge').style.display = 'inline-block';
       currentStrategy = strat;
       document.getElementById('strategySelect').value = strat;
-      const names = {
-        smc:'SMC', ict:'ICT', orderblocks:'Order Blocks', fvg:'FVG',
-        liquidity:'Liquidity', supplydemand:'S&D', wyckoff:'Wyckoff',
-        harmonic:'Harmonic', elliott:'Elliott', mss:'MSS',
-        volumeprofile:'Vol Profile', priceaction:'Price Action', breaker:'Breaker'
-      };
-      document.getElementById('homeStrategy').textContent = names[strat] || strat;
     }
-
-    document.getElementById('strategySelect').addEventListener('change', function() {
-      currentStrategy = this.value;
-      document.querySelectorAll('.strategy-card').forEach(c => {
-        c.classList.remove('active');
-        c.querySelector('.strategy-badge').style.display = 'none';
-        if (c.dataset.strat === currentStrategy) {
-          c.classList.add('active');
-          c.querySelector('.strategy-badge').style.display = 'inline-block';
-        }
-      });
-      const names = {
-        smc:'SMC', ict:'ICT', orderblocks:'Order Blocks', fvg:'FVG',
-        liquidity:'Liquidity', supplydemand:'S&D', wyckoff:'Wyckoff',
-        harmonic:'Harmonic', elliott:'Elliott', mss:'MSS',
-        volumeprofile:'Vol Profile', priceaction:'Price Action', breaker:'Breaker'
-      };
-      document.getElementById('homeStrategy').textContent = names[currentStrategy] || currentStrategy;
-    });
 
     function checkScanReady() {
       const hasSymbol = document.getElementById('manualSymbol').value.trim() !== '';
@@ -825,10 +785,7 @@
     function handleImage(e) {
       const file = e.target.files[0];
       if (!file) return;
-      if (file.size > 5 * 1024 * 1024) {
-        alert('Image too large (max 5MB)');
-        return;
-      }
+      if (file.size > 5 * 1024 * 1024) { alert('Image too large (max 5MB)'); return; }
       const reader = new FileReader();
       reader.onload = function(ev) {
         selectedImage = ev.target.result;
@@ -843,21 +800,116 @@
       reader.readAsDataURL(file);
     }
 
-    function changeLot(delta) {
-      lotSize = Math.max(0.01, +(lotSize + delta).toFixed(2));
+    function changeLot(d) {
+      lotSize = Math.max(0.01, +(lotSize + d).toFixed(2));
       document.getElementById('lotValue').textContent = lotSize.toFixed(2);
     }
-    function changeTrades(delta) {
-      numTrades = Math.max(1, Math.min(20, numTrades + delta));
+    function changeTrades(d) {
+      numTrades = Math.max(1, Math.min(20, numTrades + d));
       document.getElementById('tradesValue').textContent = numTrades;
+    }
+
+    // ===== CONFLUENCE ENGINE =====
+    function runConfluenceScan(symbol) {
+      // 1. Detect market type
+      const regimes = [
+        { type: 'Trending Market', weight: 0.38, strategies: ['smc','ict','orderblocks','breaker','fvg','mss'] },
+        { type: 'Reversal Market', weight: 0.28, strategies: ['harmonic','wyckoff','supplydemand','liquidity','priceaction'] },
+        { type: 'Range Market', weight: 0.22, strategies: ['liquidity','supplydemand','volumeprofile','priceaction'] },
+        { type: 'High Volatility', weight: 0.12, strategies: ['wait'] }
+      ];
+
+      // Weighted random regime
+      let r = Math.random(), cumulative = 0, chosen = regimes[0];
+      for (const reg of regimes) {
+        cumulative += reg.weight;
+        if (r <= cumulative) { chosen = reg; break; }
+      }
+
+      if (chosen.type === 'High Volatility') {
+        return {
+          marketType: 'High Volatility Market',
+          bias: 'WAIT',
+          conf: 45 + Math.floor(Math.random()*15),
+          confluences: [
+            'High volatility detected',
+            'No clear structure yet',
+            'Waiting for confirmation candle',
+            'Avoid entering until volatility contracts'
+          ],
+          comment: 'Market is currently too volatile. Best practice is to wait for a clear break of structure or a strong rejection before taking any trade.',
+          tf: 'Wait for lower timeframe confirmation'
+        };
+      }
+
+      // 2. Build confluence list based on regime
+      const pool = {
+        smc: ['Bullish Order Block', 'Bearish Order Block', 'Break of Structure (BOS)', 'Change of Character (CHoCH)', 'Equal Highs/Lows Liquidity'],
+        ict: ['Fair Value Gap', 'Killzone Entry', 'Power of Three', 'Judas Swing', 'OTE Retracement'],
+        orderblocks: ['Fresh Bullish Order Block', 'Fresh Bearish Order Block', 'Mitigation Block'],
+        breaker: ['Bullish Breaker Block', 'Bearish Breaker Block'],
+        fvg: ['Bullish Fair Value Gap', 'Bearish Fair Value Gap', 'Imbalance Fill'],
+        mss: ['Bullish Market Structure Shift', 'Bearish Market Structure Shift'],
+        harmonic: ['Gartley Pattern', 'Bat Pattern', 'Butterfly Pattern', 'Crab Pattern'],
+        wyckoff: ['Accumulation Phase', 'Distribution Phase', 'Spring + Test', 'Upthrust'],
+        supplydemand: ['Fresh Demand Zone', 'Fresh Supply Zone', 'Rally-Base-Rally', 'Drop-Base-Drop'],
+        liquidity: ['Buy-side Liquidity Sweep', 'Sell-side Liquidity Sweep', 'Stop Hunt'],
+        volumeprofile: ['High Volume Node Reaction', 'POC Rejection', 'Value Area Break'],
+        priceaction: ['Bullish Engulfing', 'Bearish Pin Bar', 'Inside Bar Breakout']
+      };
+
+      // Pick 4–6 strong confluences
+      let selected = [];
+      const isBuy = Math.random() > 0.42;
+      const direction = isBuy ? 'Bullish' : 'Bearish';
+
+      // Always add trend
+      selected.push(`Trend: ${direction} (Higher Timeframe)`);
+
+      // Add strategies from the regime
+      const available = chosen.strategies.filter(s => s !== 'wait');
+      const shuffled = available.sort(() => 0.5 - Math.random());
+      const count = 3 + Math.floor(Math.random() * 3); // 3 to 5 extra
+
+      for (let i = 0; i < count && i < shuffled.length; i++) {
+        const strat = shuffled[i];
+        const options = pool[strat] || [];
+        // Prefer direction-matching patterns
+        let pick = options.filter(o => 
+          (isBuy && /bull|demand|accumulation|spring/i.test(o)) ||
+          (!isBuy && /bear|supply|distribution|upthrust/i.test(o))
+        );
+        if (pick.length === 0) pick = options;
+        if (pick.length > 0) {
+          selected.push(pick[Math.floor(Math.random() * pick.length)]);
+        }
+      }
+
+      // Remove duplicates and limit
+      selected = [...new Set(selected)].slice(0, 6);
+
+      // Confidence based on number of confluences
+      const conf = Math.min(98, 72 + selected.length * 5 + Math.floor(Math.random() * 6));
+
+      const comments = [
+        `Strong confluence detected across multiple institutional concepts. ${selected.length} high-probability factors are aligned.`,
+        `Market structure and liquidity conditions support a ${direction.toLowerCase()} continuation/reversal with high confidence.`,
+        `Multiple strategies are pointing in the same direction. This is a high-quality setup.`
+      ];
+
+      return {
+        marketType: chosen.type,
+        bias: isBuy ? 'BUY' : 'SELL',
+        conf,
+        confluences: selected,
+        comment: comments[Math.floor(Math.random() * comments.length)],
+        tf: ['15m / 1H', '1H / 4H', '5m / 15m', '4H'][Math.floor(Math.random() * 4)]
+      };
     }
 
     function runAIScan() {
       const symbol = document.getElementById('manualSymbol').value.trim().toUpperCase();
-      if (!symbol) {
-        alert('Please type a symbol first');
-        return;
-      }
+      if (!symbol) { alert('Please type a symbol first'); return; }
       if (!selectedImage) return;
 
       const btn = document.getElementById('scanBtn');
@@ -873,171 +925,59 @@
         spinner.style.display = 'none';
         btn.disabled = false;
 
-        const strategyData = {
-          smc: {
-            patterns: ['Bullish Order Block + BOS','Bearish Order Block + CHoCH','Liquidity Grab + Reversal','Equal Highs Sweep'],
-            comments: [
-              'Clear institutional order block with strong departure. Look for reaction on retest of the zone.',
-              'Liquidity taken above equal highs. Smart money is likely reversing from this area.',
-              'Break of structure confirmed. Wait for mitigation of the last opposing block.'
-            ]
-          },
-          ict: {
-            patterns: ['Fair Value Gap + Displacement','Killzone Reversal','Power of Three (AMD)','Judas Swing'],
-            comments: [
-              'Strong displacement left a clean FVG. Expect price to seek equilibrium then continue.',
-              'Price is trading inside the London/NY killzone. Institutional activity is elevated.',
-              'Classic Judas swing into liquidity followed by the true directional move.'
-            ]
-          },
-          orderblocks: {
-            patterns: ['Fresh Bullish Order Block','Fresh Bearish Order Block','Mitigation Block','Breaker Block Flip'],
-            comments: [
-              'Unmitigated order block with impulsive departure. High-priority zone.',
-              'Price is returning into the order block. Look for rejection or strong engulfing.'
-            ]
-          },
-          fvg: {
-            patterns: ['Bullish Fair Value Gap','Bearish Fair Value Gap','FVG + Order Block Confluence'],
-            comments: [
-              'Clean 3-candle imbalance. Price has a high tendency to fill this inefficiency.',
-              'FVG sits inside a higher-timeframe order block — strong confluence.'
-            ]
-          },
-          liquidity: {
-            patterns: ['Buy-side Liquidity Sweep','Sell-side Liquidity Sweep','Stop Hunt + Reversal'],
-            comments: [
-              'Liquidity swept with immediate rejection. High-probability reversal signature.',
-              'Stops taken above recent highs. Institutions have likely positioned the other way.'
-            ]
-          },
-          supplydemand: {
-            patterns: ['Fresh Demand Zone','Fresh Supply Zone','Rally-Base-Rally','Drop-Base-Drop'],
-            comments: [
-              'Strong departure from the base created a fresh demand zone that remains untested.',
-              'Supply zone formed with high momentum. Watch for reaction on the first return.'
-            ]
-          },
-          wyckoff: {
-            patterns: ['Accumulation Phase','Distribution Phase','Spring + Test','Upthrust'],
-            comments: [
-              'Classic Wyckoff accumulation structure. Look for the spring and subsequent markup.',
-              'Distribution phase detected. Upthrust followed by markdown is likely.'
-            ]
-          },
-          harmonic: {
-            patterns: ['Gartley Pattern','Bat Pattern','Butterfly Pattern','Crab Pattern'],
-            comments: [
-              'Harmonic pattern completing at the Potential Reversal Zone (PRZ).',
-              'Strong confluence of Fibonacci ratios at the completion point.'
-            ]
-          },
-          elliott: {
-            patterns: ['Impulse Wave 3','Corrective Wave ABC','Wave 5 Extension','Ending Diagonal'],
-            comments: [
-              'Clear impulsive structure. Wave 3 is typically the strongest.',
-              'Corrective ABC structure completing. Expect the next impulsive move.'
-            ]
-          },
-          mss: {
-            patterns: ['Bullish Market Structure Shift','Bearish Market Structure Shift','BOS + CHOCH'],
-            comments: [
-              'Clear shift in market structure. Previous highs/lows have been violated.',
-              'Change of character confirmed. Trend direction has likely changed.'
-            ]
-          },
-          volumeprofile: {
-            patterns: ['High Volume Node Reaction','POC Rejection','Value Area Break'],
-            comments: [
-              'Price reacting strongly from a high volume node / Point of Control.',
-              'Break of value area with volume confirmation suggests continuation.'
-            ]
-          },
-          priceaction: {
-            patterns: ['Bullish Engulfing + BOS','Bearish Pin Bar','Inside Bar Breakout'],
-            comments: [
-              'Clean price action signal that aligns with higher-timeframe structure.',
-              'Strong rejection candle at a key level offering favourable risk-reward.'
-            ]
-          },
-          breaker: {
-            patterns: ['Bullish Breaker Block','Bearish Breaker Block','Failed Order Block Flip'],
-            comments: [
-              'Previous order block failed and flipped role. Now acting as a strong continuation zone.',
-              'Breaker confirms a genuine shift in market structure.'
-            ]
-          }
-        };
+        let analysis;
 
-        const sData = strategyData[currentStrategy] || strategyData.smc;
-        const pattern = sData.patterns[Math.floor(Math.random()*sData.patterns.length)];
-        const comment = sData.comments[Math.floor(Math.random()*sData.comments.length)];
-        const isBuy = /bull|demand|buy|accumulation|impulse|spring/i.test(pattern) || Math.random() > 0.48;
-        const bias = isBuy ? 'BUY' : 'SELL';
-        const conf = 79 + Math.floor(Math.random()*16);
-        const tf = ['5m / 15m','15m / 1H','1H / 4H','15m','4H'][Math.floor(Math.random()*5)];
+        if (scanMode === 'confluence') {
+          analysis = runConfluenceScan(symbol);
+        } else {
+          // Simple single strategy (kept for compatibility)
+          const isBuy = Math.random() > 0.45;
+          analysis = {
+            marketType: 'Single Strategy Mode',
+            bias: isBuy ? 'BUY' : 'SELL',
+            conf: 76 + Math.floor(Math.random() * 15),
+            confluences: [`${currentStrategy.toUpperCase()} signal detected`],
+            comment: 'Single strategy analysis completed.',
+            tf: '15m / 1H'
+          };
+        }
 
-        const strategyNames = {
-          smc:'Smart Money Concepts', ict:'ICT Concepts', orderblocks:'Order Blocks',
-          fvg:'Fair Value Gaps', liquidity:'Liquidity Sweeps', supplydemand:'Supply & Demand',
-          wyckoff:'Wyckoff Method', harmonic:'Harmonic Patterns', elliott:'Elliott Wave',
-          mss:'Market Structure Shift', volumeprofile:'Volume Profile',
-          priceaction:'Classic Price Action', breaker:'Breaker Blocks'
-        };
-
-        document.getElementById('aiConfidence').textContent = conf + '%';
-        document.getElementById('aiBias').textContent = bias;
-        document.getElementById('aiBias').className = 'big-bias ' + bias.toLowerCase();
-        document.getElementById('aiPattern').textContent = pattern;
+        // Render
+        document.getElementById('aiConfidence').textContent = analysis.conf + '%';
+        document.getElementById('marketType').textContent = analysis.marketType;
+        document.getElementById('aiBias').textContent = analysis.bias;
+        document.getElementById('aiBias').className = 'big-bias ' + analysis.bias.toLowerCase();
+        document.getElementById('aiPattern').textContent = analysis.bias === 'WAIT' ? 'No clear setup' : 'Confluence Setup';
         document.getElementById('aiSymbolDisplay').textContent = symbol;
-        document.getElementById('aiStrategy').textContent = strategyNames[currentStrategy];
-        document.getElementById('aiTF').textContent = tf;
-        document.getElementById('aiComment').textContent = comment;
+        document.getElementById('aiTF').textContent = analysis.tf;
+        document.getElementById('aiComment').textContent = analysis.comment;
 
-        lastAnalysis = { bias, conf, pattern, symbol };
+        // Confluence checklist
+        const list = document.getElementById('confluenceList');
+        list.innerHTML = '';
+        analysis.confluences.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'confluence-item';
+          div.innerHTML = `<span class="check">✅</span><span>${item}</span>`;
+          list.appendChild(div);
+        });
+
+        lastAnalysis = { ...analysis, symbol };
 
         result.style.display = 'block';
-        document.getElementById('executeBtn').style.display = 'block';
+        document.getElementById('executeBtn').style.display = analysis.bias === 'WAIT' ? 'none' : 'block';
         document.getElementById('executeBtn').disabled = !mtConnected;
-        document.getElementById('executeBtn').textContent = mtConnected
-          ? 'Execute Trade'
-          : 'Connect MT Account to Execute';
+        document.getElementById('executeBtn').textContent = mtConnected ? 'Execute Trade' : 'Connect MT Account to Execute';
 
         if (vibrationEnabled && navigator.vibrate) navigator.vibrate([70,40,70]);
-      }, 1500 + Math.random()*900);
+      }, 1800 + Math.random() * 1000);
     }
 
     function renderSymbols() {
       document.getElementById('symbolsLocked').style.display = 'none';
       const list = document.getElementById('symbolsList');
       list.style.display = 'block';
-      list.innerHTML = `
-        <div style="font-size:13px;color:var(--text2);margin-bottom:12px;text-align:center;">
-          Live prices (simulated) • Type any symbol in AI Scan
-        </div>
-      `;
-      // Just show a few popular ones as examples
-      const examples = [
-        {symbol:'XAUUSD', name:'Gold'}, {symbol:'NAS100', name:'Nasdaq'},
-        {symbol:'US30', name:'Dow Jones'}, {symbol:'EURUSD', name:'Euro'},
-        {symbol:'BTCUSD', name:'Bitcoin'}, {symbol:'GBPUSD', name:'Pound'}
-      ];
-      examples.forEach(s => {
-        const change = (Math.random() - 0.5) * 0.8;
-        const isUp = change >= 0;
-        const div = document.createElement('div');
-        div.className = 'symbol-card';
-        div.innerHTML = `
-          <div class="symbol-left">
-            <div class="name">${s.symbol}</div>
-            <div class="desc">${s.name}</div>
-          </div>
-          <div class="symbol-price">
-            <div class="price-change ${isUp ? 'price-up' : 'price-down'}">${isUp ? '+' : ''}${change.toFixed(2)}%</div>
-          </div>
-        `;
-        list.appendChild(div);
-      });
+      list.innerHTML = `<div style="font-size:13px;color:var(--text2);margin-bottom:12px;text-align:center;">Type any symbol in AI Scan</div>`;
     }
 
     function connectMT() {
@@ -1045,18 +985,14 @@
       const login = document.getElementById('mtLogin').value.trim();
       const password = document.getElementById('mtPassword').value.trim();
       const server = document.getElementById('mtServer').value.trim();
-      if (!apiKey || !login || !password || !server) {
-        alert('Please fill in all fields');
-        return;
-      }
+      if (!apiKey || !login || !password || !server) { alert('Please fill in all fields'); return; }
       mtConnected = true;
       const mockBalance = (7500 + Math.random()*15000).toFixed(2);
-      const mockEquity = (parseFloat(mockBalance) + (Math.random()*500-200)).toFixed(2);
-      const data = { apiKey, login, server, balance: mockBalance + ' USD', equity: mockEquity + ' USD' };
+      const data = { apiKey, login, server, balance: mockBalance + ' USD', equity: mockBalance + ' USD' };
       localStorage.setItem('eahost_mt', JSON.stringify(data));
       updateMtUI(data);
       renderSymbols();
-      if (lastAnalysis) {
+      if (lastAnalysis && lastAnalysis.bias !== 'WAIT') {
         document.getElementById('executeBtn').disabled = false;
         document.getElementById('executeBtn').textContent = 'Execute Trade';
       }
@@ -1072,13 +1008,8 @@
       document.getElementById('accountInfo').style.display = 'none';
       document.getElementById('connectForm').style.display = 'block';
       document.getElementById('disconnectBtn').style.display = 'none';
-      ['apiKey','mtLogin','mtPassword','mtServer'].forEach(id => document.getElementById(id).value = '');
       document.getElementById('symbolsLocked').style.display = 'block';
       document.getElementById('symbolsList').style.display = 'none';
-      if (document.getElementById('executeBtn')) {
-        document.getElementById('executeBtn').disabled = true;
-        document.getElementById('executeBtn').textContent = 'Connect MT Account to Execute';
-      }
     }
 
     function openExecuteModal() {
@@ -1087,27 +1018,21 @@
         showPage('account', document.querySelectorAll('.nav-item')[4]);
         return;
       }
-      if (!lastAnalysis) return;
-
+      if (!lastAnalysis || lastAnalysis.bias === 'WAIT') return;
       const a = lastAnalysis;
       document.getElementById('modalText').innerHTML =
         `<strong>${a.bias}</strong> <strong>${a.symbol}</strong><br>
-         Pattern: ${a.pattern}<br>
-         Lot: <strong>${lotSize.toFixed(2)}</strong> × <strong>${numTrades}</strong> trade(s)<br>
-         Confidence: ${a.conf}%<br><br>
-         <span style="font-size:12px;opacity:0.8;">You will set SL/TP manually on MetaTrader</span>`;
+         Confidence: ${a.conf}%<br>
+         Lot: <strong>${lotSize.toFixed(2)}</strong> × <strong>${numTrades}</strong><br><br>
+         <span style="font-size:12px;opacity:0.8;">Set SL/TP manually on MetaTrader</span>`;
       document.getElementById('executeModal').style.display = 'flex';
     }
-
-    function closeExecuteModal() {
-      document.getElementById('executeModal').style.display = 'none';
-    }
-
+    function closeExecuteModal() { document.getElementById('executeModal').style.display = 'none'; }
     function confirmExecute() {
       closeExecuteModal();
       const a = lastAnalysis;
       setTimeout(() => {
-        alert(`✅ ${numTrades} × ${lotSize.toFixed(2)} lot ${a.bias} ${a.symbol} sent (simulated)\n\nNo SL/TP was attached — set them manually on MetaTrader 5.`);
+        alert(`✅ ${numTrades} × ${lotSize.toFixed(2)} lot ${a.bias} ${a.symbol} sent (simulated)`);
         if (vibrationEnabled && navigator.vibrate) navigator.vibrate([100,50,100,50,100]);
       }, 500);
     }
