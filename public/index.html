@@ -14,6 +14,8 @@
       --text: #ffffff;
       --text2: #aaaaaa;
       --accent: #00ff88;
+      --purple: #a855f7;
+      --purple-glow: rgba(168, 85, 247, 0.35);
     }
     body.light {
       --bg: #f2f4f7;
@@ -22,6 +24,8 @@
       --text: #111111;
       --text2: #666666;
       --accent: #00c853;
+      --purple: #7c3aed;
+      --purple-glow: rgba(124, 58, 237, 0.25);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -29,7 +33,7 @@
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       min-height: 100vh;
-      padding-bottom: 90px;
+      padding-bottom: 95px;
       transition: background 0.3s, color 0.3s;
     }
 
@@ -45,7 +49,7 @@
       background: linear-gradient(135deg, #00ff88, #00ccff);
       border-radius: 11px;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 900; font-size: 16px; color: #000;
+      font-weight: 900; font-size: 15px; color: #000;
     }
     .logo-text { font-size: 18px; font-weight: 800; }
     .status {
@@ -64,30 +68,30 @@
     .page.active { display: block; }
 
     /* Home */
-    .home-hero { text-align: center; padding: 20px 10px 10px; }
+    .home-hero { text-align: center; padding: 24px 10px 10px; }
     .bot-avatar {
-      width: 160px; height: 160px; border-radius: 50%; object-fit: cover;
+      width: 150px; height: 150px; border-radius: 50%; object-fit: cover;
       border: 3px solid transparent;
       background: linear-gradient(var(--bg), var(--bg)) padding-box,
-                  linear-gradient(135deg, #00ff88, #00ccff) border-box;
-      box-shadow: 0 0 40px rgba(0,255,136,0.25);
+                  linear-gradient(135deg, #00ff88, #a855f7) border-box;
+      box-shadow: 0 0 50px rgba(168, 85, 247, 0.3);
       margin: 0 auto 18px; display: block;
     }
     .bot-fallback {
-      width: 160px; height: 160px; border-radius: 50%; margin: 0 auto 18px;
-      background: linear-gradient(135deg, #0a2a22, #0a1a2a);
-      border: 3px solid #00ff88;
+      width: 150px; height: 150px; border-radius: 50%; margin: 0 auto 18px;
+      background: linear-gradient(135deg, #0a1a2a, #1a0a2a);
+      border: 3px solid var(--purple);
       display: none; align-items: center; justify-content: center;
-      font-size: 64px; box-shadow: 0 0 40px rgba(0,255,136,0.25);
+      font-size: 60px; box-shadow: 0 0 40px var(--purple-glow);
     }
     .home-title {
       font-size: 28px; font-weight: 900; letter-spacing: 1px;
-      background: linear-gradient(90deg, #00ff88, #00ccff);
+      background: linear-gradient(90deg, #00ff88, #a855f7);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       margin-bottom: 4px;
     }
     .robot-name { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
-    .home-tagline { font-size: 13px; color: var(--text2); margin-bottom: 24px; }
+    .home-tagline { font-size: 13px; color: var(--text2); margin-bottom: 26px; }
     .home-actions { max-width: 280px; margin: 0 auto 24px; }
     .home-btn {
       width: 100%; padding: 15px; border-radius: 14px;
@@ -107,24 +111,24 @@
       background: var(--card); border: 1px solid var(--border);
       border-radius: 18px; padding: 18px; margin-bottom: 14px;
     }
-    .strategy-select {
+    .form-select {
       width: 100%; background: var(--card); border: 1px solid var(--border);
       color: var(--text); padding: 12px 14px; border-radius: 12px;
-      font-size: 14px; margin-bottom: 14px; outline: none;
+      font-size: 14px; margin-bottom: 12px; outline: none;
     }
     .upload-btn {
       background: var(--card); border: 1px dashed var(--border);
-      border-radius: 14px; padding: 28px 16px; text-align: center;
+      border-radius: 14px; padding: 26px 16px; text-align: center;
       cursor: pointer; transition: 0.2s; margin-bottom: 14px;
     }
     .upload-btn:active, .upload-btn.active {
       border-color: var(--accent); background: rgba(0,255,136,0.08);
     }
-    .upload-btn-icon { font-size: 32px; margin-bottom: 8px; }
+    .upload-btn-icon { font-size: 30px; margin-bottom: 8px; }
     .upload-btn-text { font-size: 15px; font-weight: 700; }
     .upload-btn-sub { font-size: 12px; color: var(--text2); margin-top: 4px; }
     #previewImage {
-      max-width: 100%; max-height: 200px; border-radius: 12px;
+      max-width: 100%; max-height: 190px; border-radius: 12px;
       margin: 10px 0; display: none;
     }
     .scan-btn, .execute-btn {
@@ -184,15 +188,9 @@
       font-size: 11px; color: var(--text2); margin-bottom: 6px; text-transform: uppercase;
     }
     .level-input {
-      width: 100%;
-      background: transparent;
-      border: none;
-      color: var(--text);
-      font-size: 16px;
-      font-weight: 700;
-      text-align: center;
-      outline: none;
-      padding: 4px 0;
+      width: 100%; background: transparent; border: none;
+      color: var(--text); font-size: 16px; font-weight: 700;
+      text-align: center; outline: none; padding: 4px 0;
     }
     .level-input.entry { color: #00ccff; }
     .level-input.sl { color: #ff3b30; }
@@ -206,18 +204,6 @@
     .ai-label { color: var(--text2); }
     .ai-value { font-weight: 600; text-align: right; max-width: 58%; }
 
-    .symbol-select {
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--accent);
-      font-weight: 700;
-      font-size: 14px;
-      padding: 6px 10px;
-      border-radius: 8px;
-      outline: none;
-      max-width: 140px;
-    }
-
     .ai-comment {
       margin-top: 12px; padding: 12px;
       background: rgba(0,255,136,0.06);
@@ -225,6 +211,27 @@
       border-radius: 0 10px 10px 0;
       font-size: 13px; line-height: 1.45; color: var(--text2);
     }
+
+    /* Fibonacci */
+    .fib-section {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .fib-title {
+      font-size: 14px; font-weight: 700; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .fib-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    }
+    .fib-item {
+      background: rgba(168, 85, 247, 0.08);
+      border: 1px solid rgba(168, 85, 247, 0.2);
+      border-radius: 10px; padding: 10px; text-align: center;
+    }
+    .fib-level { font-size: 11px; color: var(--purple); margin-bottom: 3px; }
+    .fib-price { font-size: 14px; font-weight: 700; }
 
     .trade-controls {
       margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border);
@@ -339,20 +346,49 @@
       background: rgba(255,255,255,0.03); border-radius: 10px;
     }
 
-    /* Bottom Nav */
+    /* ===== ADVANCED BOTTOM NAV (matches your screenshot) ===== */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
-      background: var(--bg); border-top: 1px solid var(--border);
+      background: #0c0c12;
+      border-top: 1px solid rgba(255,255,255,0.06);
       display: flex; justify-content: space-around;
-      padding: 10px 0 18px; z-index: 100;
+      padding: 12px 8px 22px;
+      z-index: 100;
     }
     .nav-item {
       display: flex; flex-direction: column; align-items: center;
-      gap: 3px; color: var(--text2); font-size: 11px;
-      background: none; border: none;
+      gap: 5px; color: #6b6b7b; font-size: 11px; font-weight: 500;
+      background: none; border: none; position: relative;
+      min-width: 60px;
     }
-    .nav-item.active { color: var(--accent); }
-    .nav-icon { font-size: 22px; }
+    .nav-item.active { color: var(--purple); }
+    .nav-icon-wrap {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 14px;
+      transition: 0.25s;
+    }
+    .nav-item.active .nav-icon-wrap {
+      background: rgba(168, 85, 247, 0.15);
+      box-shadow: 0 0 20px var(--purple-glow);
+    }
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      top: -12px;
+      width: 28px; height: 3px;
+      background: var(--purple);
+      border-radius: 0 0 4px 4px;
+      box-shadow: 0 0 12px var(--purple);
+    }
+    .nav-icon-wrap svg {
+      width: 22px; height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
 
     /* Modal */
     .modal-overlay {
@@ -421,9 +457,22 @@
   <!-- AI SCAN -->
   <div class="page" id="page-scanner">
     <div class="scanner-box">
-      <div style="font-size:15px;font-weight:700;margin-bottom:12px;text-align:center;">AI Chart Scanner</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:14px;text-align:center;">AI Chart Scanner</div>
 
-      <select class="strategy-select" id="strategySelect">
+      <!-- Manual Symbol Selection (required) -->
+      <select class="form-select" id="manualSymbol">
+        <option value="">Select Symbol *</option>
+        <option value="NAS100">NAS100 — Nasdaq 100</option>
+        <option value="US30">US30 — Dow Jones</option>
+        <option value="DE30">DE30 — DAX 40</option>
+        <option value="UK100">UK100 — FTSE 100</option>
+        <option value="XAUUSD">XAUUSD — Gold</option>
+        <option value="EURUSD">EURUSD — Euro / USD</option>
+        <option value="GBPUSD">GBPUSD — Pound / USD</option>
+        <option value="USDJPY">USDJPY — USD / Yen</option>
+      </select>
+
+      <select class="form-select" id="strategySelect">
         <option value="smc">Smart Money Concepts (SMC)</option>
         <option value="ict">ICT Concepts</option>
         <option value="orderblocks">Order Blocks</option>
@@ -459,7 +508,6 @@
         <div style="font-size:13px;color:var(--text2);" id="aiPattern">—</div>
       </div>
 
-      <!-- Editable Levels -->
       <div class="levels-grid">
         <div class="level-box">
           <div class="level-label">Entry</div>
@@ -480,17 +528,8 @@
       </div>
 
       <div class="ai-row">
-        <span class="ai-label">Detected Symbol</span>
-        <select id="aiSymbol" class="symbol-select">
-          <option value="NAS100">NAS100</option>
-          <option value="US30">US30</option>
-          <option value="DE30">DE30</option>
-          <option value="UK100">UK100</option>
-          <option value="XAUUSD">XAUUSD</option>
-          <option value="EURUSD">EURUSD</option>
-          <option value="GBPUSD">GBPUSD</option>
-          <option value="USDJPY">USDJPY</option>
-        </select>
+        <span class="ai-label">Symbol</span>
+        <span class="ai-value" id="aiSymbolDisplay" style="color:var(--accent);">—</span>
       </div>
       <div class="ai-row">
         <span class="ai-label">Strategy</span>
@@ -514,6 +553,15 @@
       </div>
 
       <div class="ai-comment" id="aiComment">—</div>
+
+      <!-- Fibonacci Levels -->
+      <div class="fib-section">
+        <div class="fib-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 16l4-8 4 4 5-9"/></svg>
+          Fibonacci Levels
+        </div>
+        <div class="fib-grid" id="fibGrid"></div>
+      </div>
 
       <div class="trade-controls">
         <div class="control-row">
@@ -638,30 +686,40 @@
     </div>
 
     <div style="margin-top:20px;font-size:12px;color:var(--text2);text-align:center;">
-      EA HOST v2.3 • Market Avenger Pro
+      EA HOST v2.4 • Market Avenger Pro
     </div>
   </div>
 
-  <!-- Bottom Nav -->
+  <!-- ADVANCED BOTTOM NAV -->
   <div class="bottom-nav">
     <button class="nav-item active" onclick="showPage('home', this)">
-      <div class="nav-icon">🏠</div>
+      <div class="nav-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+      </div>
       <div>Home</div>
     </button>
     <button class="nav-item" onclick="showPage('scanner', this)">
-      <div class="nav-icon">🤖</div>
+      <div class="nav-icon-wrap">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </div>
       <div>AI Scan</div>
     </button>
     <button class="nav-item" onclick="showPage('symbols', this)">
-      <div class="nav-icon">📈</div>
+      <div class="nav-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+      </div>
       <div>Symbols</div>
     </button>
     <button class="nav-item" onclick="showPage('strategies', this)">
-      <div class="nav-icon">🧠</div>
+      <div class="nav-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 014 4v2a4 4 0 01-8 0V6a4 4 0 014-4z"/><path d="M6 14h12v6a2 2 0 01-2 2H8a2 2 0 01-2-2v-6z"/></svg>
+      </div>
       <div>Strategies</div>
     </button>
     <button class="nav-item" onclick="showPage('account', this)">
-      <div class="nav-icon">🔗</div>
+      <div class="nav-icon-wrap">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </div>
       <div>Account</div>
     </button>
   </div>
@@ -679,7 +737,6 @@
   </div>
 
   <script>
-    // State
     let selectedImage = null;
     let currentStrategy = 'smc';
     let mtConnected = false;
@@ -700,7 +757,6 @@
       { symbol: 'USDJPY', name: 'USD / Yen', base: 149.20 }
     ];
 
-    // Restore connection
     const saved = localStorage.getItem('eahost_mt');
     if (saved) {
       try {
@@ -779,7 +835,14 @@
       document.getElementById('homeStrategy').textContent = names[currentStrategy] || currentStrategy;
     });
 
-    // Image
+    // Enable scan only when both symbol + image are ready
+    function checkScanReady() {
+      const hasSymbol = document.getElementById('manualSymbol').value !== '';
+      const hasImage = !!selectedImage;
+      document.getElementById('scanBtn').disabled = !(hasSymbol && hasImage);
+    }
+    document.getElementById('manualSymbol').addEventListener('change', checkScanReady);
+
     function handleImage(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -794,9 +857,9 @@
         img.src = selectedImage;
         img.style.display = 'block';
         document.getElementById('uploadBtn').classList.add('active');
-        document.getElementById('scanBtn').disabled = false;
         document.getElementById('aiResult').style.display = 'none';
         document.getElementById('executeBtn').style.display = 'none';
+        checkScanReady();
       };
       reader.readAsDataURL(file);
     }
@@ -810,9 +873,39 @@
       document.getElementById('tradesValue').textContent = numTrades;
     }
 
-    // AI Scan
+    // Fibonacci calculator
+    function calculateFibonacci(high, low, isBuy) {
+      const diff = Math.abs(high - low);
+      const levels = [
+        { name: '0.0%', ratio: 0 },
+        { name: '23.6%', ratio: 0.236 },
+        { name: '38.2%', ratio: 0.382 },
+        { name: '50.0%', ratio: 0.5 },
+        { name: '61.8%', ratio: 0.618 },
+        { name: '78.6%', ratio: 0.786 },
+        { name: '100%', ratio: 1 }
+      ];
+
+      return levels.map(l => {
+        let price;
+        if (isBuy) {
+          // For buy: low is bottom, high is top
+          price = low + diff * l.ratio;
+        } else {
+          price = high - diff * l.ratio;
+        }
+        return { name: l.name, price };
+      });
+    }
+
     function runAIScan() {
+      const symbol = document.getElementById('manualSymbol').value;
+      if (!symbol) {
+        alert('Please select a symbol first');
+        return;
+      }
       if (!selectedImage) return;
+
       const btn = document.getElementById('scanBtn');
       const spinner = document.getElementById('spinner');
       const result = document.getElementById('aiResult');
@@ -895,31 +988,33 @@
         const conf = 78 + Math.floor(Math.random()*17);
         const tf = ['5m / 15m','15m / 1H','1H / 4H','15m'][Math.floor(Math.random()*4)];
 
-        // Auto-detect symbol
-        const detected = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
-        const sym = detected.symbol;
-        const base = detected.base;
-        const isFx = ['EURUSD','GBPUSD','USDJPY'].includes(sym);
-        const isGold = sym === 'XAUUSD';
+        const found = SYMBOLS.find(s => s.symbol === symbol) || SYMBOLS[0];
+        const base = found.base;
+        const isFx = ['EURUSD','GBPUSD','USDJPY'].includes(symbol);
+        const isGold = symbol === 'XAUUSD';
         const step = isGold ? 4.5 : (isFx ? 0.0025 : (30 + Math.random()*40));
+        const decimals = isFx ? 5 : (isGold || symbol === 'USDJPY' ? 2 : 0);
 
-        let entry, sl, tp1, tp2, support, resistance;
-        const decimals = isFx ? 5 : (isGold || sym === 'USDJPY' ? 2 : 0);
+        let entry, sl, tp1, tp2, support, resistance, high, low;
 
         if (isBuy) {
-          entry = +(base + (Math.random()-0.5)*step*2).toFixed(decimals);
+          entry = +(base + (Math.random()-0.5)*step*1.5).toFixed(decimals);
           sl = +(entry - step * 1.7).toFixed(decimals);
           tp1 = +(entry + step * 2.5).toFixed(decimals);
           tp2 = +(entry + step * 4.5).toFixed(decimals);
-          support = +(sl - step * 0.5).toFixed(decimals);
-          resistance = +(tp1 + step * 0.6).toFixed(decimals);
+          support = +(sl - step * 0.4).toFixed(decimals);
+          resistance = +(tp1 + step * 0.5).toFixed(decimals);
+          low = sl;
+          high = tp2;
         } else {
-          entry = +(base + (Math.random()-0.5)*step*2).toFixed(decimals);
+          entry = +(base + (Math.random()-0.5)*step*1.5).toFixed(decimals);
           sl = +(entry + step * 1.7).toFixed(decimals);
           tp1 = +(entry - step * 2.5).toFixed(decimals);
           tp2 = +(entry - step * 4.5).toFixed(decimals);
-          resistance = +(sl + step * 0.5).toFixed(decimals);
-          support = +(tp1 - step * 0.6).toFixed(decimals);
+          resistance = +(sl + step * 0.4).toFixed(decimals);
+          support = +(tp1 - step * 0.5).toFixed(decimals);
+          high = sl;
+          low = tp2;
         }
 
         const risk = Math.abs(entry - sl);
@@ -932,7 +1027,7 @@
           priceaction:'Classic Price Action', breaker:'Breaker Blocks'
         };
 
-        // Fill UI (editable fields)
+        // Fill UI
         document.getElementById('aiConfidence').textContent = conf + '%';
         document.getElementById('aiBias').textContent = bias;
         document.getElementById('aiBias').className = 'big-bias ' + bias.toLowerCase();
@@ -943,7 +1038,7 @@
         document.getElementById('aiTP1').value = tp1;
         document.getElementById('aiTP2').value = tp2;
 
-        document.getElementById('aiSymbol').value = sym;
+        document.getElementById('aiSymbolDisplay').textContent = symbol;
         document.getElementById('aiStrategy').textContent = strategyNames[currentStrategy];
         document.getElementById('aiRR').textContent = rr;
         document.getElementById('aiSupport').textContent = support;
@@ -951,7 +1046,18 @@
         document.getElementById('aiTF').textContent = tf;
         document.getElementById('aiComment').textContent = comment;
 
-        lastAnalysis = { bias, entry, sl, tp1, tp2, conf, pattern, symbol: sym };
+        // Fibonacci
+        const fibs = calculateFibonacci(high, low, isBuy);
+        const fibGrid = document.getElementById('fibGrid');
+        fibGrid.innerHTML = '';
+        fibs.forEach(f => {
+          const div = document.createElement('div');
+          div.className = 'fib-item';
+          div.innerHTML = `<div class="fib-level">${f.name}</div><div class="fib-price">${f.price.toFixed(decimals)}</div>`;
+          fibGrid.appendChild(div);
+        });
+
+        lastAnalysis = { bias, entry, sl, tp1, tp2, conf, pattern, symbol };
 
         result.style.display = 'block';
         document.getElementById('executeBtn').style.display = 'block';
@@ -964,7 +1070,6 @@
       }, 1600 + Math.random()*900);
     }
 
-    // Live symbols
     function renderSymbols() {
       document.getElementById('symbolsLocked').style.display = 'none';
       const list = document.getElementById('symbolsList');
@@ -1004,7 +1109,6 @@
       }, 2500);
     }
 
-    // MetaTrader
     function connectMT() {
       const apiKey = document.getElementById('apiKey').value.trim();
       const login = document.getElementById('mtLogin').value.trim();
@@ -1030,7 +1134,7 @@
         document.getElementById('executeBtn').disabled = false;
         document.getElementById('executeBtn').textContent = 'Execute Trade';
       }
-      alert('Account connected (simulated).\nLive prices and execution will use api2trade when backend is connected.');
+      alert('Account connected (simulated).');
     }
 
     function disconnectMT() {
@@ -1052,7 +1156,6 @@
       }
     }
 
-    // Execute – reads the editable values
     function openExecuteModal() {
       if (!mtConnected) {
         alert('Please connect your MetaTrader account first.');
@@ -1061,8 +1164,7 @@
       }
       if (!lastAnalysis) return;
 
-      // Read current values from the editable fields
-      const symbol = document.getElementById('aiSymbol').value;
+      const symbol = document.getElementById('aiSymbolDisplay').textContent;
       const entry = parseFloat(document.getElementById('aiEntry').value);
       const sl = parseFloat(document.getElementById('aiSL').value);
       const tp1 = parseFloat(document.getElementById('aiTP1').value);
@@ -1091,7 +1193,7 @@
       closeExecuteModal();
       const a = lastAnalysis;
       setTimeout(() => {
-        alert(`✅ ${numTrades} × ${lotSize.toFixed(2)} lot ${a.bias} ${a.symbol} executed (simulated)\n\nEntry: ${a.entry}\nSL: ${a.sl}\nTP1: ${a.tp1}\n\nLive version sends this to MetaTrader 5 via api2trade.`);
+        alert(`✅ ${numTrades} × ${lotSize.toFixed(2)} lot ${a.bias} ${a.symbol} executed (simulated)\n\nEntry: ${a.entry}\nSL: ${a.sl}\nTP1: ${a.tp1}`);
         if (vibrationEnabled && navigator.vibrate) navigator.vibrate([100,50,100,50,100]);
       }, 500);
     }
