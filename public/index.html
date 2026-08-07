@@ -3,9 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
+  
+  <!-- Home Screen / PWA Icon -->
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icon.png">
+  <link rel="icon" type="image/png" href="icon.png">
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Market Avenger Pro">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#0a0a0a" />
-  <title>EA HOST • Market Avenger Pro</title>
+  
+  <title>Market Avenger Pro</title>
+
   <style>
     :root {
       --bg: #07070a;
@@ -67,44 +78,59 @@
     .page { display: none; padding: 16px; }
     .page.active { display: block; }
 
-    /* Home */
-    .home-hero { text-align: center; padding: 24px 10px 10px; }
+    /* ===== HOME PAGE ===== */
+    .home-hero { 
+      text-align: center; 
+      padding: 40px 10px 20px; 
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
     .bot-avatar {
-      width: 150px; height: 150px; border-radius: 50%; object-fit: cover;
+      width: 170px; height: 170px; border-radius: 50%; object-fit: cover;
       border: 3px solid transparent;
       background: linear-gradient(var(--bg), var(--bg)) padding-box,
                   linear-gradient(135deg, #00ff88, #a855f7) border-box;
-      box-shadow: 0 0 50px rgba(168, 85, 247, 0.3);
-      margin: 0 auto 18px; display: block;
+      box-shadow: 0 0 60px rgba(168, 85, 247, 0.35);
+      margin: 0 auto 22px; display: block;
     }
     .bot-fallback {
-      width: 150px; height: 150px; border-radius: 50%; margin: 0 auto 18px;
+      width: 170px; height: 170px; border-radius: 50%; margin: 0 auto 22px;
       background: linear-gradient(135deg, #0a1a2a, #1a0a2a);
       border: 3px solid var(--purple);
       display: none; align-items: center; justify-content: center;
-      font-size: 60px; box-shadow: 0 0 40px var(--purple-glow);
+      font-size: 70px; box-shadow: 0 0 50px var(--purple-glow);
     }
-    .home-title {
-      font-size: 28px; font-weight: 900; letter-spacing: 1px;
-      background: linear-gradient(90deg, #00ff88, #a855f7);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      margin-bottom: 4px;
+    .robot-name { 
+      font-size: 26px; 
+      font-weight: 800; 
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
     }
-    .robot-name { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
-    .home-tagline { font-size: 13px; color: var(--text2); margin-bottom: 26px; }
-    .home-actions { max-width: 280px; margin: 0 auto 24px; }
-    .home-btn {
-      width: 100%; padding: 15px; border-radius: 14px;
-      font-weight: 800; font-size: 16px; border: none; cursor: pointer;
-      background: linear-gradient(90deg, #00ff88, #00ccff); color: #000;
+    .home-tagline { 
+      font-size: 14px; 
+      color: var(--text2); 
+      margin-bottom: 40px; 
     }
-    .home-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .stat-box {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 14px; text-align: center;
+    .start-btn {
+      width: 220px;
+      padding: 16px 0;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 17px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(90deg, #00ff88, #00ccff);
+      color: #000;
+      transition: 0.25s;
+      box-shadow: 0 8px 25px rgba(0,255,136,0.25);
     }
-    .stat-label { font-size: 11px; color: var(--text2); margin-bottom: 4px; }
-    .stat-value { font-size: 16px; font-weight: 700; }
+    .start-btn.stop {
+      background: linear-gradient(90deg, #ff3b30, #ff9500);
+      box-shadow: 0 8px 25px rgba(255,59,48,0.25);
+    }
 
     /* Scanner */
     .scanner-box {
@@ -205,9 +231,7 @@
     .big-bias.sell { color: #ff3b30; }
     .big-bias.wait { color: #ffcc00; }
 
-    .confluence-list {
-      margin: 12px 0 16px;
-    }
+    .confluence-list { margin: 12px 0 16px; }
     .confluence-item {
       display: flex; align-items: center; gap: 10px;
       padding: 9px 0;
@@ -277,7 +301,6 @@
       padding: 0 8px;
     }
 
-    /* Symbols / Strategies / Account (kept same structure) */
     .symbols-locked { text-align: center; padding: 50px 20px; color: var(--text2); }
     .symbols-locked .icon { font-size: 42px; margin-bottom: 12px; }
     .symbol-card {
@@ -412,33 +435,22 @@
   <div class="header">
     <div class="logo-area">
       <div class="logo-icon">EA</div>
-      <div class="logo-text">EA HOST</div>
+      <div class="logo-text">Market Avenger</div>
     </div>
     <div class="status offline" id="mtStatus">MT Offline</div>
   </div>
 
-  <!-- HOME -->
+  <!-- ==================== HOME PAGE ==================== -->
   <div class="page active" id="page-home">
     <div class="home-hero">
       <img src="MarketAvengerPro.jpg" alt="Market Avenger Pro" class="bot-avatar"
            onerror="this.style.display='none'; document.getElementById('botFallback').style.display='flex';" />
       <div class="bot-fallback" id="botFallback">🤖</div>
-      <div class="home-title">EA HOST</div>
+
       <div class="robot-name">Market Avenger Pro</div>
       <div class="home-tagline">AI Chart Analysis • Smart Money Execution</div>
-      <div class="home-actions">
-        <button class="home-btn" onclick="goToScanner()">Trade</button>
-      </div>
-      <div class="home-stats">
-        <div class="stat-box">
-          <div class="stat-label">Active Mode</div>
-          <div class="stat-value" id="homeMode">Confluence</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-label">MT Status</div>
-          <div class="stat-value" id="homeMtStatus">Offline</div>
-        </div>
-      </div>
+
+      <button class="start-btn" id="startStopBtn" onclick="toggleStartStop()">Start</button>
     </div>
   </div>
 
@@ -447,7 +459,6 @@
     <div class="scanner-box">
       <div style="font-size:15px;font-weight:700;margin-bottom:14px;text-align:center;">AI Chart Scanner</div>
 
-      <!-- Mode Toggle -->
       <div class="mode-toggle">
         <div class="mode-btn" id="modeSingle" onclick="setMode('single')">Single Strategy</div>
         <div class="mode-btn active" id="modeConfluence" onclick="setMode('confluence')">Confluence Mode</div>
@@ -496,7 +507,6 @@
         <div style="font-size:13px;color:var(--text2);" id="aiPattern">—</div>
       </div>
 
-      <!-- Confluence Checklist -->
       <div class="confluence-list" id="confluenceList"></div>
 
       <div class="ai-row">
@@ -555,7 +565,7 @@
       <div class="icon">🔗</div>
       <div style="font-size:16px;font-weight:600;margin-bottom:6px;">Connect MetaTrader for symbols</div>
       <div style="font-size:13px;">Live prices appear only after your account is connected via api2trade.</div>
-      <button class="home-btn" style="margin-top:20px;max-width:220px;" onclick="showPage('account', document.querySelectorAll('.nav-item')[4])">
+      <button class="home-btn" style="margin-top:20px;max-width:220px;background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;border:none;padding:14px;border-radius:14px;font-weight:700;" onclick="showPage('account', document.querySelectorAll('.nav-item')[4])">
         Go to Account
       </button>
     </div>
@@ -660,7 +670,7 @@
       </div>
     </div>
     <div style="margin-top:20px;font-size:12px;color:var(--text2);text-align:center;">
-      EA HOST v2.6 • Market Avenger Pro • Confluence Mode
+      Market Avenger Pro • Confluence Mode
     </div>
   </div>
 
@@ -702,12 +712,13 @@
   <script>
     let selectedImage = null;
     let currentStrategy = 'smc';
-    let scanMode = 'confluence'; // 'single' or 'confluence'
+    let scanMode = 'confluence';
     let mtConnected = false;
     let lastAnalysis = null;
     let vibrationEnabled = true;
     let lotSize = 0.01;
     let numTrades = 1;
+    let isStarted = false;
 
     const saved = localStorage.getItem('eahost_mt');
     if (saved) {
@@ -719,18 +730,35 @@
       } catch(e) {}
     }
 
+    // Start / Stop button
+    function toggleStartStop() {
+      const btn = document.getElementById('startStopBtn');
+      
+      if (!isStarted) {
+        // START → go to scanner
+        isStarted = true;
+        btn.textContent = 'Stop';
+        btn.classList.add('stop');
+        showPage('scanner', document.querySelectorAll('.nav-item')[1]);
+      } else {
+        // STOP → go back to home
+        isStarted = false;
+        btn.textContent = 'Start';
+        btn.classList.remove('stop');
+        showPage('home', document.querySelectorAll('.nav-item')[0]);
+      }
+    }
+
     function setMode(mode) {
       scanMode = mode;
       document.getElementById('modeSingle').classList.toggle('active', mode === 'single');
       document.getElementById('modeConfluence').classList.toggle('active', mode === 'confluence');
       document.getElementById('strategySelect').style.display = mode === 'single' ? 'block' : 'none';
-      document.getElementById('homeMode').textContent = mode === 'confluence' ? 'Confluence' : 'Single';
     }
 
     function updateMtUI(data) {
       document.getElementById('mtStatus').textContent = 'MT Connected';
       document.getElementById('mtStatus').classList.remove('offline');
-      document.getElementById('homeMtStatus').textContent = 'Online';
       document.getElementById('accountInfo').style.display = 'block';
       document.getElementById('connectForm').style.display = 'none';
       document.getElementById('disconnectBtn').style.display = 'block';
@@ -740,7 +768,6 @@
       document.getElementById('accEquity').textContent = data.equity || '—';
     }
 
-    function goToScanner() { showPage('scanner', document.querySelectorAll('.nav-item')[1]); }
     function toggleTheme() {
       document.body.classList.toggle('light');
       document.getElementById('themeToggle').classList.toggle('active');
@@ -755,6 +782,7 @@
       document.getElementById('page-' + name).classList.add('active');
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
       if (btn) btn.classList.add('active');
+      
       if (name === 'symbols') {
         if (mtConnected) renderSymbols();
         else {
@@ -809,9 +837,7 @@
       document.getElementById('tradesValue').textContent = numTrades;
     }
 
-    // ===== CONFLUENCE ENGINE =====
     function runConfluenceScan(symbol) {
-      // 1. Detect market type
       const regimes = [
         { type: 'Trending Market', weight: 0.38, strategies: ['smc','ict','orderblocks','breaker','fvg','mss'] },
         { type: 'Reversal Market', weight: 0.28, strategies: ['harmonic','wyckoff','supplydemand','liquidity','priceaction'] },
@@ -819,7 +845,6 @@
         { type: 'High Volatility', weight: 0.12, strategies: ['wait'] }
       ];
 
-      // Weighted random regime
       let r = Math.random(), cumulative = 0, chosen = regimes[0];
       for (const reg of regimes) {
         cumulative += reg.weight;
@@ -842,7 +867,6 @@
         };
       }
 
-      // 2. Build confluence list based on regime
       const pool = {
         smc: ['Bullish Order Block', 'Bearish Order Block', 'Break of Structure (BOS)', 'Change of Character (CHoCH)', 'Equal Highs/Lows Liquidity'],
         ict: ['Fair Value Gap', 'Killzone Entry', 'Power of Three', 'Judas Swing', 'OTE Retracement'],
@@ -858,23 +882,19 @@
         priceaction: ['Bullish Engulfing', 'Bearish Pin Bar', 'Inside Bar Breakout']
       };
 
-      // Pick 4–6 strong confluences
       let selected = [];
       const isBuy = Math.random() > 0.42;
       const direction = isBuy ? 'Bullish' : 'Bearish';
 
-      // Always add trend
       selected.push(`Trend: ${direction} (Higher Timeframe)`);
 
-      // Add strategies from the regime
       const available = chosen.strategies.filter(s => s !== 'wait');
       const shuffled = available.sort(() => 0.5 - Math.random());
-      const count = 3 + Math.floor(Math.random() * 3); // 3 to 5 extra
+      const count = 3 + Math.floor(Math.random() * 3);
 
       for (let i = 0; i < count && i < shuffled.length; i++) {
         const strat = shuffled[i];
         const options = pool[strat] || [];
-        // Prefer direction-matching patterns
         let pick = options.filter(o => 
           (isBuy && /bull|demand|accumulation|spring/i.test(o)) ||
           (!isBuy && /bear|supply|distribution|upthrust/i.test(o))
@@ -885,10 +905,7 @@
         }
       }
 
-      // Remove duplicates and limit
       selected = [...new Set(selected)].slice(0, 6);
-
-      // Confidence based on number of confluences
       const conf = Math.min(98, 72 + selected.length * 5 + Math.floor(Math.random() * 6));
 
       const comments = [
@@ -930,7 +947,6 @@
         if (scanMode === 'confluence') {
           analysis = runConfluenceScan(symbol);
         } else {
-          // Simple single strategy (kept for compatibility)
           const isBuy = Math.random() > 0.45;
           analysis = {
             marketType: 'Single Strategy Mode',
@@ -942,7 +958,6 @@
           };
         }
 
-        // Render
         document.getElementById('aiConfidence').textContent = analysis.conf + '%';
         document.getElementById('marketType').textContent = analysis.marketType;
         document.getElementById('aiBias').textContent = analysis.bias;
@@ -952,7 +967,6 @@
         document.getElementById('aiTF').textContent = analysis.tf;
         document.getElementById('aiComment').textContent = analysis.comment;
 
-        // Confluence checklist
         const list = document.getElementById('confluenceList');
         list.innerHTML = '';
         analysis.confluences.forEach(item => {
@@ -1004,7 +1018,6 @@
       localStorage.removeItem('eahost_mt');
       document.getElementById('mtStatus').textContent = 'MT Offline';
       document.getElementById('mtStatus').classList.add('offline');
-      document.getElementById('homeMtStatus').textContent = 'Offline';
       document.getElementById('accountInfo').style.display = 'none';
       document.getElementById('connectForm').style.display = 'block';
       document.getElementById('disconnectBtn').style.display = 'none';
