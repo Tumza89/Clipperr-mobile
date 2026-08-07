@@ -111,25 +111,39 @@
       background: var(--card); border: 1px solid var(--border);
       border-radius: 18px; padding: 18px; margin-bottom: 14px;
     }
-    .form-select {
+    .form-input, .form-select {
       width: 100%; background: var(--card); border: 1px solid var(--border);
-      color: var(--text); padding: 12px 14px; border-radius: 12px;
+      color: var(--text); padding: 13px 14px; border-radius: 12px;
       font-size: 14px; margin-bottom: 12px; outline: none;
     }
-    .upload-btn {
-      background: var(--card); border: 1px dashed var(--border);
-      border-radius: 14px; padding: 26px 16px; text-align: center;
-      cursor: pointer; transition: 0.2s; margin-bottom: 14px;
+    .form-input:focus, .form-select:focus { border-color: var(--accent); }
+    .form-input::placeholder { color: #666; }
+
+    .upload-area {
+      border: 2px dashed var(--border);
+      border-radius: 16px;
+      padding: 36px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-bottom: 14px;
     }
-    .upload-btn:active, .upload-btn.active {
-      border-color: var(--accent); background: rgba(0,255,136,0.08);
+    .upload-area:active, .upload-area.active {
+      border-color: var(--accent);
+      background: rgba(0,255,136,0.06);
     }
-    .upload-btn-icon { font-size: 30px; margin-bottom: 8px; }
-    .upload-btn-text { font-size: 15px; font-weight: 700; }
-    .upload-btn-sub { font-size: 12px; color: var(--text2); margin-top: 4px; }
+    .upload-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .upload-sub {
+      font-size: 12px;
+      color: var(--text2);
+    }
     #previewImage {
-      max-width: 100%; max-height: 190px; border-radius: 12px;
-      margin: 10px 0; display: none;
+      max-width: 100%; max-height: 200px; border-radius: 12px;
+      margin: 12px 0 0; display: none;
     }
     .scan-btn, .execute-btn {
       width: 100%; border: none; padding: 15px; border-radius: 14px;
@@ -162,7 +176,7 @@
     }
     .ai-header {
       display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
     .ai-title { font-size: 16px; font-weight: 700; }
     .confidence {
@@ -170,46 +184,26 @@
       border-radius: 20px; background: rgba(0,255,136,0.15); color: var(--accent);
     }
     .ai-bias-row {
-      display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+      display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
     }
-    .big-bias { font-size: 24px; font-weight: 800; }
+    .big-bias { font-size: 26px; font-weight: 800; }
     .big-bias.buy { color: #00ff88; }
     .big-bias.sell { color: #ff3b30; }
 
-    .levels-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0;
-    }
-    .level-box {
-      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
-      border-radius: 12px; padding: 12px; text-align: center;
-    }
-    body.light .level-box { background: #f5f5f5; }
-    .level-label {
-      font-size: 11px; color: var(--text2); margin-bottom: 6px; text-transform: uppercase;
-    }
-    .level-input {
-      width: 100%; background: transparent; border: none;
-      color: var(--text); font-size: 16px; font-weight: 700;
-      text-align: center; outline: none; padding: 4px 0;
-    }
-    .level-input.entry { color: #00ccff; }
-    .level-input.sl { color: #ff3b30; }
-    .level-input.tp { color: #00ff88; }
-
     .ai-row {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13.5px;
+      padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px;
     }
     .ai-row:last-child { border-bottom: none; }
     .ai-label { color: var(--text2); }
-    .ai-value { font-weight: 600; text-align: right; max-width: 58%; }
+    .ai-value { font-weight: 600; text-align: right; max-width: 60%; }
 
     .ai-comment {
-      margin-top: 12px; padding: 12px;
+      margin-top: 14px; padding: 13px;
       background: rgba(0,255,136,0.06);
       border-left: 3px solid var(--accent);
       border-radius: 0 10px 10px 0;
-      font-size: 13px; line-height: 1.45; color: var(--text2);
+      font-size: 13px; line-height: 1.5; color: var(--text2);
     }
 
     /* Fibonacci */
@@ -223,15 +217,17 @@
       display: flex; align-items: center; gap: 6px;
     }
     .fib-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
     }
     .fib-item {
       background: rgba(168, 85, 247, 0.08);
       border: 1px solid rgba(168, 85, 247, 0.2);
-      border-radius: 10px; padding: 10px; text-align: center;
+      border-radius: 10px; padding: 10px 6px; text-align: center;
     }
-    .fib-level { font-size: 11px; color: var(--purple); margin-bottom: 3px; }
-    .fib-price { font-size: 14px; font-weight: 700; }
+    .fib-level { font-size: 12px; color: var(--purple); font-weight: 600; }
+    .fib-note {
+      font-size: 11px; color: var(--text2); margin-top: 8px; text-align: center;
+    }
 
     .trade-controls {
       margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border);
@@ -297,12 +293,6 @@
     /* Account */
     .form-group { margin-bottom: 14px; }
     .form-label { display: block; font-size: 13px; color: var(--text2); margin-bottom: 6px; }
-    .form-input {
-      width: 100%; background: var(--card); border: 1px solid var(--border);
-      color: var(--text); padding: 13px 14px; border-radius: 12px;
-      font-size: 14px; outline: none;
-    }
-    .form-input:focus { border-color: var(--accent); }
     .connect-btn {
       width: 100%; background: linear-gradient(90deg, #00ff88, #00ccff);
       color: #000; border: none; padding: 15px; border-radius: 14px;
@@ -346,7 +336,7 @@
       background: rgba(255,255,255,0.03); border-radius: 10px;
     }
 
-    /* ===== ADVANCED BOTTOM NAV (matches your screenshot) ===== */
+    /* Bottom Nav */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
       background: #0c0c12;
@@ -459,18 +449,8 @@
     <div class="scanner-box">
       <div style="font-size:15px;font-weight:700;margin-bottom:14px;text-align:center;">AI Chart Scanner</div>
 
-      <!-- Manual Symbol Selection (required) -->
-      <select class="form-select" id="manualSymbol">
-        <option value="">Select Symbol *</option>
-        <option value="NAS100">NAS100 — Nasdaq 100</option>
-        <option value="US30">US30 — Dow Jones</option>
-        <option value="DE30">DE30 — DAX 40</option>
-        <option value="UK100">UK100 — FTSE 100</option>
-        <option value="XAUUSD">XAUUSD — Gold</option>
-        <option value="EURUSD">EURUSD — Euro / USD</option>
-        <option value="GBPUSD">GBPUSD — Pound / USD</option>
-        <option value="USDJPY">USDJPY — USD / Yen</option>
-      </select>
+      <!-- Free type symbol -->
+      <input type="text" class="form-input" id="manualSymbol" placeholder="Type symbol (e.g. XAUUSD, NAS100, BTCUSD...)" />
 
       <select class="form-select" id="strategySelect">
         <option value="smc">Smart Money Concepts (SMC)</option>
@@ -479,19 +459,23 @@
         <option value="fvg">Fair Value Gaps</option>
         <option value="liquidity">Liquidity Sweeps</option>
         <option value="supplydemand">Supply & Demand</option>
+        <option value="wyckoff">Wyckoff Method</option>
+        <option value="harmonic">Harmonic Patterns</option>
+        <option value="elliott">Elliott Wave</option>
+        <option value="mss">Market Structure Shift</option>
+        <option value="volumeprofile">Volume Profile</option>
         <option value="priceaction">Classic Price Action</option>
         <option value="breaker">Breaker Blocks</option>
       </select>
 
-      <div class="upload-btn" id="uploadBtn" onclick="document.getElementById('galleryInput').click()">
-        <div class="upload-btn-icon">🖼️</div>
-        <div class="upload-btn-text">Photo Library</div>
-        <div class="upload-btn-sub">Choose chart screenshot</div>
+      <!-- Clean upload area -->
+      <div class="upload-area" id="uploadBtn" onclick="document.getElementById('galleryInput').click()">
+        <div class="upload-title">Upload chart screenshot</div>
+        <div class="upload-sub">PNG or JPG • Max 5MB</div>
+        <img id="previewImage" alt="Chart preview" />
       </div>
 
       <input type="file" id="galleryInput" accept="image/*" style="display:none" onchange="handleImage(event)" />
-
-      <img id="previewImage" alt="Chart preview" />
 
       <button class="scan-btn" id="scanBtn" disabled onclick="runAIScan()">Scan with AI</button>
       <div class="loading-spinner" id="spinner"></div>
@@ -508,25 +492,6 @@
         <div style="font-size:13px;color:var(--text2);" id="aiPattern">—</div>
       </div>
 
-      <div class="levels-grid">
-        <div class="level-box">
-          <div class="level-label">Entry</div>
-          <input type="number" step="any" class="level-input entry" id="aiEntry" />
-        </div>
-        <div class="level-box">
-          <div class="level-label">Stop Loss</div>
-          <input type="number" step="any" class="level-input sl" id="aiSL" />
-        </div>
-        <div class="level-box">
-          <div class="level-label">Take Profit 1</div>
-          <input type="number" step="any" class="level-input tp" id="aiTP1" />
-        </div>
-        <div class="level-box">
-          <div class="level-label">Take Profit 2</div>
-          <input type="number" step="any" class="level-input tp" id="aiTP2" />
-        </div>
-      </div>
-
       <div class="ai-row">
         <span class="ai-label">Symbol</span>
         <span class="ai-value" id="aiSymbolDisplay" style="color:var(--accent);">—</span>
@@ -536,31 +501,27 @@
         <span class="ai-value" id="aiStrategy">—</span>
       </div>
       <div class="ai-row">
-        <span class="ai-label">Risk : Reward</span>
-        <span class="ai-value" id="aiRR">—</span>
-      </div>
-      <div class="ai-row">
-        <span class="ai-label">Key Support</span>
-        <span class="ai-value" id="aiSupport">—</span>
-      </div>
-      <div class="ai-row">
-        <span class="ai-label">Key Resistance</span>
-        <span class="ai-value" id="aiResistance">—</span>
-      </div>
-      <div class="ai-row">
-        <span class="ai-label">Timeframe</span>
+        <span class="ai-label">Timeframe Hint</span>
         <span class="ai-value" id="aiTF">—</span>
       </div>
 
       <div class="ai-comment" id="aiComment">—</div>
 
-      <!-- Fibonacci Levels -->
+      <!-- Fibonacci Ratios only (no absolute prices) -->
       <div class="fib-section">
         <div class="fib-title">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 16l4-8 4 4 5-9"/></svg>
-          Fibonacci Levels
+          Key Fibonacci Ratios
         </div>
-        <div class="fib-grid" id="fibGrid"></div>
+        <div class="fib-grid">
+          <div class="fib-item"><div class="fib-level">23.6%</div></div>
+          <div class="fib-item"><div class="fib-level">38.2%</div></div>
+          <div class="fib-item"><div class="fib-level">50.0%</div></div>
+          <div class="fib-item"><div class="fib-level">61.8%</div></div>
+          <div class="fib-item"><div class="fib-level">78.6%</div></div>
+          <div class="fib-item"><div class="fib-level">100%</div></div>
+        </div>
+        <div class="fib-note">Use these ratios on your chart for precise levels</div>
       </div>
 
       <div class="trade-controls">
@@ -628,6 +589,26 @@
       <div class="strategy-top"><div class="strategy-name">Supply & Demand</div><div class="strategy-badge" style="display:none;">Active</div></div>
       <div class="strategy-desc">Fresh supply and demand zones with strong departure.</div>
     </div>
+    <div class="strategy-card" data-strat="wyckoff" onclick="selectStrategy(this,'wyckoff')">
+      <div class="strategy-top"><div class="strategy-name">Wyckoff Method</div><div class="strategy-badge" style="display:none;">Active</div></div>
+      <div class="strategy-desc">Accumulation, distribution, springs and upthrusts.</div>
+    </div>
+    <div class="strategy-card" data-strat="harmonic" onclick="selectStrategy(this,'harmonic')">
+      <div class="strategy-top"><div class="strategy-name">Harmonic Patterns</div><div class="strategy-badge" style="display:none;">Active</div></div>
+      <div class="strategy-desc">Gartley, Bat, Butterfly, Crab and Cypher patterns.</div>
+    </div>
+    <div class="strategy-card" data-strat="elliott" onclick="selectStrategy(this,'elliott')">
+      <div class="strategy-top"><div class="strategy-name">Elliott Wave</div><div class="strategy-badge" style="display:none;">Active</div></div>
+      <div class="strategy-desc">Impulse and corrective waves with Fibonacci relationships.</div>
+    </div>
+    <div class="strategy-card" data-strat="mss" onclick="selectStrategy(this,'mss')">
+      <div class="strategy-top"><div class="strategy-name">Market Structure Shift</div><div class="strategy-badge" style="display:none;">Active</div></div>
+      <div class="strategy-desc">Clear breaks and shifts in market structure for trend changes.</div>
+    </div>
+    <div class="strategy-card" data-strat="volumeprofile" onclick="selectStrategy(this,'volumeprofile')">
+      <div class="strategy-top"><div class="strategy-name">Volume Profile</div><div class="strategy-badge" style="display:none;">Active</div></div>
+      <div class="strategy-desc">High volume nodes, POC and value area analysis.</div>
+    </div>
     <div class="strategy-card" data-strat="priceaction" onclick="selectStrategy(this,'priceaction')">
       <div class="strategy-top"><div class="strategy-name">Classic Price Action</div><div class="strategy-badge" style="display:none;">Active</div></div>
       <div class="strategy-desc">Pin bars, engulfing, inside bars and structure breaks.</div>
@@ -686,11 +667,11 @@
     </div>
 
     <div style="margin-top:20px;font-size:12px;color:var(--text2);text-align:center;">
-      EA HOST v2.4 • Market Avenger Pro
+      EA HOST v2.5 • Market Avenger Pro
     </div>
   </div>
 
-  <!-- ADVANCED BOTTOM NAV -->
+  <!-- Bottom Nav -->
   <div class="bottom-nav">
     <button class="nav-item active" onclick="showPage('home', this)">
       <div class="nav-icon-wrap">
@@ -745,17 +726,6 @@
     let lotSize = 0.01;
     let numTrades = 1;
     let priceInterval = null;
-
-    const SYMBOLS = [
-      { symbol: 'NAS100', name: 'Nasdaq 100', base: 18750 },
-      { symbol: 'US30', name: 'Dow Jones', base: 39820 },
-      { symbol: 'DE30', name: 'DAX 40', base: 18450 },
-      { symbol: 'UK100', name: 'FTSE 100', base: 8120 },
-      { symbol: 'XAUUSD', name: 'Gold', base: 2368 },
-      { symbol: 'EURUSD', name: 'Euro / USD', base: 1.0850 },
-      { symbol: 'GBPUSD', name: 'Pound / USD', base: 1.2740 },
-      { symbol: 'USDJPY', name: 'USD / Yen', base: 149.20 }
-    ];
 
     const saved = localStorage.getItem('eahost_mt');
     if (saved) {
@@ -817,7 +787,12 @@
       el.querySelector('.strategy-badge').style.display = 'inline-block';
       currentStrategy = strat;
       document.getElementById('strategySelect').value = strat;
-      const names = {smc:'SMC',ict:'ICT',orderblocks:'Order Blocks',fvg:'FVG',liquidity:'Liquidity',supplydemand:'S&D',priceaction:'Price Action',breaker:'Breaker'};
+      const names = {
+        smc:'SMC', ict:'ICT', orderblocks:'Order Blocks', fvg:'FVG',
+        liquidity:'Liquidity', supplydemand:'S&D', wyckoff:'Wyckoff',
+        harmonic:'Harmonic', elliott:'Elliott', mss:'MSS',
+        volumeprofile:'Vol Profile', priceaction:'Price Action', breaker:'Breaker'
+      };
       document.getElementById('homeStrategy').textContent = names[strat] || strat;
     }
 
@@ -831,17 +806,21 @@
           c.querySelector('.strategy-badge').style.display = 'inline-block';
         }
       });
-      const names = {smc:'SMC',ict:'ICT',orderblocks:'Order Blocks',fvg:'FVG',liquidity:'Liquidity',supplydemand:'S&D',priceaction:'Price Action',breaker:'Breaker'};
+      const names = {
+        smc:'SMC', ict:'ICT', orderblocks:'Order Blocks', fvg:'FVG',
+        liquidity:'Liquidity', supplydemand:'S&D', wyckoff:'Wyckoff',
+        harmonic:'Harmonic', elliott:'Elliott', mss:'MSS',
+        volumeprofile:'Vol Profile', priceaction:'Price Action', breaker:'Breaker'
+      };
       document.getElementById('homeStrategy').textContent = names[currentStrategy] || currentStrategy;
     });
 
-    // Enable scan only when both symbol + image are ready
     function checkScanReady() {
-      const hasSymbol = document.getElementById('manualSymbol').value !== '';
+      const hasSymbol = document.getElementById('manualSymbol').value.trim() !== '';
       const hasImage = !!selectedImage;
       document.getElementById('scanBtn').disabled = !(hasSymbol && hasImage);
     }
-    document.getElementById('manualSymbol').addEventListener('change', checkScanReady);
+    document.getElementById('manualSymbol').addEventListener('input', checkScanReady);
 
     function handleImage(e) {
       const file = e.target.files[0];
@@ -873,35 +852,10 @@
       document.getElementById('tradesValue').textContent = numTrades;
     }
 
-    // Fibonacci calculator
-    function calculateFibonacci(high, low, isBuy) {
-      const diff = Math.abs(high - low);
-      const levels = [
-        { name: '0.0%', ratio: 0 },
-        { name: '23.6%', ratio: 0.236 },
-        { name: '38.2%', ratio: 0.382 },
-        { name: '50.0%', ratio: 0.5 },
-        { name: '61.8%', ratio: 0.618 },
-        { name: '78.6%', ratio: 0.786 },
-        { name: '100%', ratio: 1 }
-      ];
-
-      return levels.map(l => {
-        let price;
-        if (isBuy) {
-          // For buy: low is bottom, high is top
-          price = low + diff * l.ratio;
-        } else {
-          price = high - diff * l.ratio;
-        }
-        return { name: l.name, price };
-      });
-    }
-
     function runAIScan() {
-      const symbol = document.getElementById('manualSymbol').value;
+      const symbol = document.getElementById('manualSymbol').value.trim().toUpperCase();
       if (!symbol) {
-        alert('Please select a symbol first');
+        alert('Please type a symbol first');
         return;
       }
       if (!selectedImage) return;
@@ -921,15 +875,15 @@
 
         const strategyData = {
           smc: {
-            patterns: ['Bullish Order Block + BOS','Bearish Order Block + CHoCH','Liquidity Grab + Reversal','Equal Highs Sweep + Reversal'],
+            patterns: ['Bullish Order Block + BOS','Bearish Order Block + CHoCH','Liquidity Grab + Reversal','Equal Highs Sweep'],
             comments: [
-              'Clear institutional order block with strong departure. High probability reaction on retest.',
+              'Clear institutional order block with strong departure. Look for reaction on retest of the zone.',
               'Liquidity taken above equal highs. Smart money is likely reversing from this area.',
               'Break of structure confirmed. Wait for mitigation of the last opposing block.'
             ]
           },
           ict: {
-            patterns: ['Fair Value Gap + Displacement','Killzone Reversal Setup','Power of Three (AMD)','Judas Swing + True Move'],
+            patterns: ['Fair Value Gap + Displacement','Killzone Reversal','Power of Three (AMD)','Judas Swing'],
             comments: [
               'Strong displacement left a clean FVG. Expect price to seek equilibrium then continue.',
               'Price is trading inside the London/NY killzone. Institutional activity is elevated.',
@@ -937,9 +891,9 @@
             ]
           },
           orderblocks: {
-            patterns: ['Fresh Bullish Order Block','Fresh Bearish Order Block','Mitigation Block Reaction','Breaker Block Flip'],
+            patterns: ['Fresh Bullish Order Block','Fresh Bearish Order Block','Mitigation Block','Breaker Block Flip'],
             comments: [
-              'Unmitigated order block with impulsive departure. This is a high-priority zone.',
+              'Unmitigated order block with impulsive departure. High-priority zone.',
               'Price is returning into the order block. Look for rejection or strong engulfing.'
             ]
           },
@@ -964,8 +918,43 @@
               'Supply zone formed with high momentum. Watch for reaction on the first return.'
             ]
           },
+          wyckoff: {
+            patterns: ['Accumulation Phase','Distribution Phase','Spring + Test','Upthrust'],
+            comments: [
+              'Classic Wyckoff accumulation structure. Look for the spring and subsequent markup.',
+              'Distribution phase detected. Upthrust followed by markdown is likely.'
+            ]
+          },
+          harmonic: {
+            patterns: ['Gartley Pattern','Bat Pattern','Butterfly Pattern','Crab Pattern'],
+            comments: [
+              'Harmonic pattern completing at the Potential Reversal Zone (PRZ).',
+              'Strong confluence of Fibonacci ratios at the completion point.'
+            ]
+          },
+          elliott: {
+            patterns: ['Impulse Wave 3','Corrective Wave ABC','Wave 5 Extension','Ending Diagonal'],
+            comments: [
+              'Clear impulsive structure. Wave 3 is typically the strongest.',
+              'Corrective ABC structure completing. Expect the next impulsive move.'
+            ]
+          },
+          mss: {
+            patterns: ['Bullish Market Structure Shift','Bearish Market Structure Shift','BOS + CHOCH'],
+            comments: [
+              'Clear shift in market structure. Previous highs/lows have been violated.',
+              'Change of character confirmed. Trend direction has likely changed.'
+            ]
+          },
+          volumeprofile: {
+            patterns: ['High Volume Node Reaction','POC Rejection','Value Area Break'],
+            comments: [
+              'Price reacting strongly from a high volume node / Point of Control.',
+              'Break of value area with volume confirmation suggests continuation.'
+            ]
+          },
           priceaction: {
-            patterns: ['Bullish Engulfing + BOS','Bearish Pin Bar at Resistance','Inside Bar Breakout'],
+            patterns: ['Bullish Engulfing + BOS','Bearish Pin Bar','Inside Bar Breakout'],
             comments: [
               'Clean price action signal that aligns with higher-timeframe structure.',
               'Strong rejection candle at a key level offering favourable risk-reward.'
@@ -983,81 +972,29 @@
         const sData = strategyData[currentStrategy] || strategyData.smc;
         const pattern = sData.patterns[Math.floor(Math.random()*sData.patterns.length)];
         const comment = sData.comments[Math.floor(Math.random()*sData.comments.length)];
-        const isBuy = /bull|demand|buy/i.test(pattern) || Math.random() > 0.47;
+        const isBuy = /bull|demand|buy|accumulation|impulse|spring/i.test(pattern) || Math.random() > 0.48;
         const bias = isBuy ? 'BUY' : 'SELL';
-        const conf = 78 + Math.floor(Math.random()*17);
-        const tf = ['5m / 15m','15m / 1H','1H / 4H','15m'][Math.floor(Math.random()*4)];
-
-        const found = SYMBOLS.find(s => s.symbol === symbol) || SYMBOLS[0];
-        const base = found.base;
-        const isFx = ['EURUSD','GBPUSD','USDJPY'].includes(symbol);
-        const isGold = symbol === 'XAUUSD';
-        const step = isGold ? 4.5 : (isFx ? 0.0025 : (30 + Math.random()*40));
-        const decimals = isFx ? 5 : (isGold || symbol === 'USDJPY' ? 2 : 0);
-
-        let entry, sl, tp1, tp2, support, resistance, high, low;
-
-        if (isBuy) {
-          entry = +(base + (Math.random()-0.5)*step*1.5).toFixed(decimals);
-          sl = +(entry - step * 1.7).toFixed(decimals);
-          tp1 = +(entry + step * 2.5).toFixed(decimals);
-          tp2 = +(entry + step * 4.5).toFixed(decimals);
-          support = +(sl - step * 0.4).toFixed(decimals);
-          resistance = +(tp1 + step * 0.5).toFixed(decimals);
-          low = sl;
-          high = tp2;
-        } else {
-          entry = +(base + (Math.random()-0.5)*step*1.5).toFixed(decimals);
-          sl = +(entry + step * 1.7).toFixed(decimals);
-          tp1 = +(entry - step * 2.5).toFixed(decimals);
-          tp2 = +(entry - step * 4.5).toFixed(decimals);
-          resistance = +(sl + step * 0.4).toFixed(decimals);
-          support = +(tp1 - step * 0.5).toFixed(decimals);
-          high = sl;
-          low = tp2;
-        }
-
-        const risk = Math.abs(entry - sl);
-        const reward = Math.abs(tp1 - entry);
-        const rr = (reward / risk).toFixed(2) + ' : 1';
+        const conf = 79 + Math.floor(Math.random()*16);
+        const tf = ['5m / 15m','15m / 1H','1H / 4H','15m','4H'][Math.floor(Math.random()*5)];
 
         const strategyNames = {
           smc:'Smart Money Concepts', ict:'ICT Concepts', orderblocks:'Order Blocks',
           fvg:'Fair Value Gaps', liquidity:'Liquidity Sweeps', supplydemand:'Supply & Demand',
+          wyckoff:'Wyckoff Method', harmonic:'Harmonic Patterns', elliott:'Elliott Wave',
+          mss:'Market Structure Shift', volumeprofile:'Volume Profile',
           priceaction:'Classic Price Action', breaker:'Breaker Blocks'
         };
 
-        // Fill UI
         document.getElementById('aiConfidence').textContent = conf + '%';
         document.getElementById('aiBias').textContent = bias;
         document.getElementById('aiBias').className = 'big-bias ' + bias.toLowerCase();
         document.getElementById('aiPattern').textContent = pattern;
-
-        document.getElementById('aiEntry').value = entry;
-        document.getElementById('aiSL').value = sl;
-        document.getElementById('aiTP1').value = tp1;
-        document.getElementById('aiTP2').value = tp2;
-
         document.getElementById('aiSymbolDisplay').textContent = symbol;
         document.getElementById('aiStrategy').textContent = strategyNames[currentStrategy];
-        document.getElementById('aiRR').textContent = rr;
-        document.getElementById('aiSupport').textContent = support;
-        document.getElementById('aiResistance').textContent = resistance;
         document.getElementById('aiTF').textContent = tf;
         document.getElementById('aiComment').textContent = comment;
 
-        // Fibonacci
-        const fibs = calculateFibonacci(high, low, isBuy);
-        const fibGrid = document.getElementById('fibGrid');
-        fibGrid.innerHTML = '';
-        fibs.forEach(f => {
-          const div = document.createElement('div');
-          div.className = 'fib-item';
-          div.innerHTML = `<div class="fib-level">${f.name}</div><div class="fib-price">${f.price.toFixed(decimals)}</div>`;
-          fibGrid.appendChild(div);
-        });
-
-        lastAnalysis = { bias, entry, sl, tp1, tp2, conf, pattern, symbol };
+        lastAnalysis = { bias, conf, pattern, symbol };
 
         result.style.display = 'block';
         document.getElementById('executeBtn').style.display = 'block';
@@ -1067,22 +1004,27 @@
           : 'Connect MT Account to Execute';
 
         if (vibrationEnabled && navigator.vibrate) navigator.vibrate([70,40,70]);
-      }, 1600 + Math.random()*900);
+      }, 1500 + Math.random()*900);
     }
 
     function renderSymbols() {
       document.getElementById('symbolsLocked').style.display = 'none';
       const list = document.getElementById('symbolsList');
       list.style.display = 'block';
-      list.innerHTML = '';
-
-      SYMBOLS.forEach(s => {
-        const change = (Math.random() - 0.48) * (s.base * 0.004);
-        const price = s.base + change;
-        const pct = (change / s.base * 100);
+      list.innerHTML = `
+        <div style="font-size:13px;color:var(--text2);margin-bottom:12px;text-align:center;">
+          Live prices (simulated) • Type any symbol in AI Scan
+        </div>
+      `;
+      // Just show a few popular ones as examples
+      const examples = [
+        {symbol:'XAUUSD', name:'Gold'}, {symbol:'NAS100', name:'Nasdaq'},
+        {symbol:'US30', name:'Dow Jones'}, {symbol:'EURUSD', name:'Euro'},
+        {symbol:'BTCUSD', name:'Bitcoin'}, {symbol:'GBPUSD', name:'Pound'}
+      ];
+      examples.forEach(s => {
+        const change = (Math.random() - 0.5) * 0.8;
         const isUp = change >= 0;
-        const decimals = ['EURUSD','GBPUSD'].includes(s.symbol) ? 5 : (s.symbol === 'XAUUSD' || s.symbol === 'USDJPY' ? 2 : 1);
-
         const div = document.createElement('div');
         div.className = 'symbol-card';
         div.innerHTML = `
@@ -1091,22 +1033,11 @@
             <div class="desc">${s.name}</div>
           </div>
           <div class="symbol-price">
-            <div class="price-value">${price.toFixed(decimals)}</div>
-            <div class="price-change ${isUp ? 'price-up' : 'price-down'}">${isUp ? '+' : ''}${pct.toFixed(2)}%</div>
+            <div class="price-change ${isUp ? 'price-up' : 'price-down'}">${isUp ? '+' : ''}${change.toFixed(2)}%</div>
           </div>
         `;
         list.appendChild(div);
       });
-    }
-
-    function startPriceUpdates() {
-      if (priceInterval) clearInterval(priceInterval);
-      if (!mtConnected) return;
-      priceInterval = setInterval(() => {
-        if (document.getElementById('page-symbols').classList.contains('active')) {
-          renderSymbols();
-        }
-      }, 2500);
     }
 
     function connectMT() {
@@ -1121,15 +1052,10 @@
       mtConnected = true;
       const mockBalance = (7500 + Math.random()*15000).toFixed(2);
       const mockEquity = (parseFloat(mockBalance) + (Math.random()*500-200)).toFixed(2);
-      const data = {
-        apiKey, login, server,
-        balance: mockBalance + ' USD',
-        equity: mockEquity + ' USD'
-      };
+      const data = { apiKey, login, server, balance: mockBalance + ' USD', equity: mockEquity + ' USD' };
       localStorage.setItem('eahost_mt', JSON.stringify(data));
       updateMtUI(data);
       renderSymbols();
-      startPriceUpdates();
       if (lastAnalysis) {
         document.getElementById('executeBtn').disabled = false;
         document.getElementById('executeBtn').textContent = 'Execute Trade';
@@ -1140,7 +1066,6 @@
     function disconnectMT() {
       mtConnected = false;
       localStorage.removeItem('eahost_mt');
-      if (priceInterval) clearInterval(priceInterval);
       document.getElementById('mtStatus').textContent = 'MT Offline';
       document.getElementById('mtStatus').classList.add('offline');
       document.getElementById('homeMtStatus').textContent = 'Offline';
@@ -1164,24 +1089,13 @@
       }
       if (!lastAnalysis) return;
 
-      const symbol = document.getElementById('aiSymbolDisplay').textContent;
-      const entry = parseFloat(document.getElementById('aiEntry').value);
-      const sl = parseFloat(document.getElementById('aiSL').value);
-      const tp1 = parseFloat(document.getElementById('aiTP1').value);
-      const tp2 = parseFloat(document.getElementById('aiTP2').value);
-
-      lastAnalysis.symbol = symbol;
-      lastAnalysis.entry = entry;
-      lastAnalysis.sl = sl;
-      lastAnalysis.tp1 = tp1;
-      lastAnalysis.tp2 = tp2;
-
       const a = lastAnalysis;
       document.getElementById('modalText').innerHTML =
-        `<strong>${a.bias}</strong> <strong>${a.symbol}</strong> @ <strong>${a.entry}</strong><br>
-         SL: ${a.sl} &nbsp;|&nbsp; TP1: ${a.tp1}<br>
+        `<strong>${a.bias}</strong> <strong>${a.symbol}</strong><br>
+         Pattern: ${a.pattern}<br>
          Lot: <strong>${lotSize.toFixed(2)}</strong> × <strong>${numTrades}</strong> trade(s)<br>
-         Confidence: ${a.conf}%`;
+         Confidence: ${a.conf}%<br><br>
+         <span style="font-size:12px;opacity:0.8;">You will set SL/TP manually on MetaTrader</span>`;
       document.getElementById('executeModal').style.display = 'flex';
     }
 
@@ -1193,7 +1107,7 @@
       closeExecuteModal();
       const a = lastAnalysis;
       setTimeout(() => {
-        alert(`✅ ${numTrades} × ${lotSize.toFixed(2)} lot ${a.bias} ${a.symbol} executed (simulated)\n\nEntry: ${a.entry}\nSL: ${a.sl}\nTP1: ${a.tp1}`);
+        alert(`✅ ${numTrades} × ${lotSize.toFixed(2)} lot ${a.bias} ${a.symbol} sent (simulated)\n\nNo SL/TP was attached — set them manually on MetaTrader 5.`);
         if (vibrationEnabled && navigator.vibrate) navigator.vibrate([100,50,100,50,100]);
       }, 500);
     }
