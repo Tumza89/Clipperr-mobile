@@ -28,16 +28,14 @@
       --purple: #a855f7;
       --purple-glow: rgba(168, 85, 247, 0.35);
     }
-    body.light {
-      --bg: #f2f4f7;
-      --card: #ffffff;
-      --border: #e0e0e0;
-      --text: #111111;
-      --text2: #666666;
-      --accent: #00c853;
-      --purple: #7c3aed;
-      --purple-glow: rgba(124, 58, 237, 0.25);
-    }
+
+    /* Colour themes */
+    body.theme-blue   { --accent: #3b82f6; --purple: #3b82f6; --purple-glow: rgba(59,130,246,0.35); }
+    body.theme-green  { --accent: #00ff88; --purple: #00ff88; --purple-glow: rgba(0,255,136,0.35); }
+    body.theme-red    { --accent: #ef4444; --purple: #ef4444; --purple-glow: rgba(239,68,68,0.35); }
+    body.theme-purple { --accent: #a855f7; --purple: #a855f7; --purple-glow: rgba(168,85,247,0.35); }
+    body.theme-orange { --accent: #f97316; --purple: #f97316; --purple-glow: rgba(249,115,22,0.35); }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: var(--bg);
@@ -45,7 +43,7 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       min-height: 100vh;
       padding-bottom: 95px;
-      transition: background 0.3s, color 0.3s;
+      transition: background 0.4s, color 0.4s;
     }
 
     .header {
@@ -57,7 +55,7 @@
     .logo-area { display: flex; align-items: center; gap: 10px; }
     .logo-icon {
       width: 36px; height: 36px;
-      background: linear-gradient(135deg, #00ff88, #00ccff);
+      background: linear-gradient(135deg, var(--accent), #00ccff);
       border-radius: 11px;
       display: flex; align-items: center; justify-content: center;
       font-weight: 900; font-size: 15px; color: #000;
@@ -78,23 +76,26 @@
     .page { display: none; padding: 16px; }
     .page.active { display: block; }
 
-    /* HOME */
+    /* ===== HOME PAGE ===== */
     .home-hero { 
       text-align: center; 
-      padding: 40px 10px 20px; 
-      min-height: 70vh;
+      padding: 20px 0 30px; 
+      min-height: 75vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
     }
     .bot-avatar {
-      width: 180px; height: 180px; border-radius: 50%; object-fit: cover;
-      border: 3px solid transparent;
-      background: linear-gradient(var(--bg), var(--bg)) padding-box,
-                  linear-gradient(135deg, #00ff88, #a855f7) border-box;
-      box-shadow: 0 0 60px rgba(168, 85, 247, 0.35);
-      margin: 0 auto 22px; display: block;
+      width: 92vw;
+      max-width: 380px;
+      height: auto;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border-radius: 28px;
+      box-shadow: 0 0 60px var(--purple-glow);
+      margin: 0 auto 28px;
+      display: block;
     }
     .robot-name { 
       font-size: 26px; 
@@ -107,22 +108,43 @@
       color: var(--text2); 
       margin-bottom: 40px; 
     }
+
+    /* Triangle / Square Start button */
     .start-btn {
-      width: 220px;
-      padding: 16px 0;
-      border-radius: 50px;
-      font-weight: 800;
-      font-size: 17px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
       border: none;
       cursor: pointer;
-      background: linear-gradient(90deg, #00ff88, #00ccff);
+      background: linear-gradient(135deg, var(--accent), #00ccff);
       color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 30px rgba(0,255,136,0.3);
       transition: 0.25s;
-      box-shadow: 0 8px 25px rgba(0,255,136,0.25);
+      position: relative;
     }
+    .start-btn .icon-play {
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 14px 0 14px 24px;
+      border-color: transparent transparent transparent #000;
+      margin-left: 6px;
+    }
+    .start-btn .icon-stop {
+      width: 22px;
+      height: 22px;
+      background: #000;
+      border-radius: 3px;
+      display: none;
+    }
+    .start-btn.stop .icon-play { display: none; }
+    .start-btn.stop .icon-stop { display: block; }
     .start-btn.stop {
-      background: linear-gradient(90deg, #ff3b30, #ff9500);
-      box-shadow: 0 8px 25px rgba(255,59,48,0.25);
+      background: linear-gradient(135deg, #ff3b30, #ff9500);
+      box-shadow: 0 8px 30px rgba(255,59,48,0.35);
     }
 
     /* Scanner */
@@ -176,7 +198,7 @@
       font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 8px;
     }
     .scan-btn {
-      background: linear-gradient(90deg, #00ff88, #00ccff); color: #000;
+      background: linear-gradient(90deg, var(--accent), #00ccff); color: #000;
     }
     .scan-btn:disabled { opacity: 0.4; cursor: not-allowed; }
     .execute-btn {
@@ -293,40 +315,10 @@
       padding: 0 8px;
     }
 
-    .symbols-locked { text-align: center; padding: 50px 20px; color: var(--text2); }
-    .symbols-locked .icon { font-size: 42px; margin-bottom: 12px; }
-    .symbol-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 16px; padding: 14px 16px; margin-bottom: 10px;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .symbol-left .name { font-size: 15px; font-weight: 700; }
-    .symbol-left .desc { font-size: 12px; color: var(--text2); margin-top: 2px; }
-    .price-change { font-size: 12px; }
-    .price-up { color: #00ff88; }
-    .price-down { color: #ff3b30; }
-
-    .strategy-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 16px; padding: 16px; margin-bottom: 10px; cursor: pointer;
-    }
-    .strategy-card.active {
-      border-color: var(--accent); background: rgba(0,255,136,0.08);
-    }
-    .strategy-top {
-      display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;
-    }
-    .strategy-name { font-size: 15px; font-weight: 700; }
-    .strategy-badge {
-      font-size: 11px; font-weight: 700; padding: 3px 9px;
-      border-radius: 20px; background: rgba(0,255,136,0.15); color: var(--accent);
-    }
-    .strategy-desc { font-size: 12.5px; color: var(--text2); line-height: 1.4; }
-
     .form-group { margin-bottom: 14px; }
     .form-label { display: block; font-size: 13px; color: var(--text2); margin-bottom: 6px; }
     .connect-btn {
-      width: 100%; background: linear-gradient(90deg, #00ff88, #00ccff);
+      width: 100%; background: linear-gradient(90deg, var(--accent), #00ccff);
       color: #000; border: none; padding: 15px; border-radius: 14px;
       font-weight: 800; font-size: 15px; cursor: pointer;
     }
@@ -345,29 +337,13 @@
     }
     .info-row:last-child { border-bottom: none; }
     .info-label { color: var(--text2); }
-    .setting-item {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 16px; margin-bottom: 12px;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .setting-title { font-weight: 600; }
-    .toggle {
-      width: 50px; height: 28px; background: #333; border-radius: 20px;
-      position: relative; cursor: pointer;
-    }
-    body.light .toggle { background: #ccc; }
-    .toggle.active { background: #00ff88; }
-    .toggle::after {
-      content: ''; width: 22px; height: 22px; background: white;
-      border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: 0.2s;
-    }
-    .toggle.active::after { left: 25px; }
     .note {
       font-size: 12px; color: var(--text2); line-height: 1.45;
       margin-top: 12px; padding: 12px;
       background: rgba(255,255,255,0.03); border-radius: 10px;
     }
 
+    /* Bottom Nav - 3 items only */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
       background: #0c0c12;
@@ -378,7 +354,7 @@
     .nav-item {
       display: flex; flex-direction: column; align-items: center;
       gap: 5px; color: #6b6b7b; font-size: 11px; font-weight: 500;
-      background: none; border: none; position: relative; min-width: 60px;
+      background: none; border: none; position: relative; min-width: 70px;
     }
     .nav-item.active { color: var(--purple); }
     .nav-icon-wrap {
@@ -417,11 +393,11 @@
       flex: 1; padding: 12px; border-radius: 12px;
       font-weight: 700; border: none; cursor: pointer;
     }
-    .modal-confirm { background: linear-gradient(90deg, #00ff88, #00ccff); color: #000; }
+    .modal-confirm { background: linear-gradient(90deg, var(--accent), #00ccff); color: #000; }
     .modal-cancel { background: var(--card); border: 1px solid var(--border); color: var(--text); }
   </style>
 </head>
-<body>
+<body class="theme-green">
 
   <div class="header">
     <div class="logo-area">
@@ -434,22 +410,22 @@
   <!-- HOME -->
   <div class="page active" id="page-home">
     <div class="home-hero">
-      <!-- Robot picture only - no emoji -->
       <img src="MarketAvengerProjpg.jpeg" alt="Market Avenger Pro" class="bot-avatar" />
-
       <div class="robot-name">Market Avenger Pro</div>
       <div class="home-tagline">AI Chart Analysis • Smart Money Execution</div>
 
-      <button class="start-btn" id="startStopBtn" onclick="toggleStartStop()">Start</button>
+      <button class="start-btn" id="startStopBtn" onclick="toggleStartStop()">
+        <div class="icon-play"></div>
+        <div class="icon-stop"></div>
+      </button>
     </div>
   </div>
 
-  <!-- AI SCAN -->
+  <!-- SCANNER -->
   <div class="page" id="page-scanner">
     <div class="scanner-box">
       <div style="font-size:15px;font-weight:700;margin-bottom:14px;text-align:center;">AI Chart Scanner</div>
 
-      <!-- Trading Mode -->
       <div style="font-size:13px;color:var(--text2);margin-bottom:8px;">Trading Mode</div>
       <div class="trading-mode-toggle">
         <div class="trading-mode-btn active" id="modeScalping" onclick="setTradingMode('scalping')">Scalping<br><small>1–15m</small></div>
@@ -457,7 +433,6 @@
         <div class="trading-mode-btn" id="modeSwing" onclick="setTradingMode('swing')">Swing<br><small>4H–Daily</small></div>
       </div>
 
-      <!-- Analysis Mode -->
       <div class="mode-toggle">
         <div class="mode-btn" id="modeSingle" onclick="setMode('single')">Single Strategy</div>
         <div class="mode-btn active" id="modeConfluence" onclick="setMode('confluence')">Confluence Mode</div>
@@ -524,10 +499,7 @@
       <div class="ai-comment" id="aiComment">—</div>
 
       <div class="fib-section">
-        <div class="fib-title">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 16l4-8 4 4 5-9"/></svg>
-          Key Fibonacci Ratios
-        </div>
+        <div class="fib-title">Key Fibonacci Ratios</div>
         <div class="fib-grid">
           <div class="fib-item"><div class="fib-level">23.6%</div></div>
           <div class="fib-item"><div class="fib-level">38.2%</div></div>
@@ -562,76 +534,7 @@
     </div>
   </div>
 
-  <!-- SYMBOLS -->
-  <div class="page" id="page-symbols">
-    <div id="symbolsLocked" class="symbols-locked">
-      <div class="icon">🔗</div>
-      <div style="font-size:16px;font-weight:600;margin-bottom:6px;">Connect MetaTrader for symbols</div>
-      <div style="font-size:13px;">Live prices appear only after your account is connected via api2trade.</div>
-      <button style="margin-top:20px;max-width:220px;background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;border:none;padding:14px;border-radius:14px;font-weight:700;" onclick="showPage('account', document.querySelectorAll('.nav-item')[4])">
-        Go to Account
-      </button>
-    </div>
-    <div id="symbolsList" style="display:none;"></div>
-  </div>
-
-  <!-- STRATEGIES -->
-  <div class="page" id="page-strategies">
-    <div class="strategy-card active" data-strat="smc" onclick="selectStrategy(this,'smc')">
-      <div class="strategy-top"><div class="strategy-name">Smart Money Concepts (SMC)</div><div class="strategy-badge">Active</div></div>
-      <div class="strategy-desc">Order blocks, BOS, CHoCH, liquidity grabs and institutional footprints.</div>
-    </div>
-    <div class="strategy-card" data-strat="ict" onclick="selectStrategy(this,'ict')">
-      <div class="strategy-top"><div class="strategy-name">ICT Concepts</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">Market structure, fair value gaps, killzones and power of three.</div>
-    </div>
-    <div class="strategy-card" data-strat="orderblocks" onclick="selectStrategy(this,'orderblocks')">
-      <div class="strategy-top"><div class="strategy-name">Order Blocks</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">Institutional order blocks and mitigation zones.</div>
-    </div>
-    <div class="strategy-card" data-strat="fvg" onclick="selectStrategy(this,'fvg')">
-      <div class="strategy-top"><div class="strategy-name">Fair Value Gaps</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">Imbalance and inefficiency fills.</div>
-    </div>
-    <div class="strategy-card" data-strat="liquidity" onclick="selectStrategy(this,'liquidity')">
-      <div class="strategy-top"><div class="strategy-name">Liquidity Sweeps</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">Stop hunts and liquidity runs before reversals.</div>
-    </div>
-    <div class="strategy-card" data-strat="supplydemand" onclick="selectStrategy(this,'supplydemand')">
-      <div class="strategy-top"><div class="strategy-name">Supply & Demand</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">Fresh supply and demand zones.</div>
-    </div>
-    <div class="strategy-card" data-strat="wyckoff" onclick="selectStrategy(this,'wyckoff')">
-      <div class="strategy-top"><div class="strategy-name">Wyckoff Method</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">Accumulation, distribution, springs and upthrusts.</div>
-    </div>
-    <div class="strategy-card" data-strat="harmonic" onclick="selectStrategy(this,'harmonic')">
-      <div class="strategy-top"><div class="strategy-name">Harmonic Patterns</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">Gartley, Bat, Butterfly, Crab patterns.</div>
-    </div>
-    <div class="strategy-card" data-strat="elliott" onclick="selectStrategy(this,'elliott')">
-      <div class="strategy-top"><div class="strategy-name">Elliott Wave</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">Impulse and corrective waves.</div>
-    </div>
-    <div class="strategy-card" data-strat="mss" onclick="selectStrategy(this,'mss')">
-      <div class="strategy-top"><div class="strategy-name">Market Structure Shift</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">Clear breaks and shifts in structure.</div>
-    </div>
-    <div class="strategy-card" data-strat="volumeprofile" onclick="selectStrategy(this,'volumeprofile')">
-      <div class="strategy-top"><div class="strategy-name">Volume Profile</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">High volume nodes and POC.</div>
-    </div>
-    <div class="strategy-card" data-strat="priceaction" onclick="selectStrategy(this,'priceaction')">
-      <div class="strategy-top"><div class="strategy-name">Classic Price Action</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">Pin bars, engulfing, inside bars.</div>
-    </div>
-    <div class="strategy-card" data-strat="breaker" onclick="selectStrategy(this,'breaker')">
-      <div class="strategy-top"><div class="strategy-name">Breaker Blocks</div><div class="strategy-badge" style="display:none;">Active</div></div>
-      <div class="strategy-desc">Failed order blocks that flip.</div>
-    </div>
-  </div>
-
-  <!-- ACCOUNT -->
+  <!-- METATRADER (was Account) -->
   <div class="page" id="page-account">
     <div class="account-info" id="accountInfo">
       <div class="info-row"><span class="info-label">Status</span><span class="info-value" style="color:var(--accent);">Connected</span></div>
@@ -662,42 +565,27 @@
       <div class="note">Uses <strong>api2trade.com</strong>. Route live requests through your own backend for security.</div>
     </div>
     <button class="disconnect-btn" id="disconnectBtn" style="display:none;" onclick="disconnectMT()">Disconnect Account</button>
-    <div style="margin-top:24px;">
-      <div class="setting-item">
-        <div class="setting-title">Dark Mode</div>
-        <div class="toggle active" id="themeToggle" onclick="toggleTheme()"></div>
-      </div>
-      <div class="setting-item">
-        <div class="setting-title">Vibration</div>
-        <div class="toggle active" id="vibToggle" onclick="toggleVib()"></div>
-      </div>
-    </div>
-    <div style="margin-top:20px;font-size:12px;color:var(--text2);text-align:center;">
-      Market Avenger Pro • Confluence Mode
-    </div>
   </div>
 
-  <!-- Bottom Nav -->
+  <!-- Bottom Nav (3 items only) -->
   <div class="bottom-nav">
     <button class="nav-item active" onclick="showPage('home', this)">
-      <div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
+      <div class="nav-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+      </div>
       <div>Home</div>
     </button>
     <button class="nav-item" onclick="showPage('scanner', this)">
-      <div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></div>
-      <div>AI Scan</div>
-    </button>
-    <button class="nav-item" onclick="showPage('symbols', this)">
-      <div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div>
-      <div>Symbols</div>
-    </button>
-    <button class="nav-item" onclick="showPage('strategies', this)">
-      <div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 014 4v2a4 4 0 01-8 0V6a4 4 0 014-4z"/><path d="M6 14h12v6a2 2 0 01-2 2H8a2 2 0 01-2-2v-6z"/></svg></div>
-      <div>Strategies</div>
+      <div class="nav-icon-wrap">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </div>
+      <div>Scanner</div>
     </button>
     <button class="nav-item" onclick="showPage('account', this)">
-      <div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
-      <div>Account</div>
+      <div class="nav-icon-wrap">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </div>
+      <div>MetaTrader</div>
     </button>
   </div>
 
@@ -716,13 +604,20 @@
     let selectedImage = null;
     let currentStrategy = 'smc';
     let scanMode = 'confluence';
-    let tradingMode = 'scalping'; // scalping | day | swing
+    let tradingMode = 'scalping';
     let mtConnected = false;
     let lastAnalysis = null;
-    let vibrationEnabled = true;
     let lotSize = 0.01;
     let numTrades = 1;
     let isStarted = false;
+
+    // Colour themes
+    const themes = ['theme-blue', 'theme-green', 'theme-red', 'theme-purple', 'theme-orange'];
+    let currentThemeIndex = 1; // start on green
+
+    // Double-shake detection
+    let lastShakeTime = 0;
+    let shakeCount = 0;
 
     const saved = localStorage.getItem('eahost_mt');
     if (saved) {
@@ -730,20 +625,64 @@
         const data = JSON.parse(saved);
         mtConnected = true;
         updateMtUI(data);
-        renderSymbols();
       } catch(e) {}
+    }
+
+    // Request notification permission early
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+
+    // Pause notification when leaving the app
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        if (Notification.permission === 'granted') {
+          new Notification('Market Avenger Pro', {
+            body: 'Market Avenger Pro paused',
+            icon: 'iconjpg.jpeg',
+            badge: 'iconjpg.jpeg'
+          });
+        }
+      }
+    });
+
+    // Shake to change colour
+    if (window.DeviceMotionEvent) {
+      window.addEventListener('devicemotion', (e) => {
+        const acc = e.accelerationIncludingGravity;
+        if (!acc) return;
+        const force = Math.abs(acc.x) + Math.abs(acc.y) + Math.abs(acc.z);
+        if (force > 25) {
+          const now = Date.now();
+          if (now - lastShakeTime > 800) {
+            shakeCount = 1;
+          } else {
+            shakeCount++;
+          }
+          lastShakeTime = now;
+
+          if (shakeCount >= 2) {
+            shakeCount = 0;
+            cycleTheme();
+          }
+        }
+      });
+    }
+
+    function cycleTheme() {
+      document.body.classList.remove(...themes);
+      currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+      document.body.classList.add(themes[currentThemeIndex]);
     }
 
     function toggleStartStop() {
       const btn = document.getElementById('startStopBtn');
       if (!isStarted) {
         isStarted = true;
-        btn.textContent = 'Stop';
         btn.classList.add('stop');
         showPage('scanner', document.querySelectorAll('.nav-item')[1]);
       } else {
         isStarted = false;
-        btn.textContent = 'Start';
         btn.classList.remove('stop');
         showPage('home', document.querySelectorAll('.nav-item')[0]);
       }
@@ -775,39 +714,11 @@
       document.getElementById('accEquity').textContent = data.equity || '—';
     }
 
-    function toggleTheme() {
-      document.body.classList.toggle('light');
-      document.getElementById('themeToggle').classList.toggle('active');
-    }
-    function toggleVib() {
-      vibrationEnabled = !vibrationEnabled;
-      document.getElementById('vibToggle').classList.toggle('active');
-    }
-
     function showPage(name, btn) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById('page-' + name).classList.add('active');
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
       if (btn) btn.classList.add('active');
-      
-      if (name === 'symbols') {
-        if (mtConnected) renderSymbols();
-        else {
-          document.getElementById('symbolsLocked').style.display = 'block';
-          document.getElementById('symbolsList').style.display = 'none';
-        }
-      }
-    }
-
-    function selectStrategy(el, strat) {
-      document.querySelectorAll('.strategy-card').forEach(c => {
-        c.classList.remove('active');
-        c.querySelector('.strategy-badge').style.display = 'none';
-      });
-      el.classList.add('active');
-      el.querySelector('.strategy-badge').style.display = 'inline-block';
-      currentStrategy = strat;
-      document.getElementById('strategySelect').value = strat;
     }
 
     function checkScanReady() {
@@ -875,36 +786,30 @@
           marketType: 'High Volatility Market',
           bias: 'WAIT',
           conf: 45 + Math.floor(Math.random()*15),
-          confluences: [
-            'High volatility detected',
-            'No clear structure yet',
-            'Waiting for confirmation candle',
-            'Avoid entering until volatility contracts'
-          ],
-          comment: 'Market is currently too volatile for ' + getTradingModeLabel() + '. Wait for a clear break of structure.',
+          confluences: ['High volatility detected','No clear structure yet','Waiting for confirmation'],
+          comment: 'Market is currently too volatile. Wait for clearer structure.',
           tf: getTimeframeForMode()
         };
       }
 
       const pool = {
-        smc: ['Bullish Order Block', 'Bearish Order Block', 'Break of Structure (BOS)', 'Change of Character (CHoCH)', 'Equal Highs/Lows Liquidity'],
-        ict: ['Fair Value Gap', 'Killzone Entry', 'Power of Three', 'Judas Swing', 'OTE Retracement'],
-        orderblocks: ['Fresh Bullish Order Block', 'Fresh Bearish Order Block', 'Mitigation Block'],
+        smc: ['Bullish Order Block', 'Bearish Order Block', 'Break of Structure (BOS)', 'Change of Character (CHoCH)'],
+        ict: ['Fair Value Gap', 'Killzone Entry', 'Power of Three', 'OTE Retracement'],
+        orderblocks: ['Fresh Bullish Order Block', 'Fresh Bearish Order Block'],
         breaker: ['Bullish Breaker Block', 'Bearish Breaker Block'],
-        fvg: ['Bullish Fair Value Gap', 'Bearish Fair Value Gap', 'Imbalance Fill'],
+        fvg: ['Bullish Fair Value Gap', 'Bearish Fair Value Gap'],
         mss: ['Bullish Market Structure Shift', 'Bearish Market Structure Shift'],
-        harmonic: ['Gartley Pattern', 'Bat Pattern', 'Butterfly Pattern', 'Crab Pattern'],
-        wyckoff: ['Accumulation Phase', 'Distribution Phase', 'Spring + Test', 'Upthrust'],
-        supplydemand: ['Fresh Demand Zone', 'Fresh Supply Zone', 'Rally-Base-Rally', 'Drop-Base-Drop'],
-        liquidity: ['Buy-side Liquidity Sweep', 'Sell-side Liquidity Sweep', 'Stop Hunt'],
-        volumeprofile: ['High Volume Node Reaction', 'POC Rejection', 'Value Area Break'],
-        priceaction: ['Bullish Engulfing', 'Bearish Pin Bar', 'Inside Bar Breakout']
+        harmonic: ['Gartley Pattern', 'Bat Pattern', 'Butterfly Pattern'],
+        wyckoff: ['Accumulation Phase', 'Distribution Phase', 'Spring + Test'],
+        supplydemand: ['Fresh Demand Zone', 'Fresh Supply Zone'],
+        liquidity: ['Buy-side Liquidity Sweep', 'Sell-side Liquidity Sweep'],
+        volumeprofile: ['High Volume Node Reaction', 'POC Rejection'],
+        priceaction: ['Bullish Engulfing', 'Bearish Pin Bar']
       };
 
       let selected = [];
       const isBuy = Math.random() > 0.42;
       const direction = isBuy ? 'Bullish' : 'Bearish';
-
       selected.push(`Trend: ${direction} (Higher Timeframe)`);
 
       const available = chosen.strategies.filter(s => s !== 'wait');
@@ -912,41 +817,26 @@
       const count = 3 + Math.floor(Math.random() * 3);
 
       for (let i = 0; i < count && i < shuffled.length; i++) {
-        const strat = shuffled[i];
-        const options = pool[strat] || [];
-        let pick = options.filter(o => 
-          (isBuy && /bull|demand|accumulation|spring/i.test(o)) ||
-          (!isBuy && /bear|supply|distribution|upthrust/i.test(o))
-        );
-        if (pick.length === 0) pick = options;
-        if (pick.length > 0) {
-          selected.push(pick[Math.floor(Math.random() * pick.length)]);
-        }
+        const options = pool[shuffled[i]] || [];
+        if (options.length) selected.push(options[Math.floor(Math.random() * options.length)]);
       }
 
       selected = [...new Set(selected)].slice(0, 6);
       const conf = Math.min(98, 72 + selected.length * 5 + Math.floor(Math.random() * 6));
-
-      const comments = [
-        `Strong confluence detected for ${getTradingModeLabel()}. ${selected.length} high-probability factors are aligned.`,
-        `Market structure supports a ${direction.toLowerCase()} move on the ${getTradingModeLabel()} timeframe.`,
-        `Multiple strategies pointing in the same direction. High-quality ${tradingMode} setup.`
-      ];
 
       return {
         marketType: chosen.type,
         bias: isBuy ? 'BUY' : 'SELL',
         conf,
         confluences: selected,
-        comment: comments[Math.floor(Math.random() * comments.length)],
+        comment: `Strong confluence for ${getTradingModeLabel()}. High-probability setup.`,
         tf: getTimeframeForMode()
       };
     }
 
     function runAIScan() {
       const symbol = document.getElementById('manualSymbol').value.trim().toUpperCase();
-      if (!symbol) { alert('Please type a symbol first'); return; }
-      if (!selectedImage) return;
+      if (!symbol || !selectedImage) return;
 
       const btn = document.getElementById('scanBtn');
       const spinner = document.getElementById('spinner');
@@ -961,21 +851,16 @@
         spinner.style.display = 'none';
         btn.disabled = false;
 
-        let analysis;
-
-        if (scanMode === 'confluence') {
-          analysis = runConfluenceScan(symbol);
-        } else {
-          const isBuy = Math.random() > 0.45;
-          analysis = {
-            marketType: 'Single Strategy Mode',
-            bias: isBuy ? 'BUY' : 'SELL',
-            conf: 76 + Math.floor(Math.random() * 15),
-            confluences: [`${currentStrategy.toUpperCase()} signal detected`],
-            comment: 'Single strategy analysis completed for ' + getTradingModeLabel(),
-            tf: getTimeframeForMode()
-          };
-        }
+        let analysis = scanMode === 'confluence' 
+          ? runConfluenceScan(symbol)
+          : {
+              marketType: 'Single Strategy Mode',
+              bias: Math.random() > 0.45 ? 'BUY' : 'SELL',
+              conf: 76 + Math.floor(Math.random() * 15),
+              confluences: [`${currentStrategy.toUpperCase()} signal`],
+              comment: 'Single strategy analysis completed.',
+              tf: getTimeframeForMode()
+            };
 
         document.getElementById('aiConfidence').textContent = analysis.conf + '%';
         document.getElementById('marketType').textContent = analysis.marketType;
@@ -997,21 +882,11 @@
         });
 
         lastAnalysis = { ...analysis, symbol };
-
         result.style.display = 'block';
         document.getElementById('executeBtn').style.display = analysis.bias === 'WAIT' ? 'none' : 'block';
         document.getElementById('executeBtn').disabled = !mtConnected;
         document.getElementById('executeBtn').textContent = mtConnected ? 'Execute Trade' : 'Connect MT Account to Execute';
-
-        if (vibrationEnabled && navigator.vibrate) navigator.vibrate([70,40,70]);
-      }, 1800 + Math.random() * 1000);
-    }
-
-    function renderSymbols() {
-      document.getElementById('symbolsLocked').style.display = 'none';
-      const list = document.getElementById('symbolsList');
-      list.style.display = 'block';
-      list.innerHTML = `<div style="font-size:13px;color:var(--text2);margin-bottom:12px;text-align:center;">Type any symbol in AI Scan</div>`;
+      }, 1800 + Math.random() * 800);
     }
 
     function connectMT() {
@@ -1025,7 +900,6 @@
       const data = { apiKey, login, server, balance: mockBalance + ' USD', equity: mockBalance + ' USD' };
       localStorage.setItem('eahost_mt', JSON.stringify(data));
       updateMtUI(data);
-      renderSymbols();
       if (lastAnalysis && lastAnalysis.bias !== 'WAIT') {
         document.getElementById('executeBtn').disabled = false;
         document.getElementById('executeBtn').textContent = 'Execute Trade';
@@ -1041,14 +915,12 @@
       document.getElementById('accountInfo').style.display = 'none';
       document.getElementById('connectForm').style.display = 'block';
       document.getElementById('disconnectBtn').style.display = 'none';
-      document.getElementById('symbolsLocked').style.display = 'block';
-      document.getElementById('symbolsList').style.display = 'none';
     }
 
     function openExecuteModal() {
       if (!mtConnected) {
         alert('Please connect your MetaTrader account first.');
-        showPage('account', document.querySelectorAll('.nav-item')[4]);
+        showPage('account', document.querySelectorAll('.nav-item')[2]);
         return;
       }
       if (!lastAnalysis || lastAnalysis.bias === 'WAIT') return;
@@ -1067,8 +939,7 @@
       const a = lastAnalysis;
       setTimeout(() => {
         alert(`✅ ${numTrades} × ${lotSize.toFixed(2)} lot ${a.bias} ${a.symbol} sent (simulated)`);
-        if (vibrationEnabled && navigator.vibrate) navigator.vibrate([100,50,100,50,100]);
-      }, 500);
+      }, 400);
     }
   </script>
 </body>
