@@ -89,19 +89,12 @@
       align-items: center;
     }
     .bot-avatar {
-      width: 170px; height: 170px; border-radius: 50%; object-fit: cover;
+      width: 180px; height: 180px; border-radius: 50%; object-fit: cover;
       border: 3px solid transparent;
       background: linear-gradient(var(--bg), var(--bg)) padding-box,
                   linear-gradient(135deg, #00ff88, #a855f7) border-box;
       box-shadow: 0 0 60px rgba(168, 85, 247, 0.35);
       margin: 0 auto 22px; display: block;
-    }
-    .bot-fallback {
-      width: 170px; height: 170px; border-radius: 50%; margin: 0 auto 22px;
-      background: linear-gradient(135deg, #0a1a2a, #1a0a2a);
-      border: 3px solid var(--purple);
-      display: none; align-items: center; justify-content: center;
-      font-size: 70px; box-shadow: 0 0 50px var(--purple-glow);
     }
     .robot-name { 
       font-size: 26px; 
@@ -132,7 +125,7 @@
       box-shadow: 0 8px 25px rgba(255,59,48,0.25);
     }
 
-    /* Scanner + rest of styles */
+    /* Scanner */
     .scanner-box {
       background: var(--card); border: 1px solid var(--border);
       border-radius: 18px; padding: 18px; margin-bottom: 14px;
@@ -145,13 +138,15 @@
     .form-input:focus, .form-select:focus { border-color: var(--accent); }
     .form-input::placeholder { color: #666; }
 
-    .mode-toggle { display: flex; gap: 8px; margin-bottom: 14px; }
-    .mode-btn {
-      flex: 1; padding: 11px; border-radius: 12px; border: 1px solid var(--border);
-      background: var(--card); color: var(--text2); font-size: 13px; font-weight: 600;
+    .mode-toggle, .trading-mode-toggle {
+      display: flex; gap: 8px; margin-bottom: 14px;
+    }
+    .mode-btn, .trading-mode-btn {
+      flex: 1; padding: 11px 6px; border-radius: 12px; border: 1px solid var(--border);
+      background: var(--card); color: var(--text2); font-size: 12px; font-weight: 600;
       cursor: pointer; text-align: center; transition: 0.2s;
     }
-    .mode-btn.active {
+    .mode-btn.active, .trading-mode-btn.active {
       background: rgba(0,255,136,0.12);
       border-color: var(--accent);
       color: var(--accent);
@@ -439,9 +434,8 @@
   <!-- HOME -->
   <div class="page active" id="page-home">
     <div class="home-hero">
-      <img src="MarketAvengerProjpg.jpeg" alt="Market Avenger Pro" class="bot-avatar"
-           onerror="this.style.display='none'; document.getElementById('botFallback').style.display='flex';" />
-      <div class="bot-fallback" id="botFallback">🤖</div>
+      <!-- Robot picture only - no emoji -->
+      <img src="MarketAvengerProjpg.jpeg" alt="Market Avenger Pro" class="bot-avatar" />
 
       <div class="robot-name">Market Avenger Pro</div>
       <div class="home-tagline">AI Chart Analysis • Smart Money Execution</div>
@@ -455,6 +449,15 @@
     <div class="scanner-box">
       <div style="font-size:15px;font-weight:700;margin-bottom:14px;text-align:center;">AI Chart Scanner</div>
 
+      <!-- Trading Mode -->
+      <div style="font-size:13px;color:var(--text2);margin-bottom:8px;">Trading Mode</div>
+      <div class="trading-mode-toggle">
+        <div class="trading-mode-btn active" id="modeScalping" onclick="setTradingMode('scalping')">Scalping<br><small>1–15m</small></div>
+        <div class="trading-mode-btn" id="modeDay" onclick="setTradingMode('day')">Day Trading<br><small>15m–1H</small></div>
+        <div class="trading-mode-btn" id="modeSwing" onclick="setTradingMode('swing')">Swing<br><small>4H–Daily</small></div>
+      </div>
+
+      <!-- Analysis Mode -->
       <div class="mode-toggle">
         <div class="mode-btn" id="modeSingle" onclick="setMode('single')">Single Strategy</div>
         <div class="mode-btn active" id="modeConfluence" onclick="setMode('confluence')">Confluence Mode</div>
@@ -508,6 +511,10 @@
       <div class="ai-row">
         <span class="ai-label">Symbol</span>
         <span class="ai-value" id="aiSymbolDisplay" style="color:var(--accent);">—</span>
+      </div>
+      <div class="ai-row">
+        <span class="ai-label">Trading Mode</span>
+        <span class="ai-value" id="aiTradingMode">—</span>
       </div>
       <div class="ai-row">
         <span class="ai-label">Timeframe Hint</span>
@@ -709,6 +716,7 @@
     let selectedImage = null;
     let currentStrategy = 'smc';
     let scanMode = 'confluence';
+    let tradingMode = 'scalping'; // scalping | day | swing
     let mtConnected = false;
     let lastAnalysis = null;
     let vibrationEnabled = true;
@@ -739,6 +747,13 @@
         btn.classList.remove('stop');
         showPage('home', document.querySelectorAll('.nav-item')[0]);
       }
+    }
+
+    function setTradingMode(mode) {
+      tradingMode = mode;
+      document.getElementById('modeScalping').classList.toggle('active', mode === 'scalping');
+      document.getElementById('modeDay').classList.toggle('active', mode === 'day');
+      document.getElementById('modeSwing').classList.toggle('active', mode === 'swing');
     }
 
     function setMode(mode) {
@@ -829,6 +844,18 @@
       document.getElementById('tradesValue').textContent = numTrades;
     }
 
+    function getTimeframeForMode() {
+      if (tradingMode === 'scalping') return ['1m / 5m', '5m / 15m', '1m – 15m'][Math.floor(Math.random()*3)];
+      if (tradingMode === 'day') return ['15m / 30m', '15m / 1H', '30m / 1H'][Math.floor(Math.random()*3)];
+      return ['4H / Daily', '4H', 'Daily'][Math.floor(Math.random()*3)];
+    }
+
+    function getTradingModeLabel() {
+      if (tradingMode === 'scalping') return 'Scalping (1–15m)';
+      if (tradingMode === 'day') return 'Day Trading (15m–1H)';
+      return 'Swing Trading (4H–Daily)';
+    }
+
     function runConfluenceScan(symbol) {
       const regimes = [
         { type: 'Trending Market', weight: 0.38, strategies: ['smc','ict','orderblocks','breaker','fvg','mss'] },
@@ -854,8 +881,8 @@
             'Waiting for confirmation candle',
             'Avoid entering until volatility contracts'
           ],
-          comment: 'Market is currently too volatile. Best practice is to wait for a clear break of structure or a strong rejection before taking any trade.',
-          tf: 'Wait for lower timeframe confirmation'
+          comment: 'Market is currently too volatile for ' + getTradingModeLabel() + '. Wait for a clear break of structure.',
+          tf: getTimeframeForMode()
         };
       }
 
@@ -901,9 +928,9 @@
       const conf = Math.min(98, 72 + selected.length * 5 + Math.floor(Math.random() * 6));
 
       const comments = [
-        `Strong confluence detected across multiple institutional concepts. ${selected.length} high-probability factors are aligned.`,
-        `Market structure and liquidity conditions support a ${direction.toLowerCase()} continuation/reversal with high confidence.`,
-        `Multiple strategies are pointing in the same direction. This is a high-quality setup.`
+        `Strong confluence detected for ${getTradingModeLabel()}. ${selected.length} high-probability factors are aligned.`,
+        `Market structure supports a ${direction.toLowerCase()} move on the ${getTradingModeLabel()} timeframe.`,
+        `Multiple strategies pointing in the same direction. High-quality ${tradingMode} setup.`
       ];
 
       return {
@@ -912,7 +939,7 @@
         conf,
         confluences: selected,
         comment: comments[Math.floor(Math.random() * comments.length)],
-        tf: ['15m / 1H', '1H / 4H', '5m / 15m', '4H'][Math.floor(Math.random() * 4)]
+        tf: getTimeframeForMode()
       };
     }
 
@@ -945,8 +972,8 @@
             bias: isBuy ? 'BUY' : 'SELL',
             conf: 76 + Math.floor(Math.random() * 15),
             confluences: [`${currentStrategy.toUpperCase()} signal detected`],
-            comment: 'Single strategy analysis completed.',
-            tf: '15m / 1H'
+            comment: 'Single strategy analysis completed for ' + getTradingModeLabel(),
+            tf: getTimeframeForMode()
           };
         }
 
@@ -956,6 +983,7 @@
         document.getElementById('aiBias').className = 'big-bias ' + analysis.bias.toLowerCase();
         document.getElementById('aiPattern').textContent = analysis.bias === 'WAIT' ? 'No clear setup' : 'Confluence Setup';
         document.getElementById('aiSymbolDisplay').textContent = symbol;
+        document.getElementById('aiTradingMode').textContent = getTradingModeLabel();
         document.getElementById('aiTF').textContent = analysis.tf;
         document.getElementById('aiComment').textContent = analysis.comment;
 
@@ -1027,6 +1055,7 @@
       const a = lastAnalysis;
       document.getElementById('modalText').innerHTML =
         `<strong>${a.bias}</strong> <strong>${a.symbol}</strong><br>
+         Mode: ${getTradingModeLabel()}<br>
          Confidence: ${a.conf}%<br>
          Lot: <strong>${lotSize.toFixed(2)}</strong> × <strong>${numTrades}</strong><br><br>
          <span style="font-size:12px;opacity:0.8;">Set SL/TP manually on MetaTrader</span>`;
