@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   
-  <!-- Home Screen / PWA Icon -->
   <link rel="apple-touch-icon" href="iconjpg.jpeg">
   <link rel="apple-touch-icon" sizes="180x180" href="iconjpg.jpeg">
   <link rel="icon" type="image/jpeg" href="iconjpg.jpeg">
@@ -29,7 +28,6 @@
       --purple-glow: rgba(168, 85, 247, 0.35);
     }
 
-    /* Colour themes */
     body.theme-blue   { --accent: #3b82f6; --purple: #3b82f6; --purple-glow: rgba(59,130,246,0.35); }
     body.theme-green  { --accent: #00ff88; --purple: #00ff88; --purple-glow: rgba(0,255,136,0.35); }
     body.theme-red    { --accent: #ef4444; --purple: #ef4444; --purple-glow: rgba(239,68,68,0.35); }
@@ -76,7 +74,7 @@
     .page { display: none; padding: 16px; }
     .page.active { display: block; }
 
-    /* ===== HOME PAGE ===== */
+    /* HOME */
     .home-hero { 
       text-align: center; 
       padding: 20px 0 30px; 
@@ -100,8 +98,14 @@
     .robot-name { 
       font-size: 26px; 
       font-weight: 800; 
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       letter-spacing: 0.5px;
+    }
+    .powered-by {
+      font-size: 13px;
+      color: var(--text2);
+      margin-bottom: 28px;
+      font-weight: 500;
     }
     .home-tagline { 
       font-size: 14px; 
@@ -109,7 +113,6 @@
       margin-bottom: 40px; 
     }
 
-    /* Triangle / Square Start button */
     .start-btn {
       width: 80px;
       height: 80px;
@@ -147,7 +150,7 @@
       box-shadow: 0 8px 30px rgba(255,59,48,0.35);
     }
 
-    /* Scanner */
+    /* Scanner styles */
     .scanner-box {
       background: var(--card); border: 1px solid var(--border);
       border-radius: 18px; padding: 18px; margin-bottom: 14px;
@@ -278,7 +281,6 @@
     }
     .fib-title {
       font-size: 14px; font-weight: 700; margin-bottom: 10px;
-      display: flex; align-items: center; gap: 6px;
     }
     .fib-grid {
       display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
@@ -343,7 +345,7 @@
       background: rgba(255,255,255,0.03); border-radius: 10px;
     }
 
-    /* Bottom Nav - 3 items only */
+    /* Bottom Nav */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
       background: #0c0c12;
@@ -412,6 +414,7 @@
     <div class="home-hero">
       <img src="MarketAvengerProjpg.jpeg" alt="Market Avenger Pro" class="bot-avatar" />
       <div class="robot-name">Market Avenger Pro</div>
+      <div class="powered-by">Powered by: Tumelo Traders</div>
       <div class="home-tagline">AI Chart Analysis • Smart Money Execution</div>
 
       <button class="start-btn" id="startStopBtn" onclick="toggleStartStop()">
@@ -534,7 +537,7 @@
     </div>
   </div>
 
-  <!-- METATRADER (was Account) -->
+  <!-- METATRADER -->
   <div class="page" id="page-account">
     <div class="account-info" id="accountInfo">
       <div class="info-row"><span class="info-label">Status</span><span class="info-value" style="color:var(--accent);">Connected</span></div>
@@ -567,7 +570,7 @@
     <button class="disconnect-btn" id="disconnectBtn" style="display:none;" onclick="disconnectMT()">Disconnect Account</button>
   </div>
 
-  <!-- Bottom Nav (3 items only) -->
+  <!-- Bottom Nav -->
   <div class="bottom-nav">
     <button class="nav-item active" onclick="showPage('home', this)">
       <div class="nav-icon-wrap">
@@ -583,7 +586,8 @@
     </button>
     <button class="nav-item" onclick="showPage('account', this)">
       <div class="nav-icon-wrap">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <!-- Wallet icon -->
+        <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><circle cx="16" cy="14" r="1.5"/></svg>
       </div>
       <div>MetaTrader</div>
     </button>
@@ -611,13 +615,18 @@
     let numTrades = 1;
     let isStarted = false;
 
-    // Colour themes
     const themes = ['theme-blue', 'theme-green', 'theme-red', 'theme-purple', 'theme-orange'];
-    let currentThemeIndex = 1; // start on green
+    let currentThemeIndex = 1;
 
-    // Double-shake detection
-    let lastShakeTime = 0;
-    let shakeCount = 0;
+    // Double-tap to change colour
+    let lastTap = 0;
+    document.addEventListener('touchend', function(e) {
+      const now = Date.now();
+      if (now - lastTap < 300) {
+        cycleTheme();
+      }
+      lastTap = now;
+    });
 
     const saved = localStorage.getItem('eahost_mt');
     if (saved) {
@@ -628,46 +637,20 @@
       } catch(e) {}
     }
 
-    // Request notification permission early
     if ('Notification' in window && Notification.permission === 'default') {
       Notification.requestPermission();
     }
 
-    // Pause notification when leaving the app
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') {
         if (Notification.permission === 'granted') {
           new Notification('Market Avenger Pro', {
             body: 'Market Avenger Pro paused',
-            icon: 'iconjpg.jpeg',
-            badge: 'iconjpg.jpeg'
+            icon: 'iconjpg.jpeg'
           });
         }
       }
     });
-
-    // Shake to change colour
-    if (window.DeviceMotionEvent) {
-      window.addEventListener('devicemotion', (e) => {
-        const acc = e.accelerationIncludingGravity;
-        if (!acc) return;
-        const force = Math.abs(acc.x) + Math.abs(acc.y) + Math.abs(acc.z);
-        if (force > 25) {
-          const now = Date.now();
-          if (now - lastShakeTime > 800) {
-            shakeCount = 1;
-          } else {
-            shakeCount++;
-          }
-          lastShakeTime = now;
-
-          if (shakeCount >= 2) {
-            shakeCount = 0;
-            cycleTheme();
-          }
-        }
-      });
-    }
 
     function cycleTheme() {
       document.body.classList.remove(...themes);
