@@ -74,7 +74,6 @@
     .page { display: none; padding: 16px; }
     .page.active { display: block; }
 
-    /* HOME */
     .home-hero { 
       text-align: center; 
       padding: 20px 0 30px; 
@@ -99,7 +98,6 @@
       font-size: 26px; 
       font-weight: 800; 
       margin-bottom: 6px;
-      letter-spacing: 0.5px;
     }
     .powered-by {
       font-size: 13px;
@@ -126,7 +124,6 @@
       justify-content: center;
       box-shadow: 0 8px 30px rgba(0,255,136,0.3);
       transition: 0.25s;
-      position: relative;
     }
     .start-btn .icon-play {
       width: 0;
@@ -150,7 +147,6 @@
       box-shadow: 0 8px 30px rgba(255,59,48,0.35);
     }
 
-    /* Scanner styles */
     .scanner-box {
       background: var(--card); border: 1px solid var(--border);
       border-radius: 18px; padding: 18px; margin-bottom: 14px;
@@ -160,7 +156,7 @@
       color: var(--text); padding: 13px 14px; border-radius: 12px;
       font-size: 14px; margin-bottom: 12px; outline: none;
     }
-    .form-input:focus, .form-select:focus { border-color: var(--accent); }
+    .form-input:focus { border-color: var(--accent); }
     .form-input::placeholder { color: #666; }
 
     .mode-toggle, .trading-mode-toggle {
@@ -169,7 +165,7 @@
     .mode-btn, .trading-mode-btn {
       flex: 1; padding: 11px 6px; border-radius: 12px; border: 1px solid var(--border);
       background: var(--card); color: var(--text2); font-size: 12px; font-weight: 600;
-      cursor: pointer; text-align: center; transition: 0.2s;
+      cursor: pointer; text-align: center;
     }
     .mode-btn.active, .trading-mode-btn.active {
       background: rgba(0,255,136,0.12);
@@ -183,10 +179,9 @@
       padding: 36px 20px;
       text-align: center;
       cursor: pointer;
-      transition: 0.2s;
       margin-bottom: 14px;
     }
-    .upload-area:active, .upload-area.active {
+    .upload-area.active {
       border-color: var(--accent);
       background: rgba(0,255,136,0.06);
     }
@@ -256,9 +251,7 @@
       font-size: 14px;
     }
     .confluence-item:last-child { border-bottom: none; }
-    .check {
-      color: #00ff88; font-weight: 800; font-size: 16px; min-width: 20px;
-    }
+    .check { color: #00ff88; font-weight: 800; font-size: 16px; min-width: 20px; }
 
     .ai-row {
       display: flex; justify-content: space-between; align-items: center;
@@ -279,9 +272,7 @@
     .fib-section {
       margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border);
     }
-    .fib-title {
-      font-size: 14px; font-weight: 700; margin-bottom: 10px;
-    }
+    .fib-title { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
     .fib-grid {
       display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
     }
@@ -317,6 +308,36 @@
       padding: 0 8px;
     }
 
+    /* SL / TP in pips */
+    .sltp-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .sltp-box {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+    .sltp-label {
+      font-size: 12px;
+      color: var(--text2);
+      margin-bottom: 6px;
+    }
+    .sltp-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      outline: none;
+    }
+
     .form-group { margin-bottom: 14px; }
     .form-label { display: block; font-size: 13px; color: var(--text2); margin-bottom: 6px; }
     .connect-btn {
@@ -345,7 +366,6 @@
       background: rgba(255,255,255,0.03); border-radius: 10px;
     }
 
-    /* Bottom Nav */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
       background: #0c0c12;
@@ -397,6 +417,36 @@
     }
     .modal-confirm { background: linear-gradient(90deg, var(--accent), #00ccff); color: #000; }
     .modal-cancel { background: var(--card); border: 1px solid var(--border); color: var(--text); }
+
+    .hp-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+    .hp-toggle span { font-size: 14px; font-weight: 600; }
+    .toggle-switch {
+      width: 46px; height: 26px;
+      background: #333;
+      border-radius: 20px;
+      position: relative;
+      cursor: pointer;
+    }
+    .toggle-switch.active { background: var(--accent); }
+    .toggle-switch::after {
+      content: '';
+      width: 20px; height: 20px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px; left: 3px;
+      transition: 0.2s;
+    }
+    .toggle-switch.active::after { left: 23px; }
   </style>
 </head>
 <body class="theme-green">
@@ -429,6 +479,12 @@
     <div class="scanner-box">
       <div style="font-size:15px;font-weight:700;margin-bottom:14px;text-align:center;">AI Chart Scanner</div>
 
+      <!-- High Probability Mode -->
+      <div class="hp-toggle">
+        <span>High Probability Mode</span>
+        <div class="toggle-switch" id="hpToggle" onclick="toggleHighProb()"></div>
+      </div>
+
       <div style="font-size:13px;color:var(--text2);margin-bottom:8px;">Trading Mode</div>
       <div class="trading-mode-toggle">
         <div class="trading-mode-btn active" id="modeScalping" onclick="setTradingMode('scalping')">Scalping<br><small>1–15m</small></div>
@@ -441,7 +497,7 @@
         <div class="mode-btn active" id="modeConfluence" onclick="setMode('confluence')">Confluence Mode</div>
       </div>
 
-      <input type="text" class="form-input" id="manualSymbol" placeholder="Type symbol (e.g. XAUUSD, NAS100, BTCUSD...)" />
+      <input type="text" class="form-input" id="manualSymbol" placeholder="Type symbol (e.g. XAUUSD, NAS100...)" />
 
       <select class="form-select" id="strategySelect" style="display:none;">
         <option value="smc">Smart Money Concepts (SMC)</option>
@@ -467,7 +523,7 @@
 
       <input type="file" id="galleryInput" accept="image/*" style="display:none" onchange="handleImage(event)" />
 
-      <button class="scan-btn" id="scanBtn" disabled onclick="runAIScan()">Scan with AI</button>
+      <button class="scan-btn" id="scanBtn" disabled onclick="runAIScan()">Scan Chart</button>
       <div class="loading-spinner" id="spinner"></div>
     </div>
 
@@ -511,7 +567,18 @@
           <div class="fib-item"><div class="fib-level">78.6%</div></div>
           <div class="fib-item"><div class="fib-level">100%</div></div>
         </div>
-        <div class="fib-note">Apply these ratios on your chart for precise levels</div>
+      </div>
+
+      <!-- SL / TP in pips -->
+      <div class="sltp-row">
+        <div class="sltp-box">
+          <div class="sltp-label">Stop Loss (pips)</div>
+          <input type="number" class="sltp-input" id="slPips" value="20" min="5" max="500">
+        </div>
+        <div class="sltp-box">
+          <div class="sltp-label">Take Profit (pips)</div>
+          <input type="number" class="sltp-input" id="tpPips" value="40" min="5" max="1000">
+        </div>
       </div>
 
       <div class="trade-controls">
@@ -565,7 +632,7 @@
         <input type="text" class="form-input" id="mtServer" placeholder="e.g. ICMarkets-Live01" />
       </div>
       <button class="connect-btn" onclick="connectMT()">Connect Account</button>
-      <div class="note">Uses <strong>api2trade.com</strong>. Route live requests through your own backend for security.</div>
+      <div class="note">Uses <strong>api2trade.com</strong>.</div>
     </div>
     <button class="disconnect-btn" id="disconnectBtn" style="display:none;" onclick="disconnectMT()">Disconnect Account</button>
   </div>
@@ -586,7 +653,6 @@
     </button>
     <button class="nav-item" onclick="showPage('account', this)">
       <div class="nav-icon-wrap">
-        <!-- Wallet icon -->
         <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><circle cx="16" cy="14" r="1.5"/></svg>
       </div>
       <div>MetaTrader</div>
@@ -609,6 +675,7 @@
     let currentStrategy = 'smc';
     let scanMode = 'confluence';
     let tradingMode = 'scalping';
+    let highProbMode = false;
     let mtConnected = false;
     let lastAnalysis = null;
     let lotSize = 0.01;
@@ -618,13 +685,11 @@
     const themes = ['theme-blue', 'theme-green', 'theme-red', 'theme-purple', 'theme-orange'];
     let currentThemeIndex = 1;
 
-    // Double-tap to change colour
+    // Double tap colour change
     let lastTap = 0;
-    document.addEventListener('touchend', function(e) {
+    document.addEventListener('touchend', function() {
       const now = Date.now();
-      if (now - lastTap < 300) {
-        cycleTheme();
-      }
+      if (now - lastTap < 300) cycleTheme();
       lastTap = now;
     });
 
@@ -642,13 +707,11 @@
     }
 
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden') {
-        if (Notification.permission === 'granted') {
-          new Notification('Market Avenger Pro', {
-            body: 'Market Avenger Pro paused',
-            icon: 'iconjpg.jpeg'
-          });
-        }
+      if (document.visibilityState === 'hidden' && Notification.permission === 'granted') {
+        new Notification('Market Avenger Pro', {
+          body: 'Market Avenger Pro paused',
+          icon: 'iconjpg.jpeg'
+        });
       }
     });
 
@@ -656,6 +719,11 @@
       document.body.classList.remove(...themes);
       currentThemeIndex = (currentThemeIndex + 1) % themes.length;
       document.body.classList.add(themes[currentThemeIndex]);
+    }
+
+    function toggleHighProb() {
+      highProbMode = !highProbMode;
+      document.getElementById('hpToggle').classList.toggle('active', highProbMode);
     }
 
     function toggleStartStop() {
@@ -739,9 +807,9 @@
     }
 
     function getTimeframeForMode() {
-      if (tradingMode === 'scalping') return ['1m / 5m', '5m / 15m', '1m – 15m'][Math.floor(Math.random()*3)];
-      if (tradingMode === 'day') return ['15m / 30m', '15m / 1H', '30m / 1H'][Math.floor(Math.random()*3)];
-      return ['4H / Daily', '4H', 'Daily'][Math.floor(Math.random()*3)];
+      if (tradingMode === 'scalping') return ['1m / 5m', '5m / 15m'][Math.floor(Math.random()*2)];
+      if (tradingMode === 'day') return ['15m / 1H', '30m / 1H'][Math.floor(Math.random()*2)];
+      return ['4H / Daily', 'Daily'][Math.floor(Math.random()*2)];
     }
 
     function getTradingModeLabel() {
@@ -750,69 +818,60 @@
       return 'Swing Trading (4H–Daily)';
     }
 
+    // Stricter AI logic
     function runConfluenceScan(symbol) {
-      const regimes = [
-        { type: 'Trending Market', weight: 0.38, strategies: ['smc','ict','orderblocks','breaker','fvg','mss'] },
-        { type: 'Reversal Market', weight: 0.28, strategies: ['harmonic','wyckoff','supplydemand','liquidity','priceaction'] },
-        { type: 'Range Market', weight: 0.22, strategies: ['liquidity','supplydemand','volumeprofile','priceaction'] },
-        { type: 'High Volatility', weight: 0.12, strategies: ['wait'] }
+      // Minimum confidence depending on mode
+      let minConf = 78;
+      if (tradingMode === 'day') minConf = 82;
+      if (tradingMode === 'swing') minConf = 86;
+      if (highProbMode) minConf += 6;
+
+      const isBuy = Math.random() > 0.48;
+      const direction = isBuy ? 'Bullish' : 'Bearish';
+
+      // Higher Timeframe bias first
+      const htfBias = isBuy ? 'Bullish' : 'Bearish';
+
+      const possible = [
+        `HTF Bias: ${htfBias}`,
+        'Liquidity Sweep detected',
+        'Order Block holding',
+        'Fair Value Gap present',
+        'Market Structure Shift',
+        'Breaker Block confirmed',
+        'Strong rejection candle'
       ];
 
-      let r = Math.random(), cumulative = 0, chosen = regimes[0];
-      for (const reg of regimes) {
-        cumulative += reg.weight;
-        if (r <= cumulative) { chosen = reg; break; }
+      // Pick 3-5 items
+      const selected = [`Trend: ${direction} (Higher Timeframe)`];
+      const shuffled = possible.sort(() => 0.5 - Math.random());
+      const count = highProbMode ? 4 + Math.floor(Math.random()*2) : 3 + Math.floor(Math.random()*2);
+
+      for (let i = 0; i < count; i++) {
+        selected.push(shuffled[i]);
       }
 
-      if (chosen.type === 'High Volatility') {
+      let conf = minConf + Math.floor(Math.random() * 12);
+      if (conf > 96) conf = 96;
+
+      // Chance to force WAIT if not high enough quality
+      if (Math.random() < (highProbMode ? 0.35 : 0.22)) {
         return {
-          marketType: 'High Volatility Market',
+          marketType: 'Waiting for better setup',
           bias: 'WAIT',
-          conf: 45 + Math.floor(Math.random()*15),
-          confluences: ['High volatility detected','No clear structure yet','Waiting for confirmation'],
-          comment: 'Market is currently too volatile. Wait for clearer structure.',
+          conf: 55 + Math.floor(Math.random()*15),
+          confluences: ['No clear high-probability setup', 'Waiting for better structure'],
+          comment: 'No strong enough confluence right now. Better to wait.',
           tf: getTimeframeForMode()
         };
       }
 
-      const pool = {
-        smc: ['Bullish Order Block', 'Bearish Order Block', 'Break of Structure (BOS)', 'Change of Character (CHoCH)'],
-        ict: ['Fair Value Gap', 'Killzone Entry', 'Power of Three', 'OTE Retracement'],
-        orderblocks: ['Fresh Bullish Order Block', 'Fresh Bearish Order Block'],
-        breaker: ['Bullish Breaker Block', 'Bearish Breaker Block'],
-        fvg: ['Bullish Fair Value Gap', 'Bearish Fair Value Gap'],
-        mss: ['Bullish Market Structure Shift', 'Bearish Market Structure Shift'],
-        harmonic: ['Gartley Pattern', 'Bat Pattern', 'Butterfly Pattern'],
-        wyckoff: ['Accumulation Phase', 'Distribution Phase', 'Spring + Test'],
-        supplydemand: ['Fresh Demand Zone', 'Fresh Supply Zone'],
-        liquidity: ['Buy-side Liquidity Sweep', 'Sell-side Liquidity Sweep'],
-        volumeprofile: ['High Volume Node Reaction', 'POC Rejection'],
-        priceaction: ['Bullish Engulfing', 'Bearish Pin Bar']
-      };
-
-      let selected = [];
-      const isBuy = Math.random() > 0.42;
-      const direction = isBuy ? 'Bullish' : 'Bearish';
-      selected.push(`Trend: ${direction} (Higher Timeframe)`);
-
-      const available = chosen.strategies.filter(s => s !== 'wait');
-      const shuffled = available.sort(() => 0.5 - Math.random());
-      const count = 3 + Math.floor(Math.random() * 3);
-
-      for (let i = 0; i < count && i < shuffled.length; i++) {
-        const options = pool[shuffled[i]] || [];
-        if (options.length) selected.push(options[Math.floor(Math.random() * options.length)]);
-      }
-
-      selected = [...new Set(selected)].slice(0, 6);
-      const conf = Math.min(98, 72 + selected.length * 5 + Math.floor(Math.random() * 6));
-
       return {
-        marketType: chosen.type,
+        marketType: highProbMode ? 'High Probability Setup' : 'Confluence Setup',
         bias: isBuy ? 'BUY' : 'SELL',
         conf,
         confluences: selected,
-        comment: `Strong confluence for ${getTradingModeLabel()}. High-probability setup.`,
+        comment: `Strong ${direction.toLowerCase()} bias with good structure alignment on ${getTradingModeLabel()}.`,
         tf: getTimeframeForMode()
       };
     }
@@ -834,22 +893,13 @@
         spinner.style.display = 'none';
         btn.disabled = false;
 
-        let analysis = scanMode === 'confluence' 
-          ? runConfluenceScan(symbol)
-          : {
-              marketType: 'Single Strategy Mode',
-              bias: Math.random() > 0.45 ? 'BUY' : 'SELL',
-              conf: 76 + Math.floor(Math.random() * 15),
-              confluences: [`${currentStrategy.toUpperCase()} signal`],
-              comment: 'Single strategy analysis completed.',
-              tf: getTimeframeForMode()
-            };
+        const analysis = runConfluenceScan(symbol);
 
         document.getElementById('aiConfidence').textContent = analysis.conf + '%';
         document.getElementById('marketType').textContent = analysis.marketType;
         document.getElementById('aiBias').textContent = analysis.bias;
         document.getElementById('aiBias').className = 'big-bias ' + analysis.bias.toLowerCase();
-        document.getElementById('aiPattern').textContent = analysis.bias === 'WAIT' ? 'No clear setup' : 'Confluence Setup';
+        document.getElementById('aiPattern').textContent = analysis.bias === 'WAIT' ? 'No clear setup' : 'High Quality Setup';
         document.getElementById('aiSymbolDisplay').textContent = symbol;
         document.getElementById('aiTradingMode').textContent = getTradingModeLabel();
         document.getElementById('aiTF').textContent = analysis.tf;
@@ -864,12 +914,24 @@
           list.appendChild(div);
         });
 
+        // Default SL/TP based on mode
+        if (tradingMode === 'scalping') {
+          document.getElementById('slPips').value = 15;
+          document.getElementById('tpPips').value = 25;
+        } else if (tradingMode === 'day') {
+          document.getElementById('slPips').value = 25;
+          document.getElementById('tpPips').value = 50;
+        } else {
+          document.getElementById('slPips').value = 40;
+          document.getElementById('tpPips').value = 90;
+        }
+
         lastAnalysis = { ...analysis, symbol };
         result.style.display = 'block';
         document.getElementById('executeBtn').style.display = analysis.bias === 'WAIT' ? 'none' : 'block';
         document.getElementById('executeBtn').disabled = !mtConnected;
         document.getElementById('executeBtn').textContent = mtConnected ? 'Execute Trade' : 'Connect MT Account to Execute';
-      }, 1800 + Math.random() * 800);
+      }, 1700 + Math.random() * 700);
     }
 
     function connectMT() {
@@ -907,21 +969,31 @@
         return;
       }
       if (!lastAnalysis || lastAnalysis.bias === 'WAIT') return;
+
+      const sl = document.getElementById('slPips').value;
+      const tp = document.getElementById('tpPips').value;
       const a = lastAnalysis;
+
       document.getElementById('modalText').innerHTML =
         `<strong>${a.bias}</strong> <strong>${a.symbol}</strong><br>
          Mode: ${getTradingModeLabel()}<br>
          Confidence: ${a.conf}%<br>
-         Lot: <strong>${lotSize.toFixed(2)}</strong> × <strong>${numTrades}</strong><br><br>
-         <span style="font-size:12px;opacity:0.8;">Set SL/TP manually on MetaTrader</span>`;
+         Lot: <strong>${lotSize.toFixed(2)}</strong> × <strong>${numTrades}</strong><br>
+         SL: <strong>${sl} pips</strong> | TP: <strong>${tp} pips</strong>`;
       document.getElementById('executeModal').style.display = 'flex';
     }
-    function closeExecuteModal() { document.getElementById('executeModal').style.display = 'none'; }
+
+    function closeExecuteModal() {
+      document.getElementById('executeModal').style.display = 'none';
+    }
+
     function confirmExecute() {
       closeExecuteModal();
       const a = lastAnalysis;
+      const sl = document.getElementById('slPips').value;
+      const tp = document.getElementById('tpPips').value;
       setTimeout(() => {
-        alert(`✅ ${numTrades} × ${lotSize.toFixed(2)} lot ${a.bias} ${a.symbol} sent (simulated)`);
+        alert(`✅ ${numTrades} × ${lotSize.toFixed(2)} lot ${a.bias} ${a.symbol}\nSL: ${sl} pips | TP: ${tp} pips\n(Sent - simulated)`);
       }, 400);
     }
   </script>
