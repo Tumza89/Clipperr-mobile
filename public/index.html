@@ -25,18 +25,19 @@
       --text2: #aaaaaa;
       --accent: #00ff88;
       --purple: #a855f7;
-      --purple-glow: rgba(168, 85, 247, 0.35);
+      --purple-glow: rgba(168, 85, 247, 0.4);
     }
 
-    body.theme-blue   { --accent: #3b82f6; --purple: #3b82f6; --purple-glow: rgba(59,130,246,0.35); }
-    body.theme-green  { --accent: #00ff88; --purple: #00ff88; --purple-glow: rgba(0,255,136,0.35); }
-    body.theme-red    { --accent: #ef4444; --purple: #ef4444; --purple-glow: rgba(239,68,68,0.35); }
-    body.theme-purple { --accent: #a855f7; --purple: #a855f7; --purple-glow: rgba(168,85,247,0.35); }
-    body.theme-orange { --accent: #f97316; --purple: #f97316; --purple-glow: rgba(249,115,22,0.35); }
+    body.theme-blue   { --accent: #3b82f6; --purple: #3b82f6; --purple-glow: rgba(59,130,246,0.4); }
+    body.theme-green  { --accent: #00ff88; --purple: #00ff88; --purple-glow: rgba(0,255,136,0.4); }
+    body.theme-red    { --accent: #ef4444; --purple: #ef4444; --purple-glow: rgba(239,68,68,0.4); }
+    body.theme-purple { --accent: #a855f7; --purple: #a855f7; --purple-glow: rgba(168,85,247,0.4); }
+    body.theme-orange { --accent: #f97316; --purple: #f97316; --purple-glow: rgba(249,115,22,0.4); }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    
     body {
-      background: var(--bg);
+      background: linear-gradient(160deg, #050508 0%, #0b0b12 40%, #0a0a14 100%);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       min-height: 100vh;
@@ -47,9 +48,9 @@
     .header {
       display: flex; justify-content: space-between; align-items: center;
       padding: 14px 16px; position: sticky; top: 0;
-      background: rgba(7,7,10,0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(7,7,10,0.8);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       z-index: 50;
       border-bottom: 1px solid var(--border);
     }
@@ -231,12 +232,26 @@
       background: linear-gradient(90deg, #ff9500, #ff3b30);
       color: #fff; display: none;
     }
-    .loading-spinner {
-      display: none; margin: 16px auto; width: 32px; height: 32px;
-      border: 3px solid var(--border); border-top: 3px solid var(--accent);
-      border-radius: 50%; animation: spin 0.75s linear infinite;
+
+    /* Skeleton Loading */
+    .skeleton-wrap {
+      display: none;
+      margin-top: 16px;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    .skeleton-line {
+      height: 14px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.09) 50%, rgba(255,255,255,0.04) 75%);
+      background-size: 200% 100%;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      animation: shimmer 1.4s infinite;
+    }
+    .skeleton-line.short { width: 60%; }
+    .skeleton-line.medium { width: 80%; }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
 
     .ai-result {
       border-left: 4px solid var(--accent);
@@ -316,20 +331,6 @@
       border-radius: 0 10px 10px 0;
       font-size: 13px; line-height: 1.5; color: var(--text2);
     }
-
-    .fib-section {
-      margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border);
-    }
-    .fib-title { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
-    .fib-grid {
-      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
-    }
-    .fib-item {
-      background: rgba(168, 85, 247, 0.08);
-      border: 1px solid rgba(168, 85, 247, 0.2);
-      border-radius: 10px; padding: 10px 6px; text-align: center;
-    }
-    .fib-level { font-size: 12px; color: var(--purple); font-weight: 600; }
 
     .trade-controls {
       margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border);
@@ -419,16 +420,18 @@
       display: flex; flex-direction: column; align-items: center;
       gap: 5px; color: #6b6b7b; font-size: 11px; font-weight: 500;
       background: none; border: none; position: relative; min-width: 70px;
+      transition: 0.25s;
     }
     .nav-item.active { color: var(--purple); }
     .nav-icon-wrap {
-      width: 44px; height: 44px;
+      width: 48px; height: 48px;
       display: flex; align-items: center; justify-content: center;
-      border-radius: 14px; transition: 0.25s;
+      border-radius: 16px; transition: 0.3s;
     }
     .nav-item.active .nav-icon-wrap {
-      background: rgba(168, 85, 247, 0.15);
-      box-shadow: 0 0 20px var(--purple-glow);
+      background: rgba(168, 85, 247, 0.18);
+      box-shadow: 0 0 24px var(--purple-glow), 0 0 8px var(--purple-glow);
+      transform: scale(1.08);
     }
     .nav-item.active::before {
       content: ''; position: absolute; top: -12px;
@@ -546,13 +549,21 @@
       <input type="file" id="galleryInput" accept="image/*" style="display:none" onchange="handleImage(event)" />
 
       <button class="scan-btn" id="scanBtn" disabled onclick="runAIScan()">Scan Chart</button>
-      <div class="loading-spinner" id="spinner"></div>
+
+      <!-- Skeleton Loading -->
+      <div class="skeleton-wrap" id="skeleton">
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line medium"></div>
+        <div class="skeleton-line short"></div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line medium"></div>
+      </div>
     </div>
 
     <div class="ai-result" id="aiResult">
       <div class="ai-header">
         <div class="ai-title">AI Analysis</div>
-        <div class="confidence" id="aiConfidence">—</div>
+        <div class="confidence" id="aiConfidence">0%</div>
       </div>
 
       <div class="conf-bar-wrap">
@@ -582,18 +593,6 @@
       </div>
 
       <div class="ai-comment" id="aiComment">—</div>
-
-      <div class="fib-section">
-        <div class="fib-title">Key Fibonacci Ratios</div>
-        <div class="fib-grid">
-          <div class="fib-item"><div class="fib-level">23.6%</div></div>
-          <div class="fib-item"><div class="fib-level">38.2%</div></div>
-          <div class="fib-item"><div class="fib-level">50.0%</div></div>
-          <div class="fib-item"><div class="fib-level">61.8%</div></div>
-          <div class="fib-item"><div class="fib-level">78.6%</div></div>
-          <div class="fib-item"><div class="fib-level">100%</div></div>
-        </div>
-      </div>
 
       <div class="sltp-row">
         <div class="sltp-box">
@@ -833,7 +832,20 @@
       return 'Swing Trading (4H–Daily)';
     }
 
-    // Expanded strategy pool from your screenshots
+    function animateConfidence(target) {
+      const el = document.getElementById('aiConfidence');
+      let current = 0;
+      const step = Math.ceil(target / 30);
+      const interval = setInterval(() => {
+        current += step;
+        if (current >= target) {
+          current = target;
+          clearInterval(interval);
+        }
+        el.textContent = current + '%';
+      }, 30);
+    }
+
     function runConfluenceScan(symbol) {
       let minConf = 78;
       if (tradingMode === 'day') minConf = 82;
@@ -844,7 +856,6 @@
       const direction = isBuy ? 'Bullish' : 'Bearish';
       const htf = isBuy ? 'Bullish' : 'Bearish';
 
-      // Full strategy pool
       const smcIct = [
         'Order Block (SMC)', 'Fair Value Gap (FVG)', 'Liquidity Sweep',
         'Break of Structure (BOS)', 'Change of Character (CHoCH)',
@@ -875,33 +886,26 @@
         'Wyckoff Method', 'Elliott Wave', 'Harmonic Pattern', 'Volume Profile'
       ];
 
-      // Build confluence list
       const selected = [`HTF Bias: ${htf}`];
-
-      // Always add some SMC/ICT
       const smcShuffled = smcIct.sort(() => 0.5 - Math.random());
       selected.push(smcShuffled[0]);
       selected.push(smcShuffled[1]);
 
-      // Add from other categories
       if (Math.random() > 0.3) selected.push(priceAction[Math.floor(Math.random()*priceAction.length)]);
       if (Math.random() > 0.4) selected.push(supplyDemand[Math.floor(Math.random()*supplyDemand.length)]);
       if (Math.random() > 0.5) selected.push(technical[Math.floor(Math.random()*technical.length)]);
       if (highProbMode && Math.random() > 0.4) selected.push(advanced[Math.floor(Math.random()*advanced.length)]);
 
-      // Extra factors for high probability
       if (highProbMode) {
         selected.push(smcShuffled[2]);
         if (Math.random() > 0.5) selected.push(priceAction[Math.floor(Math.random()*priceAction.length)]);
       }
 
-      // Clean unique list
       const unique = [...new Set(selected)].slice(0, highProbMode ? 6 : 5);
 
       let conf = minConf + Math.floor(Math.random() * 11);
       if (conf > 95) conf = 95;
 
-      // Higher chance of WAIT when not high probability enough
       const waitChance = highProbMode ? 0.38 : 0.26;
       if (Math.random() < waitChance) {
         return {
@@ -929,21 +933,23 @@
       if (!symbol || !selectedImage) return;
 
       const btn = document.getElementById('scanBtn');
-      const spinner = document.getElementById('spinner');
+      const skeleton = document.getElementById('skeleton');
       const result = document.getElementById('aiResult');
 
       btn.disabled = true;
-      spinner.style.display = 'block';
+      skeleton.style.display = 'block';
       result.style.display = 'none';
       document.getElementById('executeBtn').style.display = 'none';
 
       setTimeout(() => {
-        spinner.style.display = 'none';
+        skeleton.style.display = 'none';
         btn.disabled = false;
 
         const analysis = runConfluenceScan(symbol);
 
-        document.getElementById('aiConfidence').textContent = analysis.conf + '%';
+        // Animate confidence number
+        animateConfidence(analysis.conf);
+
         document.getElementById('marketType').textContent = analysis.marketType;
         document.getElementById('aiBias').textContent = analysis.bias;
         document.getElementById('aiBias').className = 'big-bias ' + analysis.bias.toLowerCase();
@@ -971,7 +977,6 @@
           list.appendChild(div);
         });
 
-        // Default SL/TP by mode
         if (tradingMode === 'scalping') {
           document.getElementById('slPips').value = 15;
           document.getElementById('tpPips').value = 25;
@@ -988,7 +993,7 @@
         document.getElementById('executeBtn').style.display = analysis.bias === 'WAIT' ? 'none' : 'block';
         document.getElementById('executeBtn').disabled = !mtConnected;
         document.getElementById('executeBtn').textContent = mtConnected ? 'Execute Trade' : 'Connect MT Account to Execute';
-      }, 1600 + Math.random() * 800);
+      }, 1800 + Math.random() * 700);
     }
 
     function connectMT() {
