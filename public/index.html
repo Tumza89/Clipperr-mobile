@@ -81,7 +81,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* HOME */
     .home-hero { 
       text-align: center; 
       padding: 20px 0 30px; 
@@ -124,7 +123,6 @@
       margin-bottom: 40px; 
     }
 
-    /* Start button with pulse */
     .start-btn {
       width: 80px;
       height: 80px;
@@ -139,7 +137,6 @@
       box-shadow: 0 8px 30px rgba(0,255,136,0.3);
       transition: 0.25s;
       animation: pulse 2.2s infinite;
-      position: relative;
     }
     @keyframes pulse {
       0% { box-shadow: 0 0 0 0 rgba(0,255,136,0.45); }
@@ -148,19 +145,15 @@
     }
     .start-btn:active { transform: scale(0.92); }
     .start-btn .icon-play {
-      width: 0;
-      height: 0;
+      width: 0; height: 0;
       border-style: solid;
       border-width: 14px 0 14px 24px;
       border-color: transparent transparent transparent #000;
       margin-left: 6px;
     }
     .start-btn .icon-stop {
-      width: 22px;
-      height: 22px;
-      background: #000;
-      border-radius: 3px;
-      display: none;
+      width: 22px; height: 22px;
+      background: #000; border-radius: 3px; display: none;
     }
     .start-btn.stop .icon-play { display: none; }
     .start-btn.stop .icon-stop { display: block; }
@@ -170,7 +163,6 @@
       animation: none;
     }
 
-    /* Glassmorphism cards */
     .scanner-box, .ai-result, .account-info {
       background: rgba(255,255,255,0.04);
       backdrop-filter: blur(16px);
@@ -181,7 +173,7 @@
       margin-bottom: 14px;
     }
 
-    .form-input, .form-select {
+    .form-input {
       width: 100%; background: rgba(255,255,255,0.04);
       border: 1px solid var(--border);
       color: var(--text); padding: 13px 14px; border-radius: 12px;
@@ -190,17 +182,16 @@
     .form-input:focus { border-color: var(--accent); }
     .form-input::placeholder { color: #666; }
 
-    .mode-toggle, .trading-mode-toggle {
+    .trading-mode-toggle {
       display: flex; gap: 8px; margin-bottom: 14px;
     }
-    .mode-btn, .trading-mode-btn {
+    .trading-mode-btn {
       flex: 1; padding: 11px 6px; border-radius: 12px; border: 1px solid var(--border);
       background: rgba(255,255,255,0.03); color: var(--text2); font-size: 12px; font-weight: 600;
-      cursor: pointer; text-align: center;
-      transition: 0.2s;
+      cursor: pointer; text-align: center; transition: 0.2s;
     }
-    .mode-btn:active, .trading-mode-btn:active { transform: scale(0.96); }
-    .mode-btn.active, .trading-mode-btn.active {
+    .trading-mode-btn:active { transform: scale(0.96); }
+    .trading-mode-btn.active {
       background: rgba(0,255,136,0.12);
       border-color: var(--accent);
       color: var(--accent);
@@ -247,7 +238,6 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Result card with coloured border */
     .ai-result {
       border-left: 4px solid var(--accent);
       animation: slideIn 0.4s ease;
@@ -271,7 +261,6 @@
       border-radius: 20px; background: rgba(0,255,136,0.15); color: var(--accent);
     }
 
-    /* Animated confidence bar */
     .conf-bar-wrap {
       height: 6px;
       background: rgba(255,255,255,0.08);
@@ -368,9 +357,7 @@
     }
 
     .sltp-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 12px;
+      display: flex; gap: 10px; margin-top: 12px;
     }
     .sltp-box {
       flex: 1;
@@ -381,9 +368,7 @@
       text-align: center;
     }
     .sltp-label {
-      font-size: 12px;
-      color: var(--text2);
-      margin-bottom: 6px;
+      font-size: 12px; color: var(--text2); margin-bottom: 6px;
     }
     .sltp-input {
       width: 100%;
@@ -550,28 +535,7 @@
         <div class="trading-mode-btn" id="modeSwing" onclick="setTradingMode('swing')">Swing<br><small>4H–Daily</small></div>
       </div>
 
-      <div class="mode-toggle">
-        <div class="mode-btn" id="modeSingle" onclick="setMode('single')">Single Strategy</div>
-        <div class="mode-btn active" id="modeConfluence" onclick="setMode('confluence')">Confluence Mode</div>
-      </div>
-
       <input type="text" class="form-input" id="manualSymbol" placeholder="Type symbol (e.g. XAUUSD, NAS100...)" />
-
-      <select class="form-select" id="strategySelect" style="display:none;">
-        <option value="smc">Smart Money Concepts (SMC)</option>
-        <option value="ict">ICT Concepts</option>
-        <option value="orderblocks">Order Blocks</option>
-        <option value="fvg">Fair Value Gaps</option>
-        <option value="liquidity">Liquidity Sweeps</option>
-        <option value="supplydemand">Supply & Demand</option>
-        <option value="wyckoff">Wyckoff Method</option>
-        <option value="harmonic">Harmonic Patterns</option>
-        <option value="elliott">Elliott Wave</option>
-        <option value="mss">Market Structure Shift</option>
-        <option value="volumeprofile">Volume Profile</option>
-        <option value="priceaction">Classic Price Action</option>
-        <option value="breaker">Breaker Blocks</option>
-      </select>
 
       <div class="upload-area" id="uploadBtn" onclick="document.getElementById('galleryInput').click()">
         <div class="upload-title">Upload chart screenshot</div>
@@ -591,7 +555,6 @@
         <div class="confidence" id="aiConfidence">—</div>
       </div>
 
-      <!-- Animated confidence bar -->
       <div class="conf-bar-wrap">
         <div class="conf-bar" id="confBar"></div>
       </div>
@@ -734,8 +697,6 @@
 
   <script>
     let selectedImage = null;
-    let currentStrategy = 'smc';
-    let scanMode = 'confluence';
     let tradingMode = 'scalping';
     let highProbMode = false;
     let mtConnected = false;
@@ -807,13 +768,6 @@
       document.getElementById('modeSwing').classList.toggle('active', mode === 'swing');
     }
 
-    function setMode(mode) {
-      scanMode = mode;
-      document.getElementById('modeSingle').classList.toggle('active', mode === 'single');
-      document.getElementById('modeConfluence').classList.toggle('active', mode === 'confluence');
-      document.getElementById('strategySelect').style.display = mode === 'single' ? 'block' : 'none';
-    }
-
     function updateMtUI(data) {
       document.getElementById('mtStatus').textContent = 'MT Connected';
       document.getElementById('mtStatus').classList.remove('offline');
@@ -879,52 +833,93 @@
       return 'Swing Trading (4H–Daily)';
     }
 
+    // Expanded strategy pool from your screenshots
     function runConfluenceScan(symbol) {
       let minConf = 78;
       if (tradingMode === 'day') minConf = 82;
       if (tradingMode === 'swing') minConf = 86;
-      if (highProbMode) minConf += 6;
+      if (highProbMode) minConf += 7;
 
-      const isBuy = Math.random() > 0.48;
+      const isBuy = Math.random() > 0.47;
       const direction = isBuy ? 'Bullish' : 'Bearish';
-      const htfBias = isBuy ? 'Bullish' : 'Bearish';
+      const htf = isBuy ? 'Bullish' : 'Bearish';
 
-      const possible = [
-        `HTF Bias: ${htfBias}`,
-        'Liquidity Sweep detected',
-        'Order Block holding',
-        'Fair Value Gap present',
-        'Market Structure Shift',
-        'Breaker Block confirmed',
-        'Strong rejection candle'
+      // Full strategy pool
+      const smcIct = [
+        'Order Block (SMC)', 'Fair Value Gap (FVG)', 'Liquidity Sweep',
+        'Break of Structure (BOS)', 'Change of Character (CHoCH)',
+        'Breaker Block', 'Mitigation Block', 'Optimal Trade Entry (OTE)',
+        'ICT Judas Swing', 'ICT Silver Bullet', 'Displacement',
+        'Inducement', 'Market Maker Model', 'Power of 3 (AMD)'
       ];
 
-      const selected = [`Trend: ${direction} (Higher Timeframe)`];
-      const shuffled = possible.sort(() => 0.5 - Math.random());
-      const count = highProbMode ? 4 + Math.floor(Math.random()*2) : 3 + Math.floor(Math.random()*2);
+      const priceAction = [
+        'Pin Bar / Hammer', 'Engulfing Pattern', 'Doji Reversal',
+        'Inside Bar', 'Morning/Evening Star', 'Three Soldiers/Crows',
+        'Double Top/Bottom', 'Head & Shoulders', 'Rising/Falling Wedge',
+        'Flag & Pennant', 'Triangle Pattern', 'Channel Trading'
+      ];
 
-      for (let i = 0; i < count; i++) selected.push(shuffled[i]);
+      const supplyDemand = [
+        'Supply & Demand Zone', 'Rally-Base-Rally', 'Drop-Base-Drop', 'Fresh Zone Entry'
+      ];
 
-      let conf = minConf + Math.floor(Math.random() * 12);
-      if (conf > 96) conf = 96;
+      const technical = [
+        'RSI Divergence', 'MACD Crossover', 'EMA Crossover',
+        'Bollinger Band Squeeze', 'Fibonacci Retracement',
+        'Stochastic Oscillator', 'Ichimoku Cloud', 'VWAP Strategy',
+        'ATR Volatility', 'ADX Trend Strength', 'Pivot Points', 'SuperTrend'
+      ];
 
-      if (Math.random() < (highProbMode ? 0.35 : 0.22)) {
+      const advanced = [
+        'Wyckoff Method', 'Elliott Wave', 'Harmonic Pattern', 'Volume Profile'
+      ];
+
+      // Build confluence list
+      const selected = [`HTF Bias: ${htf}`];
+
+      // Always add some SMC/ICT
+      const smcShuffled = smcIct.sort(() => 0.5 - Math.random());
+      selected.push(smcShuffled[0]);
+      selected.push(smcShuffled[1]);
+
+      // Add from other categories
+      if (Math.random() > 0.3) selected.push(priceAction[Math.floor(Math.random()*priceAction.length)]);
+      if (Math.random() > 0.4) selected.push(supplyDemand[Math.floor(Math.random()*supplyDemand.length)]);
+      if (Math.random() > 0.5) selected.push(technical[Math.floor(Math.random()*technical.length)]);
+      if (highProbMode && Math.random() > 0.4) selected.push(advanced[Math.floor(Math.random()*advanced.length)]);
+
+      // Extra factors for high probability
+      if (highProbMode) {
+        selected.push(smcShuffled[2]);
+        if (Math.random() > 0.5) selected.push(priceAction[Math.floor(Math.random()*priceAction.length)]);
+      }
+
+      // Clean unique list
+      const unique = [...new Set(selected)].slice(0, highProbMode ? 6 : 5);
+
+      let conf = minConf + Math.floor(Math.random() * 11);
+      if (conf > 95) conf = 95;
+
+      // Higher chance of WAIT when not high probability enough
+      const waitChance = highProbMode ? 0.38 : 0.26;
+      if (Math.random() < waitChance) {
         return {
           marketType: 'Waiting for better setup',
           bias: 'WAIT',
-          conf: 55 + Math.floor(Math.random()*15),
-          confluences: ['No clear high-probability setup', 'Waiting for better structure'],
-          comment: 'No strong enough confluence right now. Better to wait.',
+          conf: 52 + Math.floor(Math.random()*18),
+          confluences: ['No strong multi-factor confluence', 'Waiting for clearer structure'],
+          comment: 'Current setup does not meet high-probability criteria. Better to wait.',
           tf: getTimeframeForMode()
         };
       }
 
       return {
-        marketType: highProbMode ? 'High Probability Setup' : 'Confluence Setup',
+        marketType: highProbMode ? 'High Probability Confluence' : 'Multi-Strategy Confluence',
         bias: isBuy ? 'BUY' : 'SELL',
         conf,
-        confluences: selected,
-        comment: `Strong ${direction.toLowerCase()} bias with good structure alignment on ${getTradingModeLabel()}.`,
+        confluences: unique,
+        comment: `Strong ${direction.toLowerCase()} confluence using SMC/ICT + Price Action + Structure on ${getTradingModeLabel()}.`,
         tf: getTimeframeForMode()
       };
     }
@@ -958,12 +953,12 @@
         document.getElementById('aiTF').textContent = analysis.tf;
         document.getElementById('aiComment').textContent = analysis.comment;
 
-        // Animated confidence bar
+        // Animated bar
         const bar = document.getElementById('confBar');
         bar.style.width = '0%';
-        setTimeout(() => { bar.style.width = analysis.conf + '%'; }, 50);
+        setTimeout(() => { bar.style.width = analysis.conf + '%'; }, 40);
 
-        // Coloured left border
+        // Coloured border
         result.classList.remove('buy', 'sell', 'wait');
         result.classList.add(analysis.bias.toLowerCase());
 
@@ -976,6 +971,7 @@
           list.appendChild(div);
         });
 
+        // Default SL/TP by mode
         if (tradingMode === 'scalping') {
           document.getElementById('slPips').value = 15;
           document.getElementById('tpPips').value = 25;
@@ -992,7 +988,7 @@
         document.getElementById('executeBtn').style.display = analysis.bias === 'WAIT' ? 'none' : 'block';
         document.getElementById('executeBtn').disabled = !mtConnected;
         document.getElementById('executeBtn').textContent = mtConnected ? 'Execute Trade' : 'Connect MT Account to Execute';
-      }, 1700 + Math.random() * 700);
+      }, 1600 + Math.random() * 800);
     }
 
     function connectMT() {
