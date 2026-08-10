@@ -759,8 +759,7 @@
     }
     document.getElementById('manualSymbol').addEventListener('input', checkScanReady);
 
-    // Compress image before using it
-    function compressImage(file, maxWidth = 1024, quality = 0.6) {
+    function compressImage(file, maxWidth = 1024, quality = 0.55) {
       return new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = function(e) {
@@ -869,7 +868,16 @@
           })
         });
 
-        const analysis = await response.json();
+        // Get raw text first (prevents the pattern error)
+        const rawText = await response.text();
+        console.log('Server response:', rawText);
+
+        let analysis;
+        try {
+          analysis = JSON.parse(rawText);
+        } catch (e) {
+          throw new Error('Server returned invalid response. Check Railway logs.');
+        }
 
         if (!response.ok) {
           throw new Error(analysis.error || 'Analysis failed');
