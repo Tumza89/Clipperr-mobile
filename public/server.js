@@ -23,7 +23,7 @@ app.post('/api/analyze', async (req, res) => {
     }
 
     if (!process.env.OPENAI_API_KEY) {
-      return res.status(500).json({ error: 'OpenAI API key not configured' });
+      return res.status(500).json({ error: 'OpenAI API key not configured on Railway' });
     }
 
     const modeLabel = tradingMode === 'scalping' ? 'Scalping (1–15m)' :
@@ -37,23 +37,25 @@ Symbol: ${symbol}
 Trading Mode: ${modeLabel}
 High Probability Mode: ${highProbMode ? 'ON' : 'OFF'}
 
-Return ONLY valid JSON in this exact format (no extra text):
+IMPORTANT: Return ONLY a valid JSON object. Do not write any other text before or after the JSON.
+
+Use this exact format:
 
 {
-  "bias": "BUY" or "SELL" or "WAIT",
-  "confidence": number between 50 and 95,
-  "marketType": "short description",
-  "htfBias": "Bullish" or "Bearish" or "Ranging",
-  "confluences": ["factor1", "factor2", "factor3", "factor4", "factor5"],
-  "comment": "one short paragraph explanation",
-  "timeframeHint": "suggested timeframe"
+  "bias": "BUY",
+  "confidence": 78,
+  "marketType": "Trending market",
+  "htfBias": "Bullish",
+  "confluences": ["HTF Bias: Bullish", "Order Block", "Liquidity Sweep", "Fair Value Gap"],
+  "comment": "Clear bullish structure with good confluence.",
+  "timeframeHint": "15m - 1H"
 }
 
 Rules:
-- Be strict. Prefer WAIT if the setup is not clear.
-- Focus on: Higher Timeframe Bias, Market Structure (BOS/CHoCH), Order Blocks, Fair Value Gaps, Liquidity Sweeps, Breaker Blocks.
-- Confidence should be realistic.
-- Maximum 5-6 confluence items.`;
+- bias must be only BUY, SELL or WAIT
+- confidence must be a number between 50 and 95
+- Prefer WAIT if the setup is not clear
+- Maximum 6 confluence items`;
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -72,28 +74,46 @@ Rules:
                 type: 'image_url',
                 image_url: {
                   url: image,
-                  detail: 'high'
+                  detail: 'low'          // changed to low to reduce size & cost
                 }
               }
             ]
           }
         ],
-        max_tokens: 800,
-        temperature: 0.3
+        max_tokens: 600,
+        temperature: 0.2
       })
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-      console.error(data);
-      return res.status(500).json({ error: data.error?.message || 'OpenAI error' });
+      console.error('OpenAI Error:', data);
+      return res.status(500).json({ error: data.error?.message || 'OpenAI API error' });
     }
 
     let content = data.choices[0].message.content.trim();
-    content = content.replace(/```json/g, '').replace(/```/g, '').trim();
 
-    const analysis = JSON.parse(content);
+    // Clean the response aggressively
+    content = content.replace(/```json/gi, '').replace(/```/g, '').trim();
+
+    // Try to extract JSON if there's extra text
+    const firstBrace = content.indexOf('{');
+    const lastBrace = content.lastIndexOf('}');
+    if (firstBrace !== -1 && lastBrace !== -1) {
+      content = content.substring(firstBrace, lastBrace + 1);
+    }
+
+    let analysis;
+    try {
+      analysis = JSON.parse(content);
+    } catch (parseErr) {
+      console.error('JSON Parse failed. Raw content:', content);
+      return res.status(500).json({ 
+        error: 'AI returned invalid format. Please try again with a clearer chart.' 
+      });
+    }
+
     res.json(analysis);
 
   } catch (err) {
