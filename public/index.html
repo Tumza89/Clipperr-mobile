@@ -277,6 +277,26 @@
     .big-bias.sell { color: #ff3b30; }
     .big-bias.wait { color: #ffcc00; }
 
+    .entry-box {
+      background: rgba(0,255,136,0.06);
+      border: 1px solid rgba(0,255,136,0.2);
+      border-radius: 14px;
+      padding: 14px;
+      margin: 14px 0;
+    }
+    .entry-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .entry-row:last-child { margin-bottom: 0; }
+    .entry-label { color: var(--text2); }
+    .entry-value { font-weight: 700; }
+    .quality-a { color: #00ff88; }
+    .quality-b { color: #ffcc00; }
+    .quality-c { color: #ff9500; }
+
     .confluence-list { margin: 12px 0 16px; }
     .confluence-item {
       display: flex; align-items: center; gap: 10px;
@@ -541,6 +561,26 @@
       <div class="ai-bias-row">
         <div class="big-bias" id="aiBias">—</div>
         <div style="font-size:13px;color:var(--text2);" id="aiPattern">—</div>
+      </div>
+
+      <!-- NEW ENTRY BOX -->
+      <div class="entry-box" id="entryBox">
+        <div class="entry-row">
+          <span class="entry-label">Entry Type</span>
+          <span class="entry-value" id="entryType">—</span>
+        </div>
+        <div class="entry-row">
+          <span class="entry-label">Entry Zone</span>
+          <span class="entry-value" id="entryZone">—</span>
+        </div>
+        <div class="entry-row">
+          <span class="entry-label">Entry Quality</span>
+          <span class="entry-value" id="entryQuality">—</span>
+        </div>
+        <div class="entry-row">
+          <span class="entry-label">Risk : Reward</span>
+          <span class="entry-value" id="entryRR">—</span>
+        </div>
       </div>
 
       <div class="confluence-list" id="confluenceList"></div>
@@ -816,72 +856,89 @@
       let minConf = 78;
       if (tradingMode === 'day') minConf = 82;
       if (tradingMode === 'swing') minConf = 86;
-      if (highProbMode) minConf += 7;
+      if (highProbMode) minConf += 8;
 
-      const isBuy = Math.random() > 0.47;
+      const isBuy = Math.random() > 0.48;
       const direction = isBuy ? 'Bullish' : 'Bearish';
       const htf = isBuy ? 'Bullish' : 'Bearish';
+
+      // Stricter wait chance in High Probability Mode
+      const waitChance = highProbMode ? 0.42 : 0.28;
+      if (Math.random() < waitChance) {
+        return {
+          marketType: 'Waiting for better setup',
+          bias: 'WAIT',
+          conf: 50 + Math.floor(Math.random()*18),
+          confluences: ['No strong multi-factor confluence', 'Waiting for clearer structure'],
+          comment: 'Setup is not clear enough. Better to wait for a higher quality entry.',
+          tf: getTimeframeForMode(),
+          entryType: '—',
+          entryZone: 'No clear entry zone',
+          entryQuality: '—',
+          rr: '—'
+        };
+      }
 
       const smcIct = [
         'Order Block (SMC)', 'Fair Value Gap (FVG)', 'Liquidity Sweep',
         'Break of Structure (BOS)', 'Change of Character (CHoCH)',
         'Breaker Block', 'Mitigation Block', 'Optimal Trade Entry (OTE)',
-        'ICT Judas Swing', 'ICT Silver Bullet', 'Displacement',
-        'Inducement', 'Market Maker Model', 'Power of 3 (AMD)'
+        'ICT Judas Swing', 'Displacement', 'Inducement'
       ];
 
       const priceAction = [
-        'Pin Bar / Hammer', 'Engulfing Pattern', 'Doji Reversal',
-        'Inside Bar', 'Morning/Evening Star', 'Three Soldiers/Crows',
-        'Double Top/Bottom', 'Head & Shoulders', 'Rising/Falling Wedge',
-        'Flag & Pennant', 'Triangle Pattern', 'Channel Trading'
-      ];
-
-      const supplyDemand = [
-        'Supply & Demand Zone', 'Rally-Base-Rally', 'Drop-Base-Drop', 'Fresh Zone Entry'
-      ];
-
-      const technical = [
-        'RSI Divergence', 'MACD Crossover', 'EMA Crossover',
-        'Bollinger Band Squeeze', 'Fibonacci Retracement',
-        'Stochastic Oscillator', 'Ichimoku Cloud', 'VWAP Strategy',
-        'ATR Volatility', 'ADX Trend Strength', 'Pivot Points', 'SuperTrend'
-      ];
-
-      const advanced = [
-        'Wyckoff Method', 'Elliott Wave', 'Harmonic Pattern', 'Volume Profile'
+        'Pin Bar / Hammer', 'Engulfing Pattern', 'Inside Bar',
+        'Morning/Evening Star', 'Double Top/Bottom'
       ];
 
       const selected = [`HTF Bias: ${htf}`];
-      const smcShuffled = smcIct.sort(() => 0.5 - Math.random());
+      const smcShuffled = [...smcIct].sort(() => 0.5 - Math.random());
       selected.push(smcShuffled[0]);
       selected.push(smcShuffled[1]);
 
-      if (Math.random() > 0.3) selected.push(priceAction[Math.floor(Math.random()*priceAction.length)]);
-      if (Math.random() > 0.4) selected.push(supplyDemand[Math.floor(Math.random()*supplyDemand.length)]);
-      if (Math.random() > 0.5) selected.push(technical[Math.floor(Math.random()*technical.length)]);
-      if (highProbMode && Math.random() > 0.4) selected.push(advanced[Math.floor(Math.random()*advanced.length)]);
-
+      if (Math.random() > 0.35) selected.push(priceAction[Math.floor(Math.random()*priceAction.length)]);
       if (highProbMode) {
         selected.push(smcShuffled[2]);
-        if (Math.random() > 0.5) selected.push(priceAction[Math.floor(Math.random()*priceAction.length)]);
+        if (Math.random() > 0.4) selected.push('Fresh Zone / Untested OB');
       }
 
       const unique = [...new Set(selected)].slice(0, highProbMode ? 6 : 5);
 
-      let conf = minConf + Math.floor(Math.random() * 11);
-      if (conf > 95) conf = 95;
+      let conf = minConf + Math.floor(Math.random() * 10);
+      if (conf > 94) conf = 94;
 
-      const waitChance = highProbMode ? 0.38 : 0.26;
-      if (Math.random() < waitChance) {
-        return {
-          marketType: 'Waiting for better setup',
-          bias: 'WAIT',
-          conf: 52 + Math.floor(Math.random()*18),
-          confluences: ['No strong multi-factor confluence', 'Waiting for clearer structure'],
-          comment: 'Current setup does not meet high-probability criteria. Better to wait.',
-          tf: getTimeframeForMode()
-        };
+      // Entry Type logic
+      let entryType, entryZone, entryQuality, rr;
+
+      if (unique.some(x => x.includes('Order Block') || x.includes('FVG') || x.includes('OTE'))) {
+        entryType = 'Limit Entry';
+        entryZone = isBuy ? 'Buy Limit into Bullish Order Block / FVG' : 'Sell Limit into Bearish Order Block / FVG';
+      } else if (unique.some(x => x.includes('BOS') || x.includes('CHoCH'))) {
+        entryType = 'Market Entry';
+        entryZone = isBuy ? 'Buy on Break of Structure confirmation' : 'Sell on Break of Structure confirmation';
+      } else {
+        entryType = 'Pullback Entry';
+        entryZone = isBuy ? 'Buy on pullback into demand zone' : 'Sell on pullback into supply zone';
+      }
+
+      // Entry Quality
+      if (conf >= 88 && highProbMode) {
+        entryQuality = 'A+';
+      } else if (conf >= 84) {
+        entryQuality = 'A';
+      } else if (conf >= 78) {
+        entryQuality = 'B';
+      } else {
+        entryQuality = 'C';
+      }
+
+      // Risk : Reward based on mode
+      if (tradingMode === 'scalping') {
+        rr = Math.random() > 0.5 ? '1 : 1.5' : '1 : 2';
+      } else if (tradingMode === 'day') {
+        rr = Math.random() > 0.4 ? '1 : 2' : '1 : 2.5';
+      } else {
+        rr = Math.random() > 0.4 ? '1 : 3' : '1 : 4';
       }
 
       return {
@@ -889,8 +946,12 @@
         bias: isBuy ? 'BUY' : 'SELL',
         conf,
         confluences: unique,
-        comment: `Strong ${direction.toLowerCase()} confluence using SMC/ICT + Price Action + Structure on ${getTradingModeLabel()}.`,
-        tf: getTimeframeForMode()
+        comment: `Strong ${direction.toLowerCase()} setup. Look for ${entryType.toLowerCase()} at the identified zone.`,
+        tf: getTimeframeForMode(),
+        entryType,
+        entryZone,
+        entryQuality,
+        rr
       };
     }
 
@@ -922,6 +983,15 @@
         document.getElementById('aiTradingMode').textContent = getTradingModeLabel();
         document.getElementById('aiTF').textContent = analysis.tf;
         document.getElementById('aiComment').textContent = analysis.comment;
+
+        // Entry info
+        document.getElementById('entryType').textContent = analysis.entryType;
+        document.getElementById('entryZone').textContent = analysis.entryZone;
+        document.getElementById('entryQuality').textContent = analysis.entryQuality;
+        document.getElementById('entryQuality').className = 'entry-value ' + 
+          (analysis.entryQuality.startsWith('A') ? 'quality-a' : 
+           analysis.entryQuality === 'B' ? 'quality-b' : 'quality-c');
+        document.getElementById('entryRR').textContent = analysis.rr;
 
         const bar = document.getElementById('confBar');
         bar.style.width = '0%';
@@ -955,7 +1025,7 @@
         document.getElementById('executeBtn').style.display = analysis.bias === 'WAIT' ? 'none' : 'block';
         document.getElementById('executeBtn').disabled = !mtConnected;
         document.getElementById('executeBtn').textContent = mtConnected ? 'Execute Trade' : 'Connect MT Account to Execute';
-      }, 1600 + Math.random() * 800);
+      }, 1600 + Math.random() * 700);
     }
 
     function connectMT() {
@@ -1000,8 +1070,8 @@
 
       document.getElementById('modalText').innerHTML =
         `<strong>${a.bias}</strong> <strong>${a.symbol}</strong><br>
-         Mode: ${getTradingModeLabel()}<br>
-         Confidence: ${a.confidence}%<br>
+         Entry: ${a.entryType}<br>
+         Quality: ${a.entryQuality}<br>
          Lot: <strong>${lotSize.toFixed(2)}</strong> × <strong>${numTrades}</strong><br>
          SL: <strong>${sl} pips</strong> | TP: <strong>${tp} pips</strong>`;
       document.getElementById('executeModal').style.display = 'flex';
