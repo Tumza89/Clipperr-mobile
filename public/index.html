@@ -45,6 +45,77 @@
       transition: background 0.4s, color 0.4s;
     }
 
+    /* ACCESS LOCK SCREEN */
+    #accessLock {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(160deg, #050508 0%, #0b0b12 100%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      text-align: center;
+    }
+    #accessLock.hidden { display: none; }
+    .lock-logo {
+      width: 90px;
+      height: 90px;
+      background: linear-gradient(135deg, #00ff88, #00ccff);
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 900;
+      color: #000;
+      margin-bottom: 24px;
+    }
+    .lock-title {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .lock-sub {
+      font-size: 14px;
+      color: var(--text2);
+      margin-bottom: 28px;
+    }
+    .lock-input {
+      width: 100%;
+      max-width: 280px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      color: white;
+      padding: 15px 16px;
+      border-radius: 14px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      margin-bottom: 14px;
+      letter-spacing: 1px;
+    }
+    .lock-input:focus { border-color: var(--accent); }
+    .lock-btn {
+      width: 100%;
+      max-width: 280px;
+      background: linear-gradient(90deg, #00ff88, #00ccff);
+      color: #000;
+      border: none;
+      padding: 15px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    .lock-error {
+      color: #ff3b30;
+      font-size: 13px;
+      margin-top: 12px;
+      display: none;
+    }
+
     .header {
       display: flex; justify-content: space-between; align-items: center;
       padding: 14px 16px; position: sticky; top: 0;
@@ -485,6 +556,16 @@
 </head>
 <body class="theme-green">
 
+  <!-- ACCESS LOCK SCREEN -->
+  <div id="accessLock">
+    <div class="lock-logo">EA</div>
+    <div class="lock-title">Market Avenger Pro</div>
+    <div class="lock-sub">Enter Access Code to continue</div>
+    <input type="password" class="lock-input" id="accessInput" placeholder="Access Code" />
+    <button class="lock-btn" onclick="checkAccess()">Unlock App</button>
+    <div class="lock-error" id="lockError">Incorrect code. Try again.</div>
+  </div>
+
   <div class="header">
     <div class="logo-area">
       <div class="logo-icon">EA</div>
@@ -563,7 +644,6 @@
         <div style="font-size:13px;color:var(--text2);" id="aiPattern">—</div>
       </div>
 
-      <!-- NEW ENTRY BOX -->
       <div class="entry-box" id="entryBox">
         <div class="entry-row">
           <span class="entry-label">Entry Type</span>
@@ -701,6 +781,31 @@
   </div>
 
   <script>
+    // ================= ACCESS CODE =================
+    const ACCESS_CODE = "Tumelo19";
+
+    function checkAccess() {
+      const input = document.getElementById('accessInput').value.trim();
+      if (input === ACCESS_CODE) {
+        localStorage.setItem('mav_unlocked', 'true');
+        document.getElementById('accessLock').classList.add('hidden');
+      } else {
+        document.getElementById('lockError').style.display = 'block';
+        document.getElementById('accessInput').value = '';
+      }
+    }
+
+    // Check if already unlocked
+    if (localStorage.getItem('mav_unlocked') === 'true') {
+      document.getElementById('accessLock').classList.add('hidden');
+    }
+
+    // Allow Enter key
+    document.getElementById('accessInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') checkAccess();
+    });
+    // ===============================================
+
     let selectedImage = null;
     let tradingMode = 'scalping';
     let highProbMode = false;
@@ -862,7 +967,6 @@
       const direction = isBuy ? 'Bullish' : 'Bearish';
       const htf = isBuy ? 'Bullish' : 'Bearish';
 
-      // Stricter wait chance in High Probability Mode
       const waitChance = highProbMode ? 0.42 : 0.28;
       if (Math.random() < waitChance) {
         return {
@@ -907,7 +1011,6 @@
       let conf = minConf + Math.floor(Math.random() * 10);
       if (conf > 94) conf = 94;
 
-      // Entry Type logic
       let entryType, entryZone, entryQuality, rr;
 
       if (unique.some(x => x.includes('Order Block') || x.includes('FVG') || x.includes('OTE'))) {
@@ -921,7 +1024,6 @@
         entryZone = isBuy ? 'Buy on pullback into demand zone' : 'Sell on pullback into supply zone';
       }
 
-      // Entry Quality
       if (conf >= 88 && highProbMode) {
         entryQuality = 'A+';
       } else if (conf >= 84) {
@@ -932,7 +1034,6 @@
         entryQuality = 'C';
       }
 
-      // Risk : Reward based on mode
       if (tradingMode === 'scalping') {
         rr = Math.random() > 0.5 ? '1 : 1.5' : '1 : 2';
       } else if (tradingMode === 'day') {
@@ -984,7 +1085,6 @@
         document.getElementById('aiTF').textContent = analysis.tf;
         document.getElementById('aiComment').textContent = analysis.comment;
 
-        // Entry info
         document.getElementById('entryType').textContent = analysis.entryType;
         document.getElementById('entryZone').textContent = analysis.entryZone;
         document.getElementById('entryQuality').textContent = analysis.entryQuality;
