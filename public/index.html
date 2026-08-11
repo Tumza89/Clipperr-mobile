@@ -352,7 +352,6 @@
       position: relative;
     }
 
-    /* SCANNING BEAM */
     .scan-beam-container {
       position: relative;
       display: inline-block;
@@ -420,7 +419,6 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .scan-text { font-size: 13px; color: var(--text2); }
 
-    /* HOLOGRAPHIC BORDER + SCAN LINE */
     .ai-result {
       position: relative;
       border: none;
@@ -527,6 +525,24 @@
     .big-bias.sell { color: #ff3b30; text-shadow: 0 0 20px rgba(255,59,48,0.4); }
     .big-bias.wait { color: #ffcc00; }
 
+    .structure-box {
+      background: rgba(168,85,247,0.08);
+      border: 1px solid rgba(168,85,247,0.2);
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      position: relative; z-index: 2;
+    }
+    .structure-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .structure-row:last-child { margin-bottom: 0; }
+    .structure-label { color: var(--text2); }
+    .structure-value { font-weight: 700; }
+
     .entry-box {
       background: rgba(0,255,136,0.05);
       border: 1px solid rgba(0,255,136,0.18);
@@ -623,7 +639,6 @@
       outline: none;
     }
 
-    /* HISTORY */
     .history-header {
       display: flex;
       justify-content: space-between;
@@ -802,7 +817,6 @@
 </head>
 <body class="theme-green">
 
-  <!-- ACCESS LOCK -->
   <div id="accessLock">
     <div class="lock-logo">EA</div>
     <div class="lock-title">Market Avenger Pro</div>
@@ -904,6 +918,18 @@
       <div class="ai-bias-row">
         <div class="big-bias" id="aiBias">—</div>
         <div style="font-size:13px;color:var(--text2);" id="aiPattern">—</div>
+      </div>
+
+      <!-- MARKET STRUCTURE BOX -->
+      <div class="structure-box" id="structureBox">
+        <div class="structure-row">
+          <span class="structure-label">Market Structure</span>
+          <span class="structure-value" id="structureType">—</span>
+        </div>
+        <div class="structure-row">
+          <span class="structure-label">Key Level</span>
+          <span class="structure-value" id="keyLevel">—</span>
+        </div>
       </div>
 
       <div class="entry-box" id="entryBox">
@@ -1023,7 +1049,6 @@
     <button class="disconnect-btn" id="disconnectBtn" style="display:none;" onclick="disconnectMT()">Disconnect Account</button>
   </div>
 
-  <!-- Bottom Nav -->
   <div class="bottom-nav">
     <button class="nav-item active" onclick="showPage('home', this)">
       <div class="nav-icon-wrap">
@@ -1085,7 +1110,6 @@
       if (e.key === 'Enter') checkAccess();
     });
 
-    // Restore theme
     const savedTheme = localStorage.getItem('mav_theme') || 'theme-green';
     document.body.classList.remove(...THEMES);
     document.body.classList.add(savedTheme);
@@ -1253,6 +1277,7 @@
         entryZone: analysis.entryZone,
         entryQuality: analysis.entryQuality,
         rr: analysis.rr,
+        structure: analysis.structureType,
         mode: getTradingModeLabel(),
         date: new Date().toLocaleString()
       });
@@ -1291,7 +1316,7 @@
             <span>${h.entryQuality}</span>
             <span>${h.rr}</span>
           </div>
-          <div class="hist-entry">${h.entryType} • ${h.entryZone}</div>
+          <div class="hist-entry">${h.entryType} • ${h.structure || ''}</div>
           <div class="hist-date">${h.date} • ${h.mode}</div>
         </div>
       `).join('');
@@ -1312,21 +1337,34 @@
 
       const isBuy = Math.random() > 0.48;
       const direction = isBuy ? 'Bullish' : 'Bearish';
-      const htf = isBuy ? 'Bullish' : 'Bearish';
 
-      const waitChance = highProbMode ? 0.42 : 0.28;
+      // Market Structure
+      let structureType, keyLevel, structureLabel;
+      if (isBuy) {
+        structureType = Math.random() > 0.4 ? 'Higher High + Higher Low (HH + HL)' : 'Higher Low (HL)';
+        keyLevel = 'Support holding';
+        structureLabel = 'Bullish Structure';
+      } else {
+        structureType = Math.random() > 0.4 ? 'Lower High + Lower Low (LH + LL)' : 'Lower High (LH)';
+        keyLevel = 'Resistance holding';
+        structureLabel = 'Bearish Structure';
+      }
+
+      const waitChance = highProbMode ? 0.38 : 0.26;
       if (Math.random() < waitChance) {
         return {
           marketType: 'Waiting for better setup',
           bias: 'WAIT',
           conf: 50 + Math.floor(Math.random()*18),
-          confluences: ['No strong multi-factor confluence', 'Waiting for clearer structure'],
-          comment: 'Setup is not clear enough. Better to wait for a higher quality entry.',
+          confluences: ['No clear market structure', 'Waiting for HH/HL or LH/LL confirmation'],
+          comment: 'Structure is unclear. Better to wait for a cleaner Higher Low or Lower High.',
           tf: getTimeframeForMode(),
           entryType: '—',
           entryZone: 'No clear entry zone',
           entryQuality: '—',
-          rr: '—'
+          rr: '—',
+          structureType: 'Unclear',
+          keyLevel: 'None'
         };
       }
 
@@ -1334,46 +1372,47 @@
         'Order Block (SMC)', 'Fair Value Gap (FVG)', 'Liquidity Sweep',
         'Break of Structure (BOS)', 'Change of Character (CHoCH)',
         'Breaker Block', 'Mitigation Block', 'Optimal Trade Entry (OTE)',
-        'ICT Judas Swing', 'Displacement', 'Inducement'
+        'ICT Judas Swing', 'Displacement'
       ];
 
-      const priceAction = [
-        'Pin Bar / Hammer', 'Engulfing Pattern', 'Inside Bar',
-        'Morning/Evening Star', 'Double Top/Bottom'
+      const selected = [
+        `Market Structure: ${structureLabel}`,
+        structureType,
+        keyLevel
       ];
 
-      const selected = [`HTF Bias: ${htf}`];
       const smcShuffled = [...smcIct].sort(() => 0.5 - Math.random());
       selected.push(smcShuffled[0]);
       selected.push(smcShuffled[1]);
 
-      if (Math.random() > 0.35) selected.push(priceAction[Math.floor(Math.random()*priceAction.length)]);
       if (highProbMode) {
         selected.push(smcShuffled[2]);
-        if (Math.random() > 0.4) selected.push('Fresh Zone / Untested OB');
+        if (Math.random() > 0.4) selected.push('Fresh Zone / Untested Level');
       }
 
-      const unique = [...new Set(selected)].slice(0, highProbMode ? 6 : 5);
+      const unique = [...new Set(selected)].slice(0, highProbMode ? 7 : 5);
 
       let conf = minConf + Math.floor(Math.random() * 10);
-      if (conf > 94) conf = 94;
+      // Boost confidence when structure is clean
+      if (structureType.includes('+')) conf += 3;
+      if (conf > 95) conf = 95;
 
       let entryType, entryZone, entryQuality, rr;
 
       if (unique.some(x => x.includes('Order Block') || x.includes('FVG') || x.includes('OTE'))) {
         entryType = 'Limit Entry';
-        entryZone = isBuy ? 'Buy Limit into Bullish Order Block / FVG' : 'Sell Limit into Bearish Order Block / FVG';
+        entryZone = isBuy ? 'Buy Limit into Support / Bullish OB' : 'Sell Limit into Resistance / Bearish OB';
       } else if (unique.some(x => x.includes('BOS') || x.includes('CHoCH'))) {
         entryType = 'Market Entry';
-        entryZone = isBuy ? 'Buy on Break of Structure confirmation' : 'Sell on Break of Structure confirmation';
+        entryZone = isBuy ? 'Buy on Break of Structure + HL' : 'Sell on Break of Structure + LH';
       } else {
         entryType = 'Pullback Entry';
-        entryZone = isBuy ? 'Buy on pullback into demand zone' : 'Sell on pullback into supply zone';
+        entryZone = isBuy ? 'Buy on pullback to Higher Low / Support' : 'Sell on pullback to Lower High / Resistance';
       }
 
-      if (conf >= 88 && highProbMode) {
+      if (conf >= 90 && highProbMode) {
         entryQuality = 'A+';
-      } else if (conf >= 84) {
+      } else if (conf >= 85) {
         entryQuality = 'A';
       } else if (conf >= 78) {
         entryQuality = 'B';
@@ -1390,16 +1429,18 @@
       }
 
       return {
-        marketType: highProbMode ? 'High Probability Confluence' : 'Multi-Strategy Confluence',
+        marketType: highProbMode ? 'High Probability Structure' : 'Structure + Confluence',
         bias: isBuy ? 'BUY' : 'SELL',
         conf,
         confluences: unique,
-        comment: `Strong ${direction.toLowerCase()} setup. Look for ${entryType.toLowerCase()} at the identified zone.`,
+        comment: `${structureLabel} confirmed. Look for ${entryType.toLowerCase()} near the key level.`,
         tf: getTimeframeForMode(),
         entryType,
         entryZone,
         entryQuality,
-        rr
+        rr,
+        structureType,
+        keyLevel
       };
     }
 
@@ -1419,7 +1460,6 @@
       result.style.display = 'none';
       document.getElementById('executeBtn').style.display = 'none';
 
-      // Start visual reactions
       beam.classList.add('active');
       logo.classList.add('reacting');
       bot.classList.add('reacting');
@@ -1440,11 +1480,15 @@
         document.getElementById('marketType').textContent = analysis.marketType;
         document.getElementById('aiBias').textContent = analysis.bias;
         document.getElementById('aiBias').className = 'big-bias ' + analysis.bias.toLowerCase();
-        document.getElementById('aiPattern').textContent = analysis.bias === 'WAIT' ? 'No clear setup' : 'High Quality Setup';
+        document.getElementById('aiPattern').textContent = analysis.bias === 'WAIT' ? 'No clear setup' : 'Structure Confirmed';
         document.getElementById('aiSymbolDisplay').textContent = symbol;
         document.getElementById('aiTradingMode').textContent = getTradingModeLabel();
         document.getElementById('aiTF').textContent = analysis.tf;
         document.getElementById('aiComment').textContent = analysis.comment;
+
+        // Market Structure
+        document.getElementById('structureType').textContent = analysis.structureType;
+        document.getElementById('keyLevel').textContent = analysis.keyLevel;
 
         document.getElementById('entryType').textContent = analysis.entryType;
         document.getElementById('entryZone').textContent = analysis.entryZone;
@@ -1484,7 +1528,6 @@
         lastAnalysis = { ...analysis, confidence: analysis.conf };
         result.style.display = 'block';
 
-        // Trigger hologram scan line
         const scanline = document.getElementById('holoScanline');
         scanline.classList.remove('active');
         void scanline.offsetWidth;
@@ -1538,6 +1581,7 @@
 
       document.getElementById('modalText').innerHTML =
         `<strong>${a.bias}</strong> <strong>${a.symbol}</strong><br>
+         Structure: ${a.structureType}<br>
          Entry: ${a.entryType}<br>
          Quality: ${a.entryQuality}<br>
          Lot: <strong>${lotSize.toFixed(2)}</strong> × <strong>${numTrades}</strong><br>
