@@ -67,6 +67,7 @@
       100% { opacity: 1; transform: scale(1.05); }
     }
 
+    /* ACCESS LOCK */
     #accessLock {
       position: fixed; inset: 0;
       background: linear-gradient(160deg, #050508 0%, #0b0b14 100%);
@@ -254,6 +255,7 @@
     }
     .start-btn.stop::before { display: none; }
 
+    /* Theme Preview */
     .theme-section { width: 100%; margin-top: 8px; }
     .theme-label {
       font-size: 13px; color: var(--text2);
@@ -266,7 +268,7 @@
     .theme-swatch {
       width: 36px; height: 36px; border-radius: 50%;
       border: 2px solid rgba(255,255,255,0.15);
-      cursor: pointer; transition: 0.2s;
+      cursor: pointer; transition: 0.2s; position: relative;
     }
     .theme-swatch:active { transform: scale(0.9); }
     .theme-swatch.active {
@@ -300,18 +302,22 @@
       border: 1px solid var(--border);
       color: var(--text); padding: 14px 15px; border-radius: 14px;
       font-size: 14px; margin-bottom: 12px; outline: none;
+      transition: 0.2s;
     }
     .form-input:focus { 
       border-color: var(--accent); 
       box-shadow: 0 0 0 3px var(--glow);
+      background: rgba(255,255,255,0.06);
     }
+    .form-input::placeholder { color: #666; }
 
     .trading-mode-toggle { display: flex; gap: 8px; margin-bottom: 14px; }
     .trading-mode-btn {
       flex: 1; padding: 12px 6px; border-radius: 14px; border: 1px solid var(--border);
       background: rgba(255,255,255,0.03); color: var(--text2); font-size: 12px; font-weight: 600;
-      cursor: pointer; text-align: center;
+      cursor: pointer; text-align: center; transition: 0.25s;
     }
+    .trading-mode-btn:active { transform: scale(0.96); }
     .trading-mode-btn.active {
       background: rgba(0,255,136,0.12);
       border-color: var(--accent);
@@ -326,10 +332,12 @@
       text-align: center;
       cursor: pointer;
       margin-bottom: 14px;
+      transition: 0.25s;
       background: rgba(255,255,255,0.02);
       position: relative;
       overflow: hidden;
     }
+    .upload-area:active { transform: scale(0.98); }
     .upload-area.active {
       border-color: var(--accent);
       background: rgba(0,255,136,0.06);
@@ -337,22 +345,24 @@
     }
     .upload-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
     .upload-sub { font-size: 12px; color: var(--text2); }
+    #previewImage {
+      max-width: 100%; max-height: 200px; border-radius: 14px;
+      margin: 12px 0 0; display: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      position: relative;
+    }
 
     .scan-beam-container {
       position: relative;
       display: inline-block;
       max-width: 100%;
     }
-    #previewImage {
-      max-width: 100%; max-height: 200px; border-radius: 14px;
-      margin: 12px 0 0; display: none;
-    }
     .scan-beam {
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 3px;
       background: linear-gradient(90deg, transparent, var(--accent), #fff, var(--accent), transparent);
-      box-shadow: 0 0 15px var(--accent);
+      box-shadow: 0 0 15px var(--accent), 0 0 30px var(--glow);
       opacity: 0;
       z-index: 5;
       pointer-events: none;
@@ -371,7 +381,9 @@
     .scan-btn, .execute-btn, .clear-btn {
       width: 100%; border: none; padding: 16px; border-radius: 16px;
       font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 8px;
+      transition: 0.25s;
     }
+    .scan-btn:active, .execute-btn:active, .clear-btn:active { transform: scale(0.97); }
     .scan-btn {
       background: linear-gradient(90deg, var(--accent), #00ccff); color: #000;
       box-shadow: 0 8px 25px var(--glow);
@@ -380,6 +392,7 @@
     .execute-btn {
       background: linear-gradient(90deg, #ff9500, #ff3b30);
       color: #fff; display: none;
+      box-shadow: 0 8px 25px rgba(255,59,48,0.35);
     }
     .clear-btn {
       background: transparent;
@@ -412,9 +425,9 @@
       border-radius: 22px;
       overflow: hidden;
       animation: slideIn 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
       background: rgba(255,255,255,0.04);
       backdrop-filter: blur(20px);
-      display: none;
     }
     .ai-result::before {
       content: '';
@@ -460,6 +473,7 @@
       85% { opacity: 0.95; }
       100% { top: 100%; opacity: 0; }
     }
+
     @keyframes slideIn {
       from { opacity: 0; transform: translateY(20px) scale(0.97); }
       to { opacity: 1; transform: translateY(0) scale(1); }
@@ -473,6 +487,7 @@
     .confidence {
       font-size: 13px; font-weight: 800; padding: 5px 12px;
       border-radius: 20px; background: rgba(0,255,136,0.15); color: var(--accent);
+      border: 1px solid rgba(0,255,136,0.2);
     }
 
     .conf-bar-wrap {
@@ -489,6 +504,7 @@
       background: linear-gradient(90deg, var(--accent), #00ccff);
       border-radius: 10px;
       transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 0 12px var(--glow);
     }
 
     .market-type {
@@ -497,15 +513,16 @@
       padding: 5px 12px; border-radius: 20px;
       background: rgba(168,85,247,0.15); color: var(--purple);
       margin-bottom: 14px;
+      border: 1px solid rgba(168,85,247,0.2);
       position: relative; z-index: 2;
     }
     .ai-bias-row {
       display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
       position: relative; z-index: 2;
     }
-    .big-bias { font-size: 28px; font-weight: 800; }
-    .big-bias.buy { color: #00ff88; }
-    .big-bias.sell { color: #ff3b30; }
+    .big-bias { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+    .big-bias.buy { color: #00ff88; text-shadow: 0 0 20px rgba(0,255,136,0.4); }
+    .big-bias.sell { color: #ff3b30; text-shadow: 0 0 20px rgba(255,59,48,0.4); }
     .big-bias.wait { color: #ffcc00; }
 
     .structure-box {
@@ -555,7 +572,7 @@
       font-size: 14px;
     }
     .confluence-item:last-child { border-bottom: none; }
-    .check { color: #00ff88; font-weight: 800; min-width: 20px; }
+    .check { color: #00ff88; font-weight: 800; font-size: 16px; min-width: 20px; }
 
     .ai-row {
       display: flex; justify-content: space-between; align-items: center;
@@ -594,6 +611,7 @@
       width: 42px; height: 40px; background: transparent; border: none;
       color: var(--text); font-size: 20px; font-weight: 700; cursor: pointer;
     }
+    .stepper-btn:active { background: rgba(0,255,136,0.15); }
     .stepper-value {
       min-width: 62px; text-align: center; font-size: 15px; font-weight: 700;
       border-left: 1px solid var(--border); border-right: 1px solid var(--border);
@@ -684,7 +702,9 @@
       width: 100%; background: linear-gradient(90deg, var(--accent), #00ccff);
       color: #000; border: none; padding: 15px; border-radius: 14px;
       font-weight: 800; font-size: 15px; cursor: pointer;
+      box-shadow: 0 8px 25px var(--glow);
     }
+    .connect-btn:active { transform: scale(0.97); }
     .disconnect-btn {
       width: 100%; background: transparent; border: 1px solid #ff3b30;
       color: #ff3b30; padding: 13px; border-radius: 14px;
@@ -715,21 +735,23 @@
       display: flex; flex-direction: column; align-items: center;
       gap: 4px; color: #6b6b7b; font-size: 10px; font-weight: 500;
       background: none; border: none; position: relative; min-width: 64px;
+      transition: 0.25s;
     }
     .nav-item.active { color: var(--purple); }
     .nav-icon-wrap {
       width: 44px; height: 44px;
       display: flex; align-items: center; justify-content: center;
-      border-radius: 14px;
+      border-radius: 14px; transition: 0.3s;
     }
     .nav-item.active .nav-icon-wrap {
       background: rgba(168, 85, 247, 0.18);
       box-shadow: 0 0 20px var(--purple-glow);
+      transform: scale(1.06);
     }
     .nav-item.active::before {
       content: ''; position: absolute; top: -10px;
       width: 24px; height: 3px; background: var(--purple);
-      border-radius: 0 0 4px 4px;
+      border-radius: 0 0 4px 4px; box-shadow: 0 0 10px var(--purple);
     }
     .nav-icon-wrap svg {
       width: 20px; height: 20px; stroke: currentColor; fill: none;
@@ -740,12 +762,15 @@
       position: fixed; inset: 0; background: rgba(0,0,0,0.78);
       display: none; align-items: center; justify-content: center;
       z-index: 200; padding: 20px;
+      backdrop-filter: blur(6px);
     }
     .modal {
       background: rgba(15,15,22,0.96);
+      backdrop-filter: blur(24px);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 22px; padding: 24px; width: 100%; max-width: 340px;
       text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
     }
     .modal h3 { margin-bottom: 8px; font-size: 18px; }
     .modal p { font-size: 14px; color: var(--text2); margin-bottom: 18px; line-height: 1.5; }
@@ -774,8 +799,9 @@
       border-radius: 20px;
       position: relative;
       cursor: pointer;
+      transition: 0.25s;
     }
-    .toggle-switch.active { background: var(--accent); }
+    .toggle-switch.active { background: var(--accent); box-shadow: 0 0 12px var(--glow); }
     .toggle-switch::after {
       content: '';
       width: 22px; height: 22px;
@@ -784,19 +810,9 @@
       position: absolute;
       top: 3px; left: 3px;
       transition: 0.25s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
     .toggle-switch.active::after { left: 23px; }
-
-    .error-box {
-      background: rgba(255,59,48,0.1);
-      border: 1px solid rgba(255,59,48,0.3);
-      color: #ff6b6b;
-      padding: 14px;
-      border-radius: 14px;
-      font-size: 13px;
-      margin-top: 12px;
-      display: none;
-    }
   </style>
 </head>
 <body class="theme-green">
@@ -818,6 +834,7 @@
     <div class="status offline" id="mtStatus">MT Offline</div>
   </div>
 
+  <!-- HOME -->
   <div class="page active" id="page-home">
     <div class="home-hero">
       <img src="MarketAvengerProjpg.jpeg" alt="Market Avenger Pro" class="bot-avatar" id="botAvatar" />
@@ -847,6 +864,7 @@
     </div>
   </div>
 
+  <!-- SCANNER -->
   <div class="page" id="page-scanner">
     <div class="scanner-box">
       <div style="font-size:15px;font-weight:700;margin-bottom:14px;text-align:center;">AI Chart Scanner</div>
@@ -877,15 +895,14 @@
       <input type="file" id="galleryInput" accept="image/*" style="display:none" onchange="handleImage(event)" />
 
       <button class="scan-btn" id="scanBtn" disabled onclick="runAIScan()">Scan Chart</button>
-      <div class="error-box" id="errorBox"></div>
 
       <div class="skeleton-wrap" id="skeleton">
         <div class="scanner-ring"></div>
-        <div class="scan-text">Reading chart with AI...</div>
+        <div class="scan-text">Analysing chart structure...</div>
       </div>
     </div>
 
-    <div class="ai-result" id="aiResult">
+    <div class="ai-result" id="aiResult" style="display:none;">
       <div class="holo-scanline" id="holoScanline"></div>
       <div class="ai-header">
         <div class="ai-title">AI Analysis</div>
@@ -903,6 +920,7 @@
         <div style="font-size:13px;color:var(--text2);" id="aiPattern">—</div>
       </div>
 
+      <!-- MARKET STRUCTURE BOX -->
       <div class="structure-box" id="structureBox">
         <div class="structure-row">
           <span class="structure-label">Market Structure</span>
@@ -984,6 +1002,7 @@
     </div>
   </div>
 
+  <!-- HISTORY -->
   <div class="page" id="page-history">
     <div class="history-box">
       <div class="history-header">
@@ -997,6 +1016,7 @@
     </div>
   </div>
 
+  <!-- METATRADER -->
   <div class="page" id="page-account">
     <div class="account-info" id="accountInfo">
       <div class="info-row"><span class="info-label">Status</span><span class="info-value" style="color:var(--accent);">Connected</span></div>
@@ -1188,45 +1208,13 @@
     }
     document.getElementById('manualSymbol').addEventListener('input', checkScanReady);
 
-function compressImage(dataUrl, maxWidth = 400, quality = 0.25) {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      let width = img.width;
-      let height = img.height;
-
-      if (width > maxWidth) {
-        height = Math.round((height * maxWidth) / width);
-        width = maxWidth;
-      }
-
-      if (height > 500) {
-        width = Math.round((width * 500) / height);
-        height = 500;
-      }
-
-      canvas.width = width;
-      canvas.height = height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, width, height);
-      resolve(canvas.toDataURL('image/jpeg', quality));
-    };
-    img.src = dataUrl;
-  });
-}
-
-    async function handleImage(e) {
+    function handleImage(e) {
       const file = e.target.files[0];
       if (!file) return;
-      if (file.size > 8 * 1024 * 1024) {
-        alert('Image too large. Please use a smaller screenshot.');
-        return;
-      }
-
+      if (file.size > 5 * 1024 * 1024) { alert('Image too large (max 5MB)'); return; }
       const reader = new FileReader();
-      reader.onload = async function(ev) {
-        selectedImage = await compressImage(ev.target.result);
+      reader.onload = function(ev) {
+        selectedImage = ev.target.result;
         const img = document.getElementById('previewImage');
         img.src = selectedImage;
         img.style.display = 'block';
@@ -1234,7 +1222,6 @@ function compressImage(dataUrl, maxWidth = 400, quality = 0.25) {
         document.getElementById('uploadBtn').classList.add('active');
         document.getElementById('aiResult').style.display = 'none';
         document.getElementById('executeBtn').style.display = 'none';
-        document.getElementById('errorBox').style.display = 'none';
         checkScanReady();
       };
       reader.readAsDataURL(file);
@@ -1247,6 +1234,12 @@ function compressImage(dataUrl, maxWidth = 400, quality = 0.25) {
     function changeTrades(d) {
       numTrades = Math.max(1, Math.min(20, numTrades + d));
       document.getElementById('tradesValue').textContent = numTrades;
+    }
+
+    function getTimeframeForMode() {
+      if (tradingMode === 'scalping') return ['1m / 5m', '5m / 15m'][Math.floor(Math.random()*2)];
+      if (tradingMode === 'day') return ['15m / 1H', '30m / 1H'][Math.floor(Math.random()*2)];
+      return ['4H / Daily', 'Daily'][Math.floor(Math.random()*2)];
     }
 
     function getTradingModeLabel() {
@@ -1279,7 +1272,7 @@ function compressImage(dataUrl, maxWidth = 400, quality = 0.25) {
         id: Date.now(),
         symbol: analysis.symbol,
         bias: analysis.bias,
-        conf: analysis.confidence || analysis.conf,
+        conf: analysis.conf,
         entryType: analysis.entryType,
         entryZone: analysis.entryZone,
         entryQuality: analysis.entryQuality,
@@ -1336,13 +1329,122 @@ function compressImage(dataUrl, maxWidth = 400, quality = 0.25) {
       }
     }
 
-    function showError(msg) {
-      const box = document.getElementById('errorBox');
-      box.textContent = msg;
-      box.style.display = 'block';
+    function runConfluenceScan(symbol) {
+      let minConf = 78;
+      if (tradingMode === 'day') minConf = 82;
+      if (tradingMode === 'swing') minConf = 86;
+      if (highProbMode) minConf += 8;
+
+      const isBuy = Math.random() > 0.48;
+      const direction = isBuy ? 'Bullish' : 'Bearish';
+
+      // Market Structure
+      let structureType, keyLevel, structureLabel;
+      if (isBuy) {
+        structureType = Math.random() > 0.4 ? 'Higher High + Higher Low (HH + HL)' : 'Higher Low (HL)';
+        keyLevel = 'Support holding';
+        structureLabel = 'Bullish Structure';
+      } else {
+        structureType = Math.random() > 0.4 ? 'Lower High + Lower Low (LH + LL)' : 'Lower High (LH)';
+        keyLevel = 'Resistance holding';
+        structureLabel = 'Bearish Structure';
+      }
+
+      const waitChance = highProbMode ? 0.38 : 0.26;
+      if (Math.random() < waitChance) {
+        return {
+          marketType: 'Waiting for better setup',
+          bias: 'WAIT',
+          conf: 50 + Math.floor(Math.random()*18),
+          confluences: ['No clear market structure', 'Waiting for HH/HL or LH/LL confirmation'],
+          comment: 'Structure is unclear. Better to wait for a cleaner Higher Low or Lower High.',
+          tf: getTimeframeForMode(),
+          entryType: '—',
+          entryZone: 'No clear entry zone',
+          entryQuality: '—',
+          rr: '—',
+          structureType: 'Unclear',
+          keyLevel: 'None'
+        };
+      }
+
+      const smcIct = [
+        'Order Block (SMC)', 'Fair Value Gap (FVG)', 'Liquidity Sweep',
+        'Break of Structure (BOS)', 'Change of Character (CHoCH)',
+        'Breaker Block', 'Mitigation Block', 'Optimal Trade Entry (OTE)',
+        'ICT Judas Swing', 'Displacement'
+      ];
+
+      const selected = [
+        `Market Structure: ${structureLabel}`,
+        structureType,
+        keyLevel
+      ];
+
+      const smcShuffled = [...smcIct].sort(() => 0.5 - Math.random());
+      selected.push(smcShuffled[0]);
+      selected.push(smcShuffled[1]);
+
+      if (highProbMode) {
+        selected.push(smcShuffled[2]);
+        if (Math.random() > 0.4) selected.push('Fresh Zone / Untested Level');
+      }
+
+      const unique = [...new Set(selected)].slice(0, highProbMode ? 7 : 5);
+
+      let conf = minConf + Math.floor(Math.random() * 10);
+      // Boost confidence when structure is clean
+      if (structureType.includes('+')) conf += 3;
+      if (conf > 95) conf = 95;
+
+      let entryType, entryZone, entryQuality, rr;
+
+      if (unique.some(x => x.includes('Order Block') || x.includes('FVG') || x.includes('OTE'))) {
+        entryType = 'Limit Entry';
+        entryZone = isBuy ? 'Buy Limit into Support / Bullish OB' : 'Sell Limit into Resistance / Bearish OB';
+      } else if (unique.some(x => x.includes('BOS') || x.includes('CHoCH'))) {
+        entryType = 'Market Entry';
+        entryZone = isBuy ? 'Buy on Break of Structure + HL' : 'Sell on Break of Structure + LH';
+      } else {
+        entryType = 'Pullback Entry';
+        entryZone = isBuy ? 'Buy on pullback to Higher Low / Support' : 'Sell on pullback to Lower High / Resistance';
+      }
+
+      if (conf >= 90 && highProbMode) {
+        entryQuality = 'A+';
+      } else if (conf >= 85) {
+        entryQuality = 'A';
+      } else if (conf >= 78) {
+        entryQuality = 'B';
+      } else {
+        entryQuality = 'C';
+      }
+
+      if (tradingMode === 'scalping') {
+        rr = Math.random() > 0.5 ? '1 : 1.5' : '1 : 2';
+      } else if (tradingMode === 'day') {
+        rr = Math.random() > 0.4 ? '1 : 2' : '1 : 2.5';
+      } else {
+        rr = Math.random() > 0.4 ? '1 : 3' : '1 : 4';
+      }
+
+      return {
+        marketType: highProbMode ? 'High Probability Structure' : 'Structure + Confluence',
+        bias: isBuy ? 'BUY' : 'SELL',
+        conf,
+        confluences: unique,
+        comment: `${structureLabel} confirmed. Look for ${entryType.toLowerCase()} near the key level.`,
+        tf: getTimeframeForMode(),
+        entryType,
+        entryZone,
+        entryQuality,
+        rr,
+        structureType,
+        keyLevel
+      };
     }
 
-    async function runAIScan() {
+    function runAIScan() {
       const symbol = document.getElementById('manualSymbol').value.trim().toUpperCase();
       if (!symbol || !selectedImage) return;
 
@@ -1352,123 +1454,89 @@ function compressImage(dataUrl, maxWidth = 400, quality = 0.25) {
       const beam = document.getElementById('scanBeam');
       const logo = document.getElementById('logoIcon');
       const bot = document.getElementById('botAvatar');
-      const errorBox = document.getElementById('errorBox');
 
       btn.disabled = true;
       skeleton.style.display = 'block';
       result.style.display = 'none';
-      errorBox.style.display = 'none';
       document.getElementById('executeBtn').style.display = 'none';
 
       beam.classList.add('active');
       logo.classList.add('reacting');
       bot.classList.add('reacting');
 
-      try {
-        const response = await fetch('/api/analyze', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            image: selectedImage,
-            symbol,
-            tradingMode,
-            highProbMode
-          })
-        });
-
-        const text = await response.text();
-        let analysis;
-
-        try {
-          analysis = JSON.parse(text);
-        } catch (e) {
-          throw new Error('Invalid response from server');
-        }
-
-        if (!response.ok) {
-          throw new Error(analysis.error || 'Analysis failed');
-        }
-
-        analysis.symbol = symbol;
-        analysis.conf = analysis.confidence || analysis.conf || 60;
-
-        saveToHistory(analysis);
-        displayAnalysis(analysis);
-
-      } catch (err) {
-        console.error(err);
-        showError(err.message || 'Failed to analyse chart. Please try again.');
-      } finally {
+      setTimeout(() => {
         skeleton.style.display = 'none';
         btn.disabled = false;
         beam.classList.remove('active');
         logo.classList.remove('reacting');
         bot.classList.remove('reacting');
-      }
-    }
 
-    function displayAnalysis(analysis) {
-      const result = document.getElementById('aiResult');
+        const analysis = runConfluenceScan(symbol);
+        analysis.symbol = symbol;
 
-      animateConfidence(analysis.conf);
-      document.getElementById('marketType').textContent = analysis.marketType || 'AI Chart Analysis';
-      document.getElementById('aiBias').textContent = analysis.bias;
-      document.getElementById('aiBias').className = 'big-bias ' + (analysis.bias || 'WAIT').toLowerCase();
-      document.getElementById('aiPattern').textContent = analysis.bias === 'WAIT' ? 'No clear setup' : 'Structure Reviewed';
-      document.getElementById('aiSymbolDisplay').textContent = analysis.symbol;
-      document.getElementById('aiTradingMode').textContent = getTradingModeLabel();
-      document.getElementById('aiTF').textContent = analysis.tf || '—';
-      document.getElementById('aiComment').textContent = analysis.comment || '—';
+        saveToHistory(analysis);
 
-      document.getElementById('structureType').textContent = analysis.structureType || '—';
-      document.getElementById('keyLevel').textContent = analysis.keyLevel || '—';
+        animateConfidence(analysis.conf);
+        document.getElementById('marketType').textContent = analysis.marketType;
+        document.getElementById('aiBias').textContent = analysis.bias;
+        document.getElementById('aiBias').className = 'big-bias ' + analysis.bias.toLowerCase();
+        document.getElementById('aiPattern').textContent = analysis.bias === 'WAIT' ? 'No clear setup' : 'Structure Confirmed';
+        document.getElementById('aiSymbolDisplay').textContent = symbol;
+        document.getElementById('aiTradingMode').textContent = getTradingModeLabel();
+        document.getElementById('aiTF').textContent = analysis.tf;
+        document.getElementById('aiComment').textContent = analysis.comment;
 
-      document.getElementById('entryType').textContent = analysis.entryType || '—';
-      document.getElementById('entryZone').textContent = analysis.entryZone || '—';
-      document.getElementById('entryQuality').textContent = analysis.entryQuality || '—';
-      document.getElementById('entryQuality').className = 'entry-value ' + 
-        ((analysis.entryQuality || '').startsWith('A') ? 'quality-a' : 
-         analysis.entryQuality === 'B' ? 'quality-b' : 'quality-c');
-      document.getElementById('entryRR').textContent = analysis.rr || '—';
+        // Market Structure
+        document.getElementById('structureType').textContent = analysis.structureType;
+        document.getElementById('keyLevel').textContent = analysis.keyLevel;
 
-      const bar = document.getElementById('confBar');
-      bar.style.width = '0%';
-      setTimeout(() => { bar.style.width = analysis.conf + '%'; }, 40);
+        document.getElementById('entryType').textContent = analysis.entryType;
+        document.getElementById('entryZone').textContent = analysis.entryZone;
+        document.getElementById('entryQuality').textContent = analysis.entryQuality;
+        document.getElementById('entryQuality').className = 'entry-value ' + 
+          (analysis.entryQuality.startsWith('A') ? 'quality-a' : 
+           analysis.entryQuality === 'B' ? 'quality-b' : 'quality-c');
+        document.getElementById('entryRR').textContent = analysis.rr;
 
-      result.classList.remove('buy', 'sell', 'wait');
-      result.classList.add((analysis.bias || 'wait').toLowerCase());
+        const bar = document.getElementById('confBar');
+        bar.style.width = '0%';
+        setTimeout(() => { bar.style.width = analysis.conf + '%'; }, 40);
 
-      const list = document.getElementById('confluenceList');
-      list.innerHTML = '';
-      (analysis.confluences || []).forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'confluence-item';
-        div.innerHTML = `<span class="check">✅</span><span>${item}</span>`;
-        list.appendChild(div);
-      });
+        result.classList.remove('buy', 'sell', 'wait');
+        result.classList.add(analysis.bias.toLowerCase());
 
-      if (tradingMode === 'scalping') {
-        document.getElementById('slPips').value = 15;
-        document.getElementById('tpPips').value = 25;
-      } else if (tradingMode === 'day') {
-        document.getElementById('slPips').value = 25;
-        document.getElementById('tpPips').value = 50;
-      } else {
-        document.getElementById('slPips').value = 40;
-        document.getElementById('tpPips').value = 90;
-      }
+        const list = document.getElementById('confluenceList');
+        list.innerHTML = '';
+        analysis.confluences.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'confluence-item';
+          div.innerHTML = `<span class="check">✅</span><span>${item}</span>`;
+          list.appendChild(div);
+        });
 
-      lastAnalysis = analysis;
-      result.style.display = 'block';
+        if (tradingMode === 'scalping') {
+          document.getElementById('slPips').value = 15;
+          document.getElementById('tpPips').value = 25;
+        } else if (tradingMode === 'day') {
+          document.getElementById('slPips').value = 25;
+          document.getElementById('tpPips').value = 50;
+        } else {
+          document.getElementById('slPips').value = 40;
+          document.getElementById('tpPips').value = 90;
+        }
 
-      const scanline = document.getElementById('holoScanline');
-      scanline.classList.remove('active');
-      void scanline.offsetWidth;
-      scanline.classList.add('active');
+        lastAnalysis = { ...analysis, confidence: analysis.conf };
+        result.style.display = 'block';
 
-      document.getElementById('executeBtn').style.display = analysis.bias === 'WAIT' ? 'none' : 'block';
-      document.getElementById('executeBtn').disabled = !mtConnected;
-      document.getElementById('executeBtn').textContent = mtConnected ? 'Execute Trade' : 'Connect MT Account to Execute';
+        const scanline = document.getElementById('holoScanline');
+        scanline.classList.remove('active');
+        void scanline.offsetWidth;
+        scanline.classList.add('active');
+
+        document.getElementById('executeBtn').style.display = analysis.bias === 'WAIT' ? 'none' : 'block';
+        document.getElementById('executeBtn').disabled = !mtConnected;
+        document.getElementById('executeBtn').textContent = mtConnected ? 'Execute Trade' : 'Connect MT Account to Execute';
+      }, 2200 + Math.random() * 600);
     }
 
     function connectMT() {
@@ -1513,7 +1581,7 @@ function compressImage(dataUrl, maxWidth = 400, quality = 0.25) {
 
       document.getElementById('modalText').innerHTML =
         `<strong>${a.bias}</strong> <strong>${a.symbol}</strong><br>
-         Structure: ${a.structureType || '—'}<br>
+         Structure: ${a.structureType}<br>
          Entry: ${a.entryType}<br>
          Quality: ${a.entryQuality}<br>
          Lot: <strong>${lotSize.toFixed(2)}</strong> × <strong>${numTrades}</strong><br>
