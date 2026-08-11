@@ -3,19 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  
   <link rel="apple-touch-icon" href="iconjpg.jpeg">
   <link rel="apple-touch-icon" sizes="180x180" href="iconjpg.jpeg">
   <link rel="icon" type="image/jpeg" href="iconjpg.jpeg">
-  
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Market Avenger Pro">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#0a0a0a" />
-  
   <title>Market Avenger Pro</title>
-
   <style>
     :root {
       --bg: #050508;
@@ -29,15 +25,17 @@
       --glow: rgba(0,255,136,0.35);
     }
 
-    body.theme-green  { --accent: #00ff88; --purple: #00ff88; --purple-glow: rgba(0,255,136,0.45); --glow: rgba(0,255,136,0.35); }
-    body.theme-blue   { --accent: #3b82f6; --purple: #3b82f6; --purple-glow: rgba(59,130,246,0.45); --glow: rgba(59,130,246,0.35); }
-    body.theme-red    { --accent: #ef4444; --purple: #ef4444; --purple-glow: rgba(239,68,68,0.45); --glow: rgba(239,68,68,0.35); }
-    body.theme-purple { --accent: #a855f7; --purple: #a855f7; --purple-glow: rgba(168,85,247,0.45); --glow: rgba(168,85,247,0.35); }
-    body.theme-orange { --accent: #f97316; --purple: #f97316; --purple-glow: rgba(249,115,22,0.45); --glow: rgba(249,115,22,0.35); }
-    body.theme-gold   { --accent: #f5c518; --purple: #f5c518; --purple-glow: rgba(245,197,24,0.45); --glow: rgba(245,197,24,0.35); }
-    body.theme-neon   { --accent: #39ff14; --purple: #bf00ff; --purple-glow: rgba(191,0,255,0.5); --glow: rgba(57,255,20,0.4); }
-    body.theme-midnight { --accent: #60a5fa; --purple: #818cf8; --purple-glow: rgba(129,140,248,0.45); --glow: rgba(96,165,250,0.35); }
-    body.theme-cyber  { --accent: #00f0ff; --purple: #ff00aa; --purple-glow: rgba(255,0,170,0.45); --glow: rgba(0,240,255,0.4); }
+    /* NEW THEMES */
+    body.theme-structure { --accent: #ff6b1a; --purple: #ff6b1a; --purple-glow: rgba(255,107,26,0.45); --glow: rgba(255,107,26,0.35); }
+    body.theme-cobalt   { --accent: #3b82f6; --purple: #3b82f6; --purple-glow: rgba(59,130,246,0.45); --glow: rgba(59,130,246,0.35); }
+    body.theme-cyan     { --accent: #22d3ee; --purple: #22d3ee; --purple-glow: rgba(34,211,238,0.45); --glow: rgba(34,211,238,0.35); }
+    body.theme-violet   { --accent: #a855f7; --purple: #a855f7; --purple-glow: rgba(168,85,247,0.45); --glow: rgba(168,85,247,0.35); }
+    body.theme-emerald  { --accent: #10b981; --purple: #10b981; --purple-glow: rgba(16,185,129,0.45); --glow: rgba(16,185,129,0.35); }
+    body.theme-crimson  { --accent: #f43f5e; --purple: #f43f5e; --purple-glow: rgba(244,63,94,0.45); --glow: rgba(244,63,94,0.35); }
+    body.theme-amber    { --accent: #f59e0b; --purple: #f59e0b; --purple-glow: rgba(245,158,11,0.45); --glow: rgba(245,158,11,0.35); }
+    body.theme-rose     { --accent: #fb7185; --purple: #fb7185; --purple-glow: rgba(251,113,133,0.45); --glow: rgba(251,113,133,0.35); }
+    body.theme-lime     { --accent: #a3e635; --purple: #a3e635; --purple-glow: rgba(163,230,53,0.45); --glow: rgba(163,230,53,0.35); }
+    body.theme-arctic   { --accent: #e2e8f0; --purple: #94a3b8; --purple-glow: rgba(226,232,240,0.35); --glow: rgba(226,232,240,0.25); }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
@@ -67,7 +65,6 @@
       100% { opacity: 1; transform: scale(1.05); }
     }
 
-    /* ACCESS LOCK */
     #accessLock {
       position: fixed; inset: 0;
       background: linear-gradient(160deg, #050508 0%, #0b0b14 100%);
@@ -126,14 +123,6 @@
       box-shadow: 0 0 18px var(--glow);
       transition: 0.3s;
     }
-    .logo-icon.reacting {
-      animation: robotReact 1.2s ease-in-out infinite;
-      box-shadow: 0 0 30px var(--accent), 0 0 60px var(--glow);
-    }
-    @keyframes robotReact {
-      0%, 100% { transform: scale(1); filter: brightness(1); }
-      50% { transform: scale(1.12); filter: brightness(1.4); }
-    }
     .logo-text { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
     .status {
       font-size: 11px; color: var(--accent);
@@ -181,22 +170,10 @@
       margin: 0 auto 20px;
       display: block;
       animation: float 5s ease-in-out infinite;
-      transition: 0.4s;
-    }
-    .bot-avatar.reacting {
-      animation: float 5s ease-in-out infinite, robotGlow 1.1s ease-in-out infinite;
-      box-shadow: 
-        0 0 0 2px var(--accent),
-        0 0 60px var(--accent),
-        0 0 100px var(--glow);
     }
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-12px); }
-    }
-    @keyframes robotGlow {
-      0%, 100% { filter: brightness(1) saturate(1); }
-      50% { filter: brightness(1.25) saturate(1.4); }
     }
     .robot-name { 
       font-size: 24px; font-weight: 800; margin-bottom: 4px;
@@ -255,36 +232,38 @@
     }
     .start-btn.stop::before { display: none; }
 
-    /* Theme Preview */
     .theme-section { width: 100%; margin-top: 8px; }
     .theme-label {
       font-size: 13px; color: var(--text2);
       margin-bottom: 12px; text-align: center;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
     .theme-row {
-      display: flex; gap: 12px; justify-content: center;
-      flex-wrap: wrap; padding: 0 8px;
+      display: flex; gap: 10px; justify-content: center;
+      flex-wrap: wrap; padding: 0 4px;
     }
     .theme-swatch {
-      width: 36px; height: 36px; border-radius: 50%;
+      width: 34px; height: 34px; border-radius: 50%;
       border: 2px solid rgba(255,255,255,0.15);
-      cursor: pointer; transition: 0.2s; position: relative;
+      cursor: pointer; transition: 0.2s;
     }
     .theme-swatch:active { transform: scale(0.9); }
     .theme-swatch.active {
       border-color: #fff;
       box-shadow: 0 0 0 3px var(--glow);
-      transform: scale(1.1);
+      transform: scale(1.12);
     }
-    .theme-swatch.green { background: linear-gradient(135deg, #00ff88, #00cc66); }
-    .theme-swatch.blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
-    .theme-swatch.gold { background: linear-gradient(135deg, #f5c518, #d4a017); }
-    .theme-swatch.neon { background: linear-gradient(135deg, #39ff14, #bf00ff); }
-    .theme-swatch.midnight { background: linear-gradient(135deg, #60a5fa, #818cf8); }
-    .theme-swatch.cyber { background: linear-gradient(135deg, #00f0ff, #ff00aa); }
-    .theme-swatch.purple { background: linear-gradient(135deg, #a855f7, #7c3aed); }
-    .theme-swatch.orange { background: linear-gradient(135deg, #f97316, #ea580c); }
-    .theme-swatch.red { background: linear-gradient(135deg, #ef4444, #dc2626); }
+    .theme-swatch.structure { background: linear-gradient(135deg, #ff6b1a, #ff4500); }
+    .theme-swatch.cobalt { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+    .theme-swatch.cyan { background: linear-gradient(135deg, #22d3ee, #06b6d4); }
+    .theme-swatch.violet { background: linear-gradient(135deg, #a855f7, #7c3aed); }
+    .theme-swatch.emerald { background: linear-gradient(135deg, #10b981, #059669); }
+    .theme-swatch.crimson { background: linear-gradient(135deg, #f43f5e, #e11d48); }
+    .theme-swatch.amber { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .theme-swatch.rose { background: linear-gradient(135deg, #fb7185, #f43f5e); }
+    .theme-swatch.lime { background: linear-gradient(135deg, #a3e635, #84cc16); }
+    .theme-swatch.arctic { background: linear-gradient(135deg, #e2e8f0, #94a3b8); }
 
     .scanner-box, .ai-result, .account-info, .history-box {
       background: rgba(255,255,255,0.04);
@@ -302,22 +281,18 @@
       border: 1px solid var(--border);
       color: var(--text); padding: 14px 15px; border-radius: 14px;
       font-size: 14px; margin-bottom: 12px; outline: none;
-      transition: 0.2s;
     }
     .form-input:focus { 
       border-color: var(--accent); 
       box-shadow: 0 0 0 3px var(--glow);
-      background: rgba(255,255,255,0.06);
     }
-    .form-input::placeholder { color: #666; }
 
     .trading-mode-toggle { display: flex; gap: 8px; margin-bottom: 14px; }
     .trading-mode-btn {
       flex: 1; padding: 12px 6px; border-radius: 14px; border: 1px solid var(--border);
       background: rgba(255,255,255,0.03); color: var(--text2); font-size: 12px; font-weight: 600;
-      cursor: pointer; text-align: center; transition: 0.25s;
+      cursor: pointer; text-align: center;
     }
-    .trading-mode-btn:active { transform: scale(0.96); }
     .trading-mode-btn.active {
       background: rgba(0,255,136,0.12);
       border-color: var(--accent);
@@ -332,12 +307,10 @@
       text-align: center;
       cursor: pointer;
       margin-bottom: 14px;
-      transition: 0.25s;
       background: rgba(255,255,255,0.02);
       position: relative;
       overflow: hidden;
     }
-    .upload-area:active { transform: scale(0.98); }
     .upload-area.active {
       border-color: var(--accent);
       background: rgba(0,255,136,0.06);
@@ -348,42 +321,12 @@
     #previewImage {
       max-width: 100%; max-height: 200px; border-radius: 14px;
       margin: 12px 0 0; display: none;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-      position: relative;
-    }
-
-    .scan-beam-container {
-      position: relative;
-      display: inline-block;
-      max-width: 100%;
-    }
-    .scan-beam {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--accent), #fff, var(--accent), transparent);
-      box-shadow: 0 0 15px var(--accent), 0 0 30px var(--glow);
-      opacity: 0;
-      z-index: 5;
-      pointer-events: none;
-    }
-    .scan-beam.active {
-      opacity: 1;
-      animation: beamMove 1.6s linear infinite;
-    }
-    @keyframes beamMove {
-      0% { top: 0; opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { top: 100%; opacity: 0; }
     }
 
     .scan-btn, .execute-btn, .clear-btn {
       width: 100%; border: none; padding: 16px; border-radius: 16px;
       font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 8px;
-      transition: 0.25s;
     }
-    .scan-btn:active, .execute-btn:active, .clear-btn:active { transform: scale(0.97); }
     .scan-btn {
       background: linear-gradient(90deg, var(--accent), #00ccff); color: #000;
       box-shadow: 0 8px 25px var(--glow);
@@ -392,7 +335,6 @@
     .execute-btn {
       background: linear-gradient(90deg, #ff9500, #ff3b30);
       color: #fff; display: none;
-      box-shadow: 0 8px 25px rgba(255,59,48,0.35);
     }
     .clear-btn {
       background: transparent;
@@ -419,182 +361,151 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .scan-text { font-size: 13px; color: var(--text2); }
 
+    /* ===== GENERATOR X STYLE RESULT CARD ===== */
     .ai-result {
-      position: relative;
-      border: none;
+      display: none;
       border-radius: 22px;
       overflow: hidden;
       animation: slideIn 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
-      background: rgba(255,255,255,0.04);
-      backdrop-filter: blur(20px);
+      background: rgba(12,14,20,0.95);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 0;
     }
-    .ai-result::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 22px;
-      padding: 2px;
-      background: linear-gradient(135deg, var(--accent), #00ccff, var(--purple), var(--accent));
-      background-size: 300% 300%;
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      animation: holoBorder 4s linear infinite;
-      pointer-events: none;
-      z-index: 1;
-    }
-    @keyframes holoBorder {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .ai-result.buy::before { background: linear-gradient(135deg, #00ff88, #00ccff, #00ff88); background-size: 300% 300%; }
-    .ai-result.sell::before { background: linear-gradient(135deg, #ff3b30, #ff9500, #ff3b30); background-size: 300% 300%; }
-    .ai-result.wait::before { background: linear-gradient(135deg, #ffcc00, #ff9500, #ffcc00); background-size: 300% 300%; }
-
-    .holo-scanline {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent), #fff, var(--accent), transparent);
-      box-shadow: 0 0 12px var(--accent);
-      opacity: 0;
-      z-index: 10;
-      pointer-events: none;
-    }
-    .holo-scanline.active {
-      opacity: 0.9;
-      animation: holoScan 2.2s ease-in-out 1;
-    }
-    @keyframes holoScan {
-      0% { top: 0; opacity: 0; }
-      15% { opacity: 0.95; }
-      85% { opacity: 0.95; }
-      100% { top: 100%; opacity: 0; }
-    }
-
     @keyframes slideIn {
       from { opacity: 0; transform: translateY(20px) scale(0.97); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    .ai-header {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 12px; position: relative; z-index: 2;
+    .gx-header {
+      padding: 16px 18px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .ai-title { font-size: 16px; font-weight: 700; }
-    .confidence {
-      font-size: 13px; font-weight: 800; padding: 5px 12px;
-      border-radius: 20px; background: rgba(0,255,136,0.15); color: var(--accent);
-      border: 1px solid rgba(0,255,136,0.2);
+    .gx-title { font-size: 13px; font-weight: 700; color: var(--text2); letter-spacing: 0.5px; }
+    .gx-live {
+      font-size: 11px; font-weight: 700;
+      color: var(--accent);
+      background: rgba(0,255,136,0.12);
+      padding: 4px 10px;
+      border-radius: 20px;
     }
 
-    .conf-bar-wrap {
-      height: 7px;
-      background: rgba(255,255,255,0.07);
-      border-radius: 10px;
-      margin: 10px 0 16px;
-      overflow: hidden;
-      position: relative; z-index: 2;
+    .gx-main {
+      padding: 18px;
     }
-    .conf-bar {
+
+    .gx-direction-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .gx-direction {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .gx-direction.buy { color: #00ff88; }
+    .gx-direction.sell { color: #ff3b30; }
+    .gx-direction.wait { color: #ffcc00; }
+
+    .gx-conf-box {
+      text-align: right;
+    }
+    .gx-conf-label { font-size: 11px; color: var(--text2); margin-bottom: 4px; }
+    .gx-conf-value {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .gx-conf-bar {
+      height: 6px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 10px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    .gx-conf-fill {
       height: 100%;
       width: 0%;
       background: linear-gradient(90deg, var(--accent), #00ccff);
       border-radius: 10px;
-      transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-      box-shadow: 0 0 12px var(--glow);
+      transition: width 1.1s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .market-type {
-      display: inline-block;
-      font-size: 12px; font-weight: 600;
-      padding: 5px 12px; border-radius: 20px;
-      background: rgba(168,85,247,0.15); color: var(--purple);
-      margin-bottom: 14px;
-      border: 1px solid rgba(168,85,247,0.2);
-      position: relative; z-index: 2;
+    .gx-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
     }
-    .ai-bias-row {
-      display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
-      position: relative; z-index: 2;
-    }
-    .big-bias { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
-    .big-bias.buy { color: #00ff88; text-shadow: 0 0 20px rgba(0,255,136,0.4); }
-    .big-bias.sell { color: #ff3b30; text-shadow: 0 0 20px rgba(255,59,48,0.4); }
-    .big-bias.wait { color: #ffcc00; }
-
-    .structure-box {
-      background: rgba(168,85,247,0.08);
-      border: 1px solid rgba(168,85,247,0.2);
+    .gx-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
       border-radius: 14px;
-      padding: 12px 14px;
-      margin-bottom: 14px;
-      position: relative; z-index: 2;
+      padding: 12px;
     }
-    .structure-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      margin-bottom: 6px;
+    .gx-item-label {
+      font-size: 11px;
+      color: var(--text2);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
     }
-    .structure-row:last-child { margin-bottom: 0; }
-    .structure-label { color: var(--text2); }
-    .structure-value { font-weight: 700; }
+    .gx-item-value {
+      font-size: 14px;
+      font-weight: 700;
+    }
 
-    .entry-box {
-      background: rgba(0,255,136,0.05);
-      border: 1px solid rgba(0,255,136,0.18);
+    .gx-levels {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
       border-radius: 16px;
       padding: 14px;
-      margin: 14px 0;
-      position: relative; z-index: 2;
+      margin-bottom: 14px;
     }
-    .entry-row {
+    .gx-level-row {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 9px;
-      font-size: 13px;
-    }
-    .entry-row:last-child { margin-bottom: 0; }
-    .entry-label { color: var(--text2); }
-    .entry-value { font-weight: 700; }
-    .quality-a { color: #00ff88; }
-    .quality-b { color: #ffcc00; }
-    .quality-c { color: #ff9500; }
-
-    .confluence-list { margin: 12px 0 16px; position: relative; z-index: 2; }
-    .confluence-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
       font-size: 14px;
     }
-    .confluence-item:last-child { border-bottom: none; }
-    .check { color: #00ff88; font-weight: 800; font-size: 16px; min-width: 20px; }
+    .gx-level-row:last-child { border-bottom: none; }
+    .gx-level-label { color: var(--text2); }
+    .gx-level-value { font-weight: 700; }
+    .gx-level-value.entry { color: var(--accent); }
+    .gx-level-value.sl { color: #ff3b30; }
+    .gx-level-value.tp { color: #00ff88; }
 
-    .ai-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 14px;
-      position: relative; z-index: 2;
-    }
-    .ai-row:last-child { border-bottom: none; }
-    .ai-label { color: var(--text2); }
-    .ai-value { font-weight: 600; text-align: right; max-width: 60%; }
-
-    .ai-comment {
-      margin-top: 14px; padding: 14px;
+    .gx-comment {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text2);
       background: rgba(0,255,136,0.05);
       border-left: 3px solid var(--accent);
+      padding: 12px 14px;
       border-radius: 0 12px 12px 0;
-      font-size: 13px; line-height: 1.55; color: var(--text2);
-      position: relative; z-index: 2;
+      margin-bottom: 14px;
+    }
+
+    .gx-phase-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: rgba(168,85,247,0.15);
+      color: #c084fc;
+      margin-bottom: 14px;
     }
 
     .trade-controls {
-      margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.07);
-      position: relative; z-index: 2;
+      margin-top: 4px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.07);
     }
     .control-row {
       display: flex; justify-content: space-between; align-items: center;
@@ -611,14 +522,13 @@
       width: 42px; height: 40px; background: transparent; border: none;
       color: var(--text); font-size: 20px; font-weight: 700; cursor: pointer;
     }
-    .stepper-btn:active { background: rgba(0,255,136,0.15); }
     .stepper-value {
       min-width: 62px; text-align: center; font-size: 15px; font-weight: 700;
       border-left: 1px solid var(--border); border-right: 1px solid var(--border);
       padding: 0 8px;
     }
 
-    .sltp-row { display: flex; gap: 10px; margin-top: 12px; position: relative; z-index: 2; }
+    .sltp-row { display: flex; gap: 10px; margin-top: 12px; }
     .sltp-box {
       flex: 1;
       background: rgba(255,255,255,0.04);
@@ -702,9 +612,7 @@
       width: 100%; background: linear-gradient(90deg, var(--accent), #00ccff);
       color: #000; border: none; padding: 15px; border-radius: 14px;
       font-weight: 800; font-size: 15px; cursor: pointer;
-      box-shadow: 0 8px 25px var(--glow);
     }
-    .connect-btn:active { transform: scale(0.97); }
     .disconnect-btn {
       width: 100%; background: transparent; border: 1px solid #ff3b30;
       color: #ff3b30; padding: 13px; border-radius: 14px;
@@ -735,23 +643,21 @@
       display: flex; flex-direction: column; align-items: center;
       gap: 4px; color: #6b6b7b; font-size: 10px; font-weight: 500;
       background: none; border: none; position: relative; min-width: 64px;
-      transition: 0.25s;
     }
     .nav-item.active { color: var(--purple); }
     .nav-icon-wrap {
       width: 44px; height: 44px;
       display: flex; align-items: center; justify-content: center;
-      border-radius: 14px; transition: 0.3s;
+      border-radius: 14px;
     }
     .nav-item.active .nav-icon-wrap {
       background: rgba(168, 85, 247, 0.18);
       box-shadow: 0 0 20px var(--purple-glow);
-      transform: scale(1.06);
     }
     .nav-item.active::before {
       content: ''; position: absolute; top: -10px;
       width: 24px; height: 3px; background: var(--purple);
-      border-radius: 0 0 4px 4px; box-shadow: 0 0 10px var(--purple);
+      border-radius: 0 0 4px 4px;
     }
     .nav-icon-wrap svg {
       width: 20px; height: 20px; stroke: currentColor; fill: none;
@@ -762,15 +668,12 @@
       position: fixed; inset: 0; background: rgba(0,0,0,0.78);
       display: none; align-items: center; justify-content: center;
       z-index: 200; padding: 20px;
-      backdrop-filter: blur(6px);
     }
     .modal {
       background: rgba(15,15,22,0.96);
-      backdrop-filter: blur(24px);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 22px; padding: 24px; width: 100%; max-width: 340px;
       text-align: center;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
     }
     .modal h3 { margin-bottom: 8px; font-size: 18px; }
     .modal p { font-size: 14px; color: var(--text2); margin-bottom: 18px; line-height: 1.5; }
@@ -799,9 +702,8 @@
       border-radius: 20px;
       position: relative;
       cursor: pointer;
-      transition: 0.25s;
     }
-    .toggle-switch.active { background: var(--accent); box-shadow: 0 0 12px var(--glow); }
+    .toggle-switch.active { background: var(--accent); }
     .toggle-switch::after {
       content: '';
       width: 22px; height: 22px;
@@ -810,12 +712,11 @@
       position: absolute;
       top: 3px; left: 3px;
       transition: 0.25s;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
     .toggle-switch.active::after { left: 23px; }
   </style>
 </head>
-<body class="theme-green">
+<body class="theme-emerald">
 
   <div id="accessLock">
     <div class="lock-logo">EA</div>
@@ -834,13 +735,12 @@
     <div class="status offline" id="mtStatus">MT Offline</div>
   </div>
 
-  <!-- HOME -->
   <div class="page active" id="page-home">
     <div class="home-hero">
       <img src="MarketAvengerProjpg.jpeg" alt="Market Avenger Pro" class="bot-avatar" id="botAvatar" />
       <div class="robot-name">Market Avenger Pro</div>
       <div class="powered-by">Powered by: Tumelo Traders</div>
-      <div class="home-tagline">AI Chart Analysis • Smart Money Execution</div>
+      <div class="home-tagline">PO3 Chart Intelligence • Smart Money Execution</div>
 
       <button class="start-btn" id="startStopBtn" onclick="toggleStartStop()">
         <div class="icon-play"></div>
@@ -848,26 +748,26 @@
       </button>
 
       <div class="theme-section">
-        <div class="theme-label">Choose Theme</div>
+        <div class="theme-label">Bot Colour Theme · All Structures</div>
         <div class="theme-row">
-          <div class="theme-swatch green active" data-theme="theme-green" onclick="selectTheme('theme-green', this)"></div>
-          <div class="theme-swatch blue" data-theme="theme-blue" onclick="selectTheme('theme-blue', this)"></div>
-          <div class="theme-swatch gold" data-theme="theme-gold" onclick="selectTheme('theme-gold', this)"></div>
-          <div class="theme-swatch neon" data-theme="theme-neon" onclick="selectTheme('theme-neon', this)"></div>
-          <div class="theme-swatch midnight" data-theme="theme-midnight" onclick="selectTheme('theme-midnight', this)"></div>
-          <div class="theme-swatch cyber" data-theme="theme-cyber" onclick="selectTheme('theme-cyber', this)"></div>
-          <div class="theme-swatch purple" data-theme="theme-purple" onclick="selectTheme('theme-purple', this)"></div>
-          <div class="theme-swatch orange" data-theme="theme-orange" onclick="selectTheme('theme-orange', this)"></div>
-          <div class="theme-swatch red" data-theme="theme-red" onclick="selectTheme('theme-red', this)"></div>
+          <div class="theme-swatch structure" data-theme="theme-structure" onclick="selectTheme('theme-structure', this)" title="Structure Default"></div>
+          <div class="theme-swatch cobalt" data-theme="theme-cobalt" onclick="selectTheme('theme-cobalt', this)" title="Cobalt Blue"></div>
+          <div class="theme-swatch cyan" data-theme="theme-cyan" onclick="selectTheme('theme-cyan', this)" title="Ice Cyan"></div>
+          <div class="theme-swatch violet" data-theme="theme-violet" onclick="selectTheme('theme-violet', this)" title="Project Violet"></div>
+          <div class="theme-swatch emerald active" data-theme="theme-emerald" onclick="selectTheme('theme-emerald', this)" title="Emerald Core"></div>
+          <div class="theme-swatch crimson" data-theme="theme-crimson" onclick="selectTheme('theme-crimson', this)" title="Crimson Pulse"></div>
+          <div class="theme-swatch amber" data-theme="theme-amber" onclick="selectTheme('theme-amber', this)" title="Solar Amber"></div>
+          <div class="theme-swatch rose" data-theme="theme-rose" onclick="selectTheme('theme-rose', this)" title="Rose Halo"></div>
+          <div class="theme-swatch lime" data-theme="theme-lime" onclick="selectTheme('theme-lime', this)" title="Toxic Lime"></div>
+          <div class="theme-swatch arctic" data-theme="theme-arctic" onclick="selectTheme('theme-arctic', this)" title="Arctic White"></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- SCANNER -->
   <div class="page" id="page-scanner">
     <div class="scanner-box">
-      <div style="font-size:15px;font-weight:700;margin-bottom:14px;text-align:center;">AI Chart Scanner</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:14px;text-align:center;">PO3 Chart Scanner</div>
 
       <div class="hp-toggle">
         <span>High Probability Mode</span>
@@ -881,15 +781,12 @@
         <div class="trading-mode-btn" id="modeSwing" onclick="setTradingMode('swing')">Swing<br><small>4H–Daily</small></div>
       </div>
 
-      <input type="text" class="form-input" id="manualSymbol" placeholder="Type symbol (e.g. XAUUSD, NAS100...)" />
+      <input type="text" class="form-input" id="manualSymbol" placeholder="Type symbol (e.g. XAUUSD, NAS100, USTECH...)" />
 
       <div class="upload-area" id="uploadBtn" onclick="document.getElementById('galleryInput').click()">
         <div class="upload-title">Upload chart screenshot</div>
         <div class="upload-sub">PNG or JPG</div>
-        <div class="scan-beam-container" id="beamContainer" style="display:none;">
-          <img id="previewImage" alt="Chart preview" />
-          <div class="scan-beam" id="scanBeam"></div>
-        </div>
+        <img id="previewImage" alt="Chart preview" />
       </div>
 
       <input type="file" id="galleryInput" accept="image/*" style="display:none" onchange="handleImage(event)" />
@@ -898,111 +795,120 @@
 
       <div class="skeleton-wrap" id="skeleton">
         <div class="scanner-ring"></div>
-        <div class="scan-text">Analysing chart structure...</div>
+        <div class="scan-text">Reading PO3 structure...</div>
       </div>
     </div>
 
-    <div class="ai-result" id="aiResult" style="display:none;">
-      <div class="holo-scanline" id="holoScanline"></div>
-      <div class="ai-header">
-        <div class="ai-title">AI Analysis</div>
-        <div class="confidence" id="aiConfidence">0%</div>
+    <!-- GENERATOR X STYLE RESULT -->
+    <div class="ai-result" id="aiResult">
+      <div class="gx-header">
+        <div class="gx-title">LIVE SETUP</div>
+        <div class="gx-live">SCAN COMPLETE</div>
       </div>
 
-      <div class="conf-bar-wrap">
-        <div class="conf-bar" id="confBar"></div>
-      </div>
-
-      <div class="market-type" id="marketType">—</div>
-
-      <div class="ai-bias-row">
-        <div class="big-bias" id="aiBias">—</div>
-        <div style="font-size:13px;color:var(--text2);" id="aiPattern">—</div>
-      </div>
-
-      <!-- MARKET STRUCTURE BOX -->
-      <div class="structure-box" id="structureBox">
-        <div class="structure-row">
-          <span class="structure-label">Market Structure</span>
-          <span class="structure-value" id="structureType">—</span>
-        </div>
-        <div class="structure-row">
-          <span class="structure-label">Key Level</span>
-          <span class="structure-value" id="keyLevel">—</span>
-        </div>
-      </div>
-
-      <div class="entry-box" id="entryBox">
-        <div class="entry-row">
-          <span class="entry-label">Entry Type</span>
-          <span class="entry-value" id="entryType">—</span>
-        </div>
-        <div class="entry-row">
-          <span class="entry-label">Entry Zone</span>
-          <span class="entry-value" id="entryZone">—</span>
-        </div>
-        <div class="entry-row">
-          <span class="entry-label">Entry Quality</span>
-          <span class="entry-value" id="entryQuality">—</span>
-        </div>
-        <div class="entry-row">
-          <span class="entry-label">Risk : Reward</span>
-          <span class="entry-value" id="entryRR">—</span>
-        </div>
-      </div>
-
-      <div class="confluence-list" id="confluenceList"></div>
-
-      <div class="ai-row">
-        <span class="ai-label">Symbol</span>
-        <span class="ai-value" id="aiSymbolDisplay" style="color:var(--accent);">—</span>
-      </div>
-      <div class="ai-row">
-        <span class="ai-label">Trading Mode</span>
-        <span class="ai-value" id="aiTradingMode">—</span>
-      </div>
-      <div class="ai-row">
-        <span class="ai-label">Timeframe Hint</span>
-        <span class="ai-value" id="aiTF">—</span>
-      </div>
-
-      <div class="ai-comment" id="aiComment">—</div>
-
-      <div class="sltp-row">
-        <div class="sltp-box">
-          <div class="sltp-label">Stop Loss (pips)</div>
-          <input type="number" class="sltp-input" id="slPips" value="20" min="5" max="500">
-        </div>
-        <div class="sltp-box">
-          <div class="sltp-label">Take Profit (pips)</div>
-          <input type="number" class="sltp-input" id="tpPips" value="40" min="5" max="1000">
-        </div>
-      </div>
-
-      <div class="trade-controls">
-        <div class="control-row">
-          <div class="control-label">Lot Size</div>
-          <div class="stepper">
-            <button class="stepper-btn" onclick="changeLot(-0.01)">−</button>
-            <div class="stepper-value" id="lotValue">0.01</div>
-            <button class="stepper-btn" onclick="changeLot(0.01)">+</button>
+      <div class="gx-main">
+        <div class="gx-direction-row">
+          <div>
+            <div class="gx-direction" id="aiBias">—</div>
+            <div class="gx-phase-badge" id="po3Phase">—</div>
+          </div>
+          <div class="gx-conf-box">
+            <div class="gx-conf-label">CONFIDENCE</div>
+            <div class="gx-conf-value" id="aiConfidence">0%</div>
           </div>
         </div>
-        <div class="control-row">
-          <div class="control-label">Number of Trades</div>
-          <div class="stepper">
-            <button class="stepper-btn" onclick="changeTrades(-1)">−</button>
-            <div class="stepper-value" id="tradesValue">1</div>
-            <button class="stepper-btn" onclick="changeTrades(1)">+</button>
+
+        <div class="gx-conf-bar">
+          <div class="gx-conf-fill" id="confBar"></div>
+        </div>
+
+        <div class="gx-grid" style="margin-top:16px;">
+          <div class="gx-item">
+            <div class="gx-item-label">Strategy</div>
+            <div class="gx-item-value" id="gxStrategy">PO3 + Structure</div>
+          </div>
+          <div class="gx-item">
+            <div class="gx-item-label">Timeframe</div>
+            <div class="gx-item-value" id="aiTF">—</div>
+          </div>
+          <div class="gx-item">
+            <div class="gx-item-label">Pair</div>
+            <div class="gx-item-value" id="aiSymbolDisplay">—</div>
+          </div>
+          <div class="gx-item">
+            <div class="gx-item-label">Session</div>
+            <div class="gx-item-value" id="gxSession">—</div>
           </div>
         </div>
-      </div>
 
-      <button class="execute-btn" id="executeBtn" onclick="openExecuteModal()">Execute Trade</button>
+        <div class="gx-levels">
+          <div class="gx-level-row">
+            <span class="gx-level-label">Entry</span>
+            <span class="gx-level-value entry" id="entryZone">—</span>
+          </div>
+          <div class="gx-level-row">
+            <span class="gx-level-label">Stop Loss</span>
+            <span class="gx-level-value sl" id="gxSL">—</span>
+          </div>
+          <div class="gx-level-row">
+            <span class="gx-level-label">Take Profit</span>
+            <span class="gx-level-value tp" id="gxTP">—</span>
+          </div>
+          <div class="gx-level-row">
+            <span class="gx-level-label">Structure</span>
+            <span class="gx-level-value" id="structureType">—</span>
+          </div>
+          <div class="gx-level-row">
+            <span class="gx-level-label">Key Level</span>
+            <span class="gx-level-value" id="keyLevel">—</span>
+          </div>
+          <div class="gx-level-row">
+            <span class="gx-level-label">Quality</span>
+            <span class="gx-level-value" id="entryQuality">—</span>
+          </div>
+          <div class="gx-level-row">
+            <span class="gx-level-label">Risk : Reward</span>
+            <span class="gx-level-value" id="entryRR">—</span>
+          </div>
+        </div>
+
+        <div class="gx-comment" id="aiComment">—</div>
+
+        <div class="sltp-row">
+          <div class="sltp-box">
+            <div class="sltp-label">Stop Loss (pips)</div>
+            <input type="number" class="sltp-input" id="slPips" value="20" min="5" max="500">
+          </div>
+          <div class="sltp-box">
+            <div class="sltp-label">Take Profit (pips)</div>
+            <input type="number" class="sltp-input" id="tpPips" value="40" min="5" max="1000">
+          </div>
+        </div>
+
+        <div class="trade-controls">
+          <div class="control-row">
+            <div class="control-label">Lot Size</div>
+            <div class="stepper">
+              <button class="stepper-btn" onclick="changeLot(-0.01)">−</button>
+              <div class="stepper-value" id="lotValue">0.01</div>
+              <button class="stepper-btn" onclick="changeLot(0.01)">+</button>
+            </div>
+          </div>
+          <div class="control-row">
+            <div class="control-label">Number of Trades</div>
+            <div class="stepper">
+              <button class="stepper-btn" onclick="changeTrades(-1)">−</button>
+              <div class="stepper-value" id="tradesValue">1</div>
+              <button class="stepper-btn" onclick="changeTrades(1)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="execute-btn" id="executeBtn" onclick="openExecuteModal()">Execute Trade</button>
+      </div>
     </div>
   </div>
 
-  <!-- HISTORY -->
   <div class="page" id="page-history">
     <div class="history-box">
       <div class="history-header">
@@ -1016,9 +922,8 @@
     </div>
   </div>
 
-  <!-- METATRADER -->
   <div class="page" id="page-account">
-    <div class="account-info" id="accountInfo">
+    <div class="account-info" id="accountInfo" style="display:none;">
       <div class="info-row"><span class="info-label">Status</span><span class="info-value" style="color:var(--accent);">Connected</span></div>
       <div class="info-row"><span class="info-label">Account</span><span class="info-value" id="accLogin">—</span></div>
       <div class="info-row"><span class="info-label">Server</span><span class="info-value" id="accServer">—</span></div>
@@ -1089,7 +994,10 @@
 
   <script>
     const ACCESS_CODE = "Tumelo19";
-    const THEMES = ['theme-green','theme-blue','theme-gold','theme-neon','theme-midnight','theme-cyber','theme-purple','theme-orange','theme-red'];
+    const THEMES = [
+      'theme-structure','theme-cobalt','theme-cyan','theme-violet','theme-emerald',
+      'theme-crimson','theme-amber','theme-rose','theme-lime','theme-arctic'
+    ];
 
     function checkAccess() {
       const input = document.getElementById('accessInput').value.trim();
@@ -1110,7 +1018,7 @@
       if (e.key === 'Enter') checkAccess();
     });
 
-    const savedTheme = localStorage.getItem('mav_theme') || 'theme-green';
+    const savedTheme = localStorage.getItem('mav_theme') || 'theme-emerald';
     document.body.classList.remove(...THEMES);
     document.body.classList.add(savedTheme);
     document.querySelectorAll('.theme-swatch').forEach(s => {
@@ -1211,14 +1119,12 @@
     function handleImage(e) {
       const file = e.target.files[0];
       if (!file) return;
-      if (file.size > 5 * 1024 * 1024) { alert('Image too large (max 5MB)'); return; }
       const reader = new FileReader();
       reader.onload = function(ev) {
         selectedImage = ev.target.result;
         const img = document.getElementById('previewImage');
         img.src = selectedImage;
         img.style.display = 'block';
-        document.getElementById('beamContainer').style.display = 'inline-block';
         document.getElementById('uploadBtn').classList.add('active');
         document.getElementById('aiResult').style.display = 'none';
         document.getElementById('executeBtn').style.display = 'none';
@@ -1236,30 +1142,109 @@
       document.getElementById('tradesValue').textContent = numTrades;
     }
 
-    function getTimeframeForMode() {
-      if (tradingMode === 'scalping') return ['1m / 5m', '5m / 15m'][Math.floor(Math.random()*2)];
-      if (tradingMode === 'day') return ['15m / 1H', '30m / 1H'][Math.floor(Math.random()*2)];
-      return ['4H / Daily', 'Daily'][Math.floor(Math.random()*2)];
-    }
-
     function getTradingModeLabel() {
       if (tradingMode === 'scalping') return 'Scalping (1–15m)';
       if (tradingMode === 'day') return 'Day Trading (15m–1H)';
       return 'Swing Trading (4H–Daily)';
     }
 
-    function animateConfidence(target) {
-      const el = document.getElementById('aiConfidence');
-      let current = 0;
-      const step = Math.max(1, Math.ceil(target / 25));
-      const interval = setInterval(() => {
-        current += step;
-        if (current >= target) {
-          current = target;
-          clearInterval(interval);
-        }
-        el.textContent = current + '%';
-      }, 30);
+    function getTFHint() {
+      if (tradingMode === 'scalping') return 'M5 / M15';
+      if (tradingMode === 'day') return 'M15 / H1';
+      return 'H4 / Daily';
+    }
+
+    function getSession() {
+      const h = new Date().getUTCHours();
+      if (h >= 0 && h < 7) return 'Asian Session';
+      if (h >= 7 && h < 12) return 'London Session';
+      if (h >= 12 && h < 17) return 'New York Session';
+      return 'London / NY Overlap';
+    }
+
+    // ===== SIMULATED PO3 + STRUCTURE ENGINE =====
+    function runConfluenceScan(symbol) {
+      const waitChance = highProbMode ? 0.38 : 0.22;
+      const isWait = Math.random() < waitChance;
+
+      if (isWait) {
+        return {
+          bias: 'WAIT',
+          conf: 52 + Math.floor(Math.random() * 12),
+          phase: 'Accumulation',
+          strategy: 'PO3 Watch',
+          structureType: 'No clear HH/HL or LH/LL yet',
+          keyLevel: 'Waiting for displacement',
+          entryType: '—',
+          entryZone: '—',
+          entryQuality: '—',
+          rr: '—',
+          slPips: 20,
+          tpPips: 40,
+          comment: 'No clean PO3 distribution yet. Wait for liquidity sweep + displacement before entry.',
+          tf: getTFHint(),
+          session: getSession()
+        };
+      }
+
+      const isBuy = Math.random() > 0.48;
+      const confBase = highProbMode ? 78 : 68;
+      const conf = Math.min(94, confBase + Math.floor(Math.random() * 16));
+
+      const phases = isBuy
+        ? ['Manipulation', 'Distribution']
+        : ['Manipulation', 'Distribution'];
+      const phase = phases[Math.floor(Math.random() * phases.length)];
+
+      let structureType, keyLevel;
+      if (isBuy) {
+        structureType = Math.random() > 0.35 ? 'Higher High + Higher Low (HH + HL)' : 'Higher Low (HL)';
+        keyLevel = 'Support holding';
+      } else {
+        structureType = Math.random() > 0.35 ? 'Lower High + Lower Low (LH + LL)' : 'Lower High (LH)';
+        keyLevel = 'Resistance holding';
+      }
+
+      const qualities = highProbMode ? ['A+', 'A', 'A'] : ['A+', 'A', 'B', 'B'];
+      const entryQuality = qualities[Math.floor(Math.random() * qualities.length)];
+      const rrOptions = ['1 : 1.5', '1 : 2', '1 : 2.5', '1 : 3'];
+      const rr = rrOptions[Math.floor(Math.random() * rrOptions.length)];
+
+      let slPips, tpPips;
+      if (tradingMode === 'scalping') { slPips = 12 + Math.floor(Math.random()*10); tpPips = Math.round(slPips * (1.5 + Math.random())); }
+      else if (tradingMode === 'day') { slPips = 22 + Math.floor(Math.random()*15); tpPips = Math.round(slPips * (1.8 + Math.random()*0.7)); }
+      else { slPips = 35 + Math.floor(Math.random()*25); tpPips = Math.round(slPips * (2 + Math.random())); }
+
+      const commentsBuy = [
+        'Judas sweep into discount + bullish displacement. Looking for FVG entry with HL confirmation.',
+        'Liquidity taken below recent low. PO3 distribution phase starting. Support is holding.',
+        'Clean BOS to the upside after manipulation. Prefer limit entry in the FVG.'
+      ];
+      const commentsSell = [
+        'Liquidity sweep above highs + bearish displacement. Distribution phase active.',
+        'Lower high forming after Judas move. Resistance holding — look for continuation lower.',
+        'PO3 sell model: accumulation → manipulation up → distribution down.'
+      ];
+
+      return {
+        bias: isBuy ? 'BUY' : 'SELL',
+        conf,
+        phase,
+        strategy: 'PO3 + Structure',
+        structureType,
+        keyLevel,
+        entryType: Math.random() > 0.4 ? 'Limit Entry' : 'Pullback Entry',
+        entryZone: isBuy ? 'Discount / FVG zone' : 'Premium / FVG zone',
+        entryQuality,
+        rr,
+        slPips,
+        tpPips,
+        comment: isBuy
+          ? commentsBuy[Math.floor(Math.random() * commentsBuy.length)]
+          : commentsSell[Math.floor(Math.random() * commentsSell.length)],
+        tf: getTFHint(),
+        session: getSession()
+      };
     }
 
     function saveToHistory(analysis) {
@@ -1278,6 +1263,7 @@
         entryQuality: analysis.entryQuality,
         rr: analysis.rr,
         structure: analysis.structureType,
+        phase: analysis.phase,
         mode: getTradingModeLabel(),
         date: new Date().toLocaleString()
       });
@@ -1313,10 +1299,10 @@
           </div>
           <div class="hist-meta">
             <span>${h.conf}% conf</span>
-            <span>${h.entryQuality}</span>
-            <span>${h.rr}</span>
+            <span>${h.entryQuality || '—'}</span>
+            <span>${h.phase || ''}</span>
           </div>
-          <div class="hist-entry">${h.entryType} • ${h.structure || ''}</div>
+          <div class="hist-entry">${h.entryType || ''} • ${h.structure || ''}</div>
           <div class="hist-date">${h.date} • ${h.mode}</div>
         </div>
       `).join('');
@@ -1329,121 +1315,6 @@
       }
     }
 
-    function runConfluenceScan(symbol) {
-      let minConf = 78;
-      if (tradingMode === 'day') minConf = 82;
-      if (tradingMode === 'swing') minConf = 86;
-      if (highProbMode) minConf += 8;
-
-      const isBuy = Math.random() > 0.48;
-      const direction = isBuy ? 'Bullish' : 'Bearish';
-
-      // Market Structure
-      let structureType, keyLevel, structureLabel;
-      if (isBuy) {
-        structureType = Math.random() > 0.4 ? 'Higher High + Higher Low (HH + HL)' : 'Higher Low (HL)';
-        keyLevel = 'Support holding';
-        structureLabel = 'Bullish Structure';
-      } else {
-        structureType = Math.random() > 0.4 ? 'Lower High + Lower Low (LH + LL)' : 'Lower High (LH)';
-        keyLevel = 'Resistance holding';
-        structureLabel = 'Bearish Structure';
-      }
-
-      const waitChance = highProbMode ? 0.38 : 0.26;
-      if (Math.random() < waitChance) {
-        return {
-          marketType: 'Waiting for better setup',
-          bias: 'WAIT',
-          conf: 50 + Math.floor(Math.random()*18),
-          confluences: ['No clear market structure', 'Waiting for HH/HL or LH/LL confirmation'],
-          comment: 'Structure is unclear. Better to wait for a cleaner Higher Low or Lower High.',
-          tf: getTimeframeForMode(),
-          entryType: '—',
-          entryZone: 'No clear entry zone',
-          entryQuality: '—',
-          rr: '—',
-          structureType: 'Unclear',
-          keyLevel: 'None'
-        };
-      }
-
-      const smcIct = [
-        'Order Block (SMC)', 'Fair Value Gap (FVG)', 'Liquidity Sweep',
-        'Break of Structure (BOS)', 'Change of Character (CHoCH)',
-        'Breaker Block', 'Mitigation Block', 'Optimal Trade Entry (OTE)',
-        'ICT Judas Swing', 'Displacement'
-      ];
-
-      const selected = [
-        `Market Structure: ${structureLabel}`,
-        structureType,
-        keyLevel
-      ];
-
-      const smcShuffled = [...smcIct].sort(() => 0.5 - Math.random());
-      selected.push(smcShuffled[0]);
-      selected.push(smcShuffled[1]);
-
-      if (highProbMode) {
-        selected.push(smcShuffled[2]);
-        if (Math.random() > 0.4) selected.push('Fresh Zone / Untested Level');
-      }
-
-      const unique = [...new Set(selected)].slice(0, highProbMode ? 7 : 5);
-
-      let conf = minConf + Math.floor(Math.random() * 10);
-      // Boost confidence when structure is clean
-      if (structureType.includes('+')) conf += 3;
-      if (conf > 95) conf = 95;
-
-      let entryType, entryZone, entryQuality, rr;
-
-      if (unique.some(x => x.includes('Order Block') || x.includes('FVG') || x.includes('OTE'))) {
-        entryType = 'Limit Entry';
-        entryZone = isBuy ? 'Buy Limit into Support / Bullish OB' : 'Sell Limit into Resistance / Bearish OB';
-      } else if (unique.some(x => x.includes('BOS') || x.includes('CHoCH'))) {
-        entryType = 'Market Entry';
-        entryZone = isBuy ? 'Buy on Break of Structure + HL' : 'Sell on Break of Structure + LH';
-      } else {
-        entryType = 'Pullback Entry';
-        entryZone = isBuy ? 'Buy on pullback to Higher Low / Support' : 'Sell on pullback to Lower High / Resistance';
-      }
-
-      if (conf >= 90 && highProbMode) {
-        entryQuality = 'A+';
-      } else if (conf >= 85) {
-        entryQuality = 'A';
-      } else if (conf >= 78) {
-        entryQuality = 'B';
-      } else {
-        entryQuality = 'C';
-      }
-
-      if (tradingMode === 'scalping') {
-        rr = Math.random() > 0.5 ? '1 : 1.5' : '1 : 2';
-      } else if (tradingMode === 'day') {
-        rr = Math.random() > 0.4 ? '1 : 2' : '1 : 2.5';
-      } else {
-        rr = Math.random() > 0.4 ? '1 : 3' : '1 : 4';
-      }
-
-      return {
-        marketType: highProbMode ? 'High Probability Structure' : 'Structure + Confluence',
-        bias: isBuy ? 'BUY' : 'SELL',
-        conf,
-        confluences: unique,
-        comment: `${structureLabel} confirmed. Look for ${entryType.toLowerCase()} near the key level.`,
-        tf: getTimeframeForMode(),
-        entryType,
-        entryZone,
-        entryQuality,
-        rr,
-        structureType,
-        keyLevel
-      };
-    }
-
     function runAIScan() {
       const symbol = document.getElementById('manualSymbol').value.trim().toUpperCase();
       if (!symbol || !selectedImage) return;
@@ -1451,92 +1322,57 @@
       const btn = document.getElementById('scanBtn');
       const skeleton = document.getElementById('skeleton');
       const result = document.getElementById('aiResult');
-      const beam = document.getElementById('scanBeam');
-      const logo = document.getElementById('logoIcon');
-      const bot = document.getElementById('botAvatar');
 
       btn.disabled = true;
       skeleton.style.display = 'block';
       result.style.display = 'none';
       document.getElementById('executeBtn').style.display = 'none';
 
-      beam.classList.add('active');
-      logo.classList.add('reacting');
-      bot.classList.add('reacting');
-
       setTimeout(() => {
-        skeleton.style.display = 'none';
-        btn.disabled = false;
-        beam.classList.remove('active');
-        logo.classList.remove('reacting');
-        bot.classList.remove('reacting');
-
         const analysis = runConfluenceScan(symbol);
         analysis.symbol = symbol;
 
         saveToHistory(analysis);
+        displayAnalysis(analysis);
 
-        animateConfidence(analysis.conf);
-        document.getElementById('marketType').textContent = analysis.marketType;
-        document.getElementById('aiBias').textContent = analysis.bias;
-        document.getElementById('aiBias').className = 'big-bias ' + analysis.bias.toLowerCase();
-        document.getElementById('aiPattern').textContent = analysis.bias === 'WAIT' ? 'No clear setup' : 'Structure Confirmed';
-        document.getElementById('aiSymbolDisplay').textContent = symbol;
-        document.getElementById('aiTradingMode').textContent = getTradingModeLabel();
-        document.getElementById('aiTF').textContent = analysis.tf;
-        document.getElementById('aiComment').textContent = analysis.comment;
+        skeleton.style.display = 'none';
+        btn.disabled = false;
+      }, 1400 + Math.random() * 800);
+    }
 
-        // Market Structure
-        document.getElementById('structureType').textContent = analysis.structureType;
-        document.getElementById('keyLevel').textContent = analysis.keyLevel;
+    function displayAnalysis(analysis) {
+      const result = document.getElementById('aiResult');
 
-        document.getElementById('entryType').textContent = analysis.entryType;
-        document.getElementById('entryZone').textContent = analysis.entryZone;
-        document.getElementById('entryQuality').textContent = analysis.entryQuality;
-        document.getElementById('entryQuality').className = 'entry-value ' + 
-          (analysis.entryQuality.startsWith('A') ? 'quality-a' : 
-           analysis.entryQuality === 'B' ? 'quality-b' : 'quality-c');
-        document.getElementById('entryRR').textContent = analysis.rr;
+      document.getElementById('aiBias').textContent = analysis.bias;
+      document.getElementById('aiBias').className = 'gx-direction ' + analysis.bias.toLowerCase();
+      document.getElementById('aiConfidence').textContent = analysis.conf + '%';
+      document.getElementById('po3Phase').textContent = analysis.phase + ' Phase';
+      document.getElementById('gxStrategy').textContent = analysis.strategy;
+      document.getElementById('aiTF').textContent = analysis.tf;
+      document.getElementById('aiSymbolDisplay').textContent = analysis.symbol;
+      document.getElementById('gxSession').textContent = analysis.session;
+      document.getElementById('entryZone').textContent = analysis.entryZone;
+      document.getElementById('gxSL').textContent = analysis.slPips + ' pips';
+      document.getElementById('gxTP').textContent = analysis.tpPips + ' pips';
+      document.getElementById('structureType').textContent = analysis.structureType;
+      document.getElementById('keyLevel').textContent = analysis.keyLevel;
+      document.getElementById('entryQuality').textContent = analysis.entryQuality;
+      document.getElementById('entryRR').textContent = analysis.rr;
+      document.getElementById('aiComment').textContent = analysis.comment;
 
-        const bar = document.getElementById('confBar');
-        bar.style.width = '0%';
-        setTimeout(() => { bar.style.width = analysis.conf + '%'; }, 40);
+      document.getElementById('slPips').value = analysis.slPips;
+      document.getElementById('tpPips').value = analysis.tpPips;
 
-        result.classList.remove('buy', 'sell', 'wait');
-        result.classList.add(analysis.bias.toLowerCase());
+      const bar = document.getElementById('confBar');
+      bar.style.width = '0%';
+      setTimeout(() => { bar.style.width = analysis.conf + '%'; }, 50);
 
-        const list = document.getElementById('confluenceList');
-        list.innerHTML = '';
-        analysis.confluences.forEach(item => {
-          const div = document.createElement('div');
-          div.className = 'confluence-item';
-          div.innerHTML = `<span class="check">✅</span><span>${item}</span>`;
-          list.appendChild(div);
-        });
+      lastAnalysis = analysis;
+      result.style.display = 'block';
 
-        if (tradingMode === 'scalping') {
-          document.getElementById('slPips').value = 15;
-          document.getElementById('tpPips').value = 25;
-        } else if (tradingMode === 'day') {
-          document.getElementById('slPips').value = 25;
-          document.getElementById('tpPips').value = 50;
-        } else {
-          document.getElementById('slPips').value = 40;
-          document.getElementById('tpPips').value = 90;
-        }
-
-        lastAnalysis = { ...analysis, confidence: analysis.conf };
-        result.style.display = 'block';
-
-        const scanline = document.getElementById('holoScanline');
-        scanline.classList.remove('active');
-        void scanline.offsetWidth;
-        scanline.classList.add('active');
-
-        document.getElementById('executeBtn').style.display = analysis.bias === 'WAIT' ? 'none' : 'block';
-        document.getElementById('executeBtn').disabled = !mtConnected;
-        document.getElementById('executeBtn').textContent = mtConnected ? 'Execute Trade' : 'Connect MT Account to Execute';
-      }, 2200 + Math.random() * 600);
+      document.getElementById('executeBtn').style.display = analysis.bias === 'WAIT' ? 'none' : 'block';
+      document.getElementById('executeBtn').disabled = !mtConnected;
+      document.getElementById('executeBtn').textContent = mtConnected ? 'Execute Trade' : 'Connect MT Account to Execute';
     }
 
     function connectMT() {
@@ -1581,9 +1417,8 @@
 
       document.getElementById('modalText').innerHTML =
         `<strong>${a.bias}</strong> <strong>${a.symbol}</strong><br>
+         Phase: ${a.phase}<br>
          Structure: ${a.structureType}<br>
-         Entry: ${a.entryType}<br>
-         Quality: ${a.entryQuality}<br>
          Lot: <strong>${lotSize.toFixed(2)}</strong> × <strong>${numTrades}</strong><br>
          SL: <strong>${sl} pips</strong> | TP: <strong>${tp} pips</strong>`;
       document.getElementById('executeModal').style.display = 'flex';
