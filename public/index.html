@@ -25,7 +25,6 @@
       --glow: rgba(0,255,136,0.35);
     }
 
-    /* NEW THEMES */
     body.theme-structure { --accent: #ff6b1a; --purple: #ff6b1a; --purple-glow: rgba(255,107,26,0.45); --glow: rgba(255,107,26,0.35); }
     body.theme-cobalt   { --accent: #3b82f6; --purple: #3b82f6; --purple-glow: rgba(59,130,246,0.45); --glow: rgba(59,130,246,0.35); }
     body.theme-cyan     { --accent: #22d3ee; --purple: #22d3ee; --purple-glow: rgba(34,211,238,0.45); --glow: rgba(34,211,238,0.35); }
@@ -121,7 +120,6 @@
       display: flex; align-items: center; justify-content: center;
       font-weight: 900; font-size: 15px; color: #000;
       box-shadow: 0 0 18px var(--glow);
-      transition: 0.3s;
     }
     .logo-text { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
     .status {
@@ -265,7 +263,7 @@
     .theme-swatch.lime { background: linear-gradient(135deg, #a3e635, #84cc16); }
     .theme-swatch.arctic { background: linear-gradient(135deg, #e2e8f0, #94a3b8); }
 
-    .scanner-box, .ai-result, .account-info, .history-box {
+    .scanner-box, .ai-result, .account-info, .history-box, .risk-box {
       background: rgba(255,255,255,0.04);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
@@ -361,7 +359,7 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .scan-text { font-size: 13px; color: var(--text2); }
 
-    /* ===== GENERATOR X STYLE RESULT CARD ===== */
+    /* RESULT CARD */
     .ai-result {
       display: none;
       border-radius: 22px;
@@ -392,9 +390,7 @@
       border-radius: 20px;
     }
 
-    .gx-main {
-      padding: 18px;
-    }
+    .gx-main { padding: 18px; }
 
     .gx-direction-row {
       display: flex;
@@ -411,9 +407,7 @@
     .gx-direction.sell { color: #ff3b30; }
     .gx-direction.wait { color: #ffcc00; }
 
-    .gx-conf-box {
-      text-align: right;
-    }
+    .gx-conf-box { text-align: right; }
     .gx-conf-label { font-size: 11px; color: var(--text2); margin-bottom: 4px; }
     .gx-conf-value {
       font-size: 22px;
@@ -454,10 +448,7 @@
       text-transform: uppercase;
       letter-spacing: 0.4px;
     }
-    .gx-item-value {
-      font-size: 14px;
-      font-weight: 700;
-    }
+    .gx-item-value { font-size: 14px; font-weight: 700; }
 
     .gx-levels {
       background: rgba(255,255,255,0.03);
@@ -500,6 +491,86 @@
       background: rgba(168,85,247,0.15);
       color: #c084fc;
       margin-bottom: 14px;
+    }
+
+    /* CONFLUENCE LIST */
+    .confluence-box {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .confluence-title {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .conf-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 0;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .conf-item:last-child { border-bottom: none; }
+    .conf-check {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(0,255,136,0.15);
+      color: #00ff88;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    /* RISK MANAGEMENT */
+    .risk-box h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .risk-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .risk-label { font-size: 13px; color: var(--text2); }
+    .risk-value { font-size: 14px; font-weight: 700; }
+    .risk-input {
+      width: 90px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      color: white;
+      padding: 8px 10px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+      outline: none;
+    }
+    .risk-suggested {
+      background: rgba(0,255,136,0.08);
+      border: 1px solid rgba(0,255,136,0.2);
+      border-radius: 14px;
+      padding: 14px;
+      margin-top: 12px;
+      text-align: center;
+    }
+    .risk-suggested-label { font-size: 12px; color: var(--text2); margin-bottom: 4px; }
+    .risk-suggested-value {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--accent);
     }
 
     .trade-controls {
@@ -740,7 +811,7 @@
       <img src="MarketAvengerProjpg.jpeg" alt="Market Avenger Pro" class="bot-avatar" id="botAvatar" />
       <div class="robot-name">Market Avenger Pro</div>
       <div class="powered-by">Powered by: Tumelo Traders</div>
-      <div class="home-tagline">PO3 Chart Intelligence • Smart Money Execution</div>
+      <div class="home-tagline">PO3 + Structure • Full Confluence Engine</div>
 
       <button class="start-btn" id="startStopBtn" onclick="toggleStartStop()">
         <div class="icon-play"></div>
@@ -750,16 +821,16 @@
       <div class="theme-section">
         <div class="theme-label">Bot Colour Theme · All Structures</div>
         <div class="theme-row">
-          <div class="theme-swatch structure" data-theme="theme-structure" onclick="selectTheme('theme-structure', this)" title="Structure Default"></div>
-          <div class="theme-swatch cobalt" data-theme="theme-cobalt" onclick="selectTheme('theme-cobalt', this)" title="Cobalt Blue"></div>
-          <div class="theme-swatch cyan" data-theme="theme-cyan" onclick="selectTheme('theme-cyan', this)" title="Ice Cyan"></div>
-          <div class="theme-swatch violet" data-theme="theme-violet" onclick="selectTheme('theme-violet', this)" title="Project Violet"></div>
-          <div class="theme-swatch emerald active" data-theme="theme-emerald" onclick="selectTheme('theme-emerald', this)" title="Emerald Core"></div>
-          <div class="theme-swatch crimson" data-theme="theme-crimson" onclick="selectTheme('theme-crimson', this)" title="Crimson Pulse"></div>
-          <div class="theme-swatch amber" data-theme="theme-amber" onclick="selectTheme('theme-amber', this)" title="Solar Amber"></div>
-          <div class="theme-swatch rose" data-theme="theme-rose" onclick="selectTheme('theme-rose', this)" title="Rose Halo"></div>
-          <div class="theme-swatch lime" data-theme="theme-lime" onclick="selectTheme('theme-lime', this)" title="Toxic Lime"></div>
-          <div class="theme-swatch arctic" data-theme="theme-arctic" onclick="selectTheme('theme-arctic', this)" title="Arctic White"></div>
+          <div class="theme-swatch structure" data-theme="theme-structure" onclick="selectTheme('theme-structure', this)"></div>
+          <div class="theme-swatch cobalt" data-theme="theme-cobalt" onclick="selectTheme('theme-cobalt', this)"></div>
+          <div class="theme-swatch cyan" data-theme="theme-cyan" onclick="selectTheme('theme-cyan', this)"></div>
+          <div class="theme-swatch violet" data-theme="theme-violet" onclick="selectTheme('theme-violet', this)"></div>
+          <div class="theme-swatch emerald active" data-theme="theme-emerald" onclick="selectTheme('theme-emerald', this)"></div>
+          <div class="theme-swatch crimson" data-theme="theme-crimson" onclick="selectTheme('theme-crimson', this)"></div>
+          <div class="theme-swatch amber" data-theme="theme-amber" onclick="selectTheme('theme-amber', this)"></div>
+          <div class="theme-swatch rose" data-theme="theme-rose" onclick="selectTheme('theme-rose', this)"></div>
+          <div class="theme-swatch lime" data-theme="theme-lime" onclick="selectTheme('theme-lime', this)"></div>
+          <div class="theme-swatch arctic" data-theme="theme-arctic" onclick="selectTheme('theme-arctic', this)"></div>
         </div>
       </div>
     </div>
@@ -767,7 +838,7 @@
 
   <div class="page" id="page-scanner">
     <div class="scanner-box">
-      <div style="font-size:15px;font-weight:700;margin-bottom:14px;text-align:center;">PO3 Chart Scanner</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:14px;text-align:center;">Chart Scanner</div>
 
       <div class="hp-toggle">
         <span>High Probability Mode</span>
@@ -795,11 +866,11 @@
 
       <div class="skeleton-wrap" id="skeleton">
         <div class="scanner-ring"></div>
-        <div class="scan-text">Reading PO3 structure...</div>
+        <div class="scan-text">Reading structure & confluence...</div>
       </div>
     </div>
 
-    <!-- GENERATOR X STYLE RESULT -->
+    <!-- RESULT -->
     <div class="ai-result" id="aiResult">
       <div class="gx-header">
         <div class="gx-title">LIVE SETUP</div>
@@ -825,7 +896,7 @@
         <div class="gx-grid" style="margin-top:16px;">
           <div class="gx-item">
             <div class="gx-item-label">Strategy</div>
-            <div class="gx-item-value" id="gxStrategy">PO3 + Structure</div>
+            <div class="gx-item-value" id="gxStrategy">Confluence</div>
           </div>
           <div class="gx-item">
             <div class="gx-item-label">Timeframe</div>
@@ -843,7 +914,7 @@
 
         <div class="gx-levels">
           <div class="gx-level-row">
-            <span class="gx-level-label">Entry</span>
+            <span class="gx-level-label">Entry Zone</span>
             <span class="gx-level-value entry" id="entryZone">—</span>
           </div>
           <div class="gx-level-row">
@@ -859,10 +930,6 @@
             <span class="gx-level-value" id="structureType">—</span>
           </div>
           <div class="gx-level-row">
-            <span class="gx-level-label">Key Level</span>
-            <span class="gx-level-value" id="keyLevel">—</span>
-          </div>
-          <div class="gx-level-row">
             <span class="gx-level-label">Quality</span>
             <span class="gx-level-value" id="entryQuality">—</span>
           </div>
@@ -872,12 +939,39 @@
           </div>
         </div>
 
+        <!-- FULL CONFLUENCE -->
+        <div class="confluence-box">
+          <div class="confluence-title">Confluence Detected</div>
+          <div id="confluenceList"></div>
+        </div>
+
         <div class="gx-comment" id="aiComment">—</div>
+
+        <!-- RISK MANAGEMENT -->
+        <div class="risk-box" style="margin:0 0 14px;padding:14px;">
+          <h3 style="margin-bottom:12px;">Risk Management</h3>
+          <div class="risk-row">
+            <span class="risk-label">Account Balance (USD)</span>
+            <input type="number" class="risk-input" id="riskBalance" value="1000" min="50" oninput="calcRisk()">
+          </div>
+          <div class="risk-row">
+            <span class="risk-label">Risk per Trade (%)</span>
+            <input type="number" class="risk-input" id="riskPercent" value="1" min="0.1" max="5" step="0.1" oninput="calcRisk()">
+          </div>
+          <div class="risk-row">
+            <span class="risk-label">Risk Amount</span>
+            <span class="risk-value" id="riskAmount">$10.00</span>
+          </div>
+          <div class="risk-suggested">
+            <div class="risk-suggested-label">Suggested Lot Size</div>
+            <div class="risk-suggested-value" id="suggestedLot">0.01</div>
+          </div>
+        </div>
 
         <div class="sltp-row">
           <div class="sltp-box">
             <div class="sltp-label">Stop Loss (pips)</div>
-            <input type="number" class="sltp-input" id="slPips" value="20" min="5" max="500">
+            <input type="number" class="sltp-input" id="slPips" value="20" min="5" max="500" oninput="calcRisk()">
           </div>
           <div class="sltp-box">
             <div class="sltp-label">Take Profit (pips)</div>
@@ -949,7 +1043,7 @@
         <input type="text" class="form-input" id="mtServer" placeholder="e.g. ICMarkets-Live01" />
       </div>
       <button class="connect-btn" onclick="connectMT()">Connect Account</button>
-      <div class="note">Uses <strong>api2trade.com</strong>.</div>
+      <div class="note">Uses <strong>api2trade.com</strong> or self-hosted bridge later.</div>
     </div>
     <button class="disconnect-btn" id="disconnectBtn" style="display:none;" onclick="disconnectMT()">Disconnect Account</button>
   </div>
@@ -1162,83 +1256,130 @@
       return 'London / NY Overlap';
     }
 
-    // ===== SIMULATED PO3 + STRUCTURE ENGINE =====
+    // RISK MANAGEMENT CALC
+    function calcRisk() {
+      const balance = parseFloat(document.getElementById('riskBalance').value) || 1000;
+      const riskPct = parseFloat(document.getElementById('riskPercent').value) || 1;
+      const slPips = parseFloat(document.getElementById('slPips').value) || 20;
+
+      const riskAmount = balance * (riskPct / 100);
+      document.getElementById('riskAmount').textContent = '$' + riskAmount.toFixed(2);
+
+      // Approximate for most forex pairs: $10 per pip per standard lot
+      // Simplified: lot = riskAmount / (slPips * 10)
+      let suggested = riskAmount / (slPips * 10);
+      suggested = Math.max(0.01, Math.round(suggested * 100) / 100);
+      if (suggested > 5) suggested = 5;
+
+      document.getElementById('suggestedLot').textContent = suggested.toFixed(2);
+      lotSize = suggested;
+      document.getElementById('lotValue').textContent = suggested.toFixed(2);
+    }
+
+    // ===== FULL CONFLUENCE ENGINE =====
     function runConfluenceScan(symbol) {
-      const waitChance = highProbMode ? 0.38 : 0.22;
+      const waitChance = highProbMode ? 0.35 : 0.20;
       const isWait = Math.random() < waitChance;
 
       if (isWait) {
         return {
           bias: 'WAIT',
-          conf: 52 + Math.floor(Math.random() * 12),
+          conf: 48 + Math.floor(Math.random() * 14),
           phase: 'Accumulation',
-          strategy: 'PO3 Watch',
-          structureType: 'No clear HH/HL or LH/LL yet',
-          keyLevel: 'Waiting for displacement',
-          entryType: '—',
+          strategy: 'Waiting for confirmation',
+          structureType: 'No clear structure shift yet',
           entryZone: '—',
           entryQuality: '—',
           rr: '—',
           slPips: 20,
           tpPips: 40,
-          comment: 'No clean PO3 distribution yet. Wait for liquidity sweep + displacement before entry.',
+          confluences: ['Waiting for liquidity sweep', 'No clean displacement yet'],
+          comment: 'No high-quality setup. Wait for clear BOS + FVG or Order Block reaction.',
           tf: getTFHint(),
           session: getSession()
         };
       }
 
-      const isBuy = Math.random() > 0.48;
-      const confBase = highProbMode ? 78 : 68;
-      const conf = Math.min(94, confBase + Math.floor(Math.random() * 16));
+      const isBuy = Math.random() > 0.47;
+      const confBase = highProbMode ? 76 : 66;
+      const conf = Math.min(94, confBase + Math.floor(Math.random() * 18));
 
-      const phases = isBuy
-        ? ['Manipulation', 'Distribution']
-        : ['Manipulation', 'Distribution'];
-      const phase = phases[Math.floor(Math.random() * phases.length)];
+      const phase = Math.random() > 0.4 ? 'Distribution' : 'Manipulation';
 
-      let structureType, keyLevel;
+      let structureType;
       if (isBuy) {
-        structureType = Math.random() > 0.35 ? 'Higher High + Higher Low (HH + HL)' : 'Higher Low (HL)';
-        keyLevel = 'Support holding';
+        structureType = Math.random() > 0.3 ? 'Higher High + Higher Low (HH + HL)' : 'Higher Low (HL) confirmed';
       } else {
-        structureType = Math.random() > 0.35 ? 'Lower High + Lower Low (LH + LL)' : 'Lower High (LH)';
-        keyLevel = 'Resistance holding';
+        structureType = Math.random() > 0.3 ? 'Lower High + Lower Low (LH + LL)' : 'Lower High (LH) confirmed';
       }
+
+      // Build realistic confluence list
+      const possibleBuy = [
+        'Bullish Order Block holding',
+        'Fair Value Gap (FVG) in discount',
+        'Liquidity Sweep below lows',
+        'Break of Structure (BOS) to upside',
+        'Change of Character (CHoCH)',
+        'Breaker Block support',
+        'Demand Zone reaction',
+        'Equal highs liquidity taken'
+      ];
+      const possibleSell = [
+        'Bearish Order Block holding',
+        'Fair Value Gap (FVG) in premium',
+        'Liquidity Sweep above highs',
+        'Break of Structure (BOS) to downside',
+        'Change of Character (CHoCH)',
+        'Breaker Block resistance',
+        'Supply Zone reaction',
+        'Equal lows liquidity taken'
+      ];
+
+      const pool = isBuy ? possibleBuy : possibleSell;
+      const count = highProbMode ? 4 + Math.floor(Math.random()*3) : 3 + Math.floor(Math.random()*3);
+      const shuffled = pool.sort(() => 0.5 - Math.random());
+      const confluences = shuffled.slice(0, count);
 
       const qualities = highProbMode ? ['A+', 'A', 'A'] : ['A+', 'A', 'B', 'B'];
       const entryQuality = qualities[Math.floor(Math.random() * qualities.length)];
-      const rrOptions = ['1 : 1.5', '1 : 2', '1 : 2.5', '1 : 3'];
+      const rrOptions = ['1 : 1.8', '1 : 2', '1 : 2.5', '1 : 3'];
       const rr = rrOptions[Math.floor(Math.random() * rrOptions.length)];
 
       let slPips, tpPips;
-      if (tradingMode === 'scalping') { slPips = 12 + Math.floor(Math.random()*10); tpPips = Math.round(slPips * (1.5 + Math.random())); }
-      else if (tradingMode === 'day') { slPips = 22 + Math.floor(Math.random()*15); tpPips = Math.round(slPips * (1.8 + Math.random()*0.7)); }
-      else { slPips = 35 + Math.floor(Math.random()*25); tpPips = Math.round(slPips * (2 + Math.random())); }
+      if (tradingMode === 'scalping') {
+        slPips = 12 + Math.floor(Math.random()*12);
+        tpPips = Math.round(slPips * (1.6 + Math.random()*0.8));
+      } else if (tradingMode === 'day') {
+        slPips = 22 + Math.floor(Math.random()*18);
+        tpPips = Math.round(slPips * (1.9 + Math.random()*0.9));
+      } else {
+        slPips = 35 + Math.floor(Math.random()*30);
+        tpPips = Math.round(slPips * (2.1 + Math.random()));
+      }
 
       const commentsBuy = [
-        'Judas sweep into discount + bullish displacement. Looking for FVG entry with HL confirmation.',
-        'Liquidity taken below recent low. PO3 distribution phase starting. Support is holding.',
-        'Clean BOS to the upside after manipulation. Prefer limit entry in the FVG.'
+        'Strong bullish confluence. Liquidity taken + displacement into discount. Prefer limit entry in the FVG / Order Block.',
+        'Clean market structure shift. HH + HL forming with Order Block support. High probability long.',
+        'Judas sweep complete. Looking for continuation higher from the demand zone.'
       ];
       const commentsSell = [
-        'Liquidity sweep above highs + bearish displacement. Distribution phase active.',
-        'Lower high forming after Judas move. Resistance holding — look for continuation lower.',
-        'PO3 sell model: accumulation → manipulation up → distribution down.'
+        'Strong bearish confluence. Liquidity taken above + displacement into premium. Prefer limit entry in the FVG / Order Block.',
+        'Clean market structure shift. LH + LL forming with Order Block resistance. High probability short.',
+        'Judas sweep complete. Looking for continuation lower from the supply zone.'
       ];
 
       return {
         bias: isBuy ? 'BUY' : 'SELL',
         conf,
         phase,
-        strategy: 'PO3 + Structure',
+        strategy: 'PO3 + Full Confluence',
         structureType,
-        keyLevel,
-        entryType: Math.random() > 0.4 ? 'Limit Entry' : 'Pullback Entry',
-        entryZone: isBuy ? 'Discount / FVG zone' : 'Premium / FVG zone',
+        entryZone: isBuy ? 'Discount / FVG / OB' : 'Premium / FVG / OB',
         entryQuality,
         rr,
         slPips,
         tpPips,
+        confluences,
         comment: isBuy
           ? commentsBuy[Math.floor(Math.random() * commentsBuy.length)]
           : commentsSell[Math.floor(Math.random() * commentsSell.length)],
@@ -1258,7 +1399,6 @@
         symbol: analysis.symbol,
         bias: analysis.bias,
         conf: analysis.conf,
-        entryType: analysis.entryType,
         entryZone: analysis.entryZone,
         entryQuality: analysis.entryQuality,
         rr: analysis.rr,
@@ -1302,7 +1442,7 @@
             <span>${h.entryQuality || '—'}</span>
             <span>${h.phase || ''}</span>
           </div>
-          <div class="hist-entry">${h.entryType || ''} • ${h.structure || ''}</div>
+          <div class="hist-entry">${h.entryZone || ''} • ${h.structure || ''}</div>
           <div class="hist-date">${h.date} • ${h.mode}</div>
         </div>
       `).join('');
@@ -1337,7 +1477,7 @@
 
         skeleton.style.display = 'none';
         btn.disabled = false;
-      }, 1400 + Math.random() * 800);
+      }, 1400 + Math.random() * 900);
     }
 
     function displayAnalysis(analysis) {
@@ -1355,10 +1495,18 @@
       document.getElementById('gxSL').textContent = analysis.slPips + ' pips';
       document.getElementById('gxTP').textContent = analysis.tpPips + ' pips';
       document.getElementById('structureType').textContent = analysis.structureType;
-      document.getElementById('keyLevel').textContent = analysis.keyLevel;
       document.getElementById('entryQuality').textContent = analysis.entryQuality;
       document.getElementById('entryRR').textContent = analysis.rr;
       document.getElementById('aiComment').textContent = analysis.comment;
+
+      // Confluence list
+      const confList = document.getElementById('confluenceList');
+      confList.innerHTML = (analysis.confluences || []).map(c => `
+        <div class="conf-item">
+          <div class="conf-check">✓</div>
+          <div>${c}</div>
+        </div>
+      `).join('');
 
       document.getElementById('slPips').value = analysis.slPips;
       document.getElementById('tpPips').value = analysis.tpPips;
@@ -1369,6 +1517,8 @@
 
       lastAnalysis = analysis;
       result.style.display = 'block';
+
+      calcRisk();
 
       document.getElementById('executeBtn').style.display = analysis.bias === 'WAIT' ? 'none' : 'block';
       document.getElementById('executeBtn').disabled = !mtConnected;
@@ -1437,6 +1587,9 @@
         alert(`✅ ${numTrades} × ${lotSize.toFixed(2)} lot ${a.bias} ${a.symbol}\nSL: ${sl} pips | TP: ${tp} pips\n(Sent - simulated)`);
       }, 400);
     }
+
+    // Init risk calc
+    calcRisk();
   </script>
 </body>
 </html>
