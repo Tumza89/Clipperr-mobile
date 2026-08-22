@@ -299,9 +299,7 @@
       color: var(--accent);
       box-shadow: 0 0 16px var(--glow);
     }
-    .trading-mode-btn.super {
-      border-color: rgba(255,149,0,0.4);
-    }
+    .trading-mode-btn.super { border-color: rgba(255,149,0,0.4); }
     .trading-mode-btn.super.active {
       background: rgba(255,149,0,0.15);
       border-color: #ff9500;
@@ -539,11 +537,7 @@
       flex-shrink: 0;
     }
 
-    .risk-box h3 {
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 14px;
-    }
+    .risk-box h3 { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
     .risk-row {
       display: flex;
       justify-content: space-between;
@@ -816,6 +810,17 @@
       transition: 0.25s;
     }
     .toggle-switch.active::after { left: 23px; }
+
+    .error-box {
+      background: rgba(255,59,48,0.12);
+      border: 1px solid rgba(255,59,48,0.35);
+      color: #ff8a80;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 13px;
+      margin-top: 12px;
+      display: none;
+    }
   </style>
 </head>
 <body class="theme-cobalt">
@@ -842,7 +847,7 @@
       <img src="MarketAvengerProjpg.jpeg" alt="Market Avenger Pro" class="bot-avatar" />
       <div class="robot-name">Market Avenger Pro</div>
       <div class="powered-by">Powered by: Tumelo Traders</div>
-      <div class="home-tagline">PO3 + Structure • High Accuracy Confluence</div>
+      <div class="home-tagline">Gemini AI • PO3 + Structure Confluence</div>
 
       <button class="start-btn" id="startStopBtn" onclick="toggleStartStop()">
         <div class="icon-play"></div>
@@ -869,7 +874,7 @@
 
   <div class="page" id="page-scanner">
     <div class="scanner-box">
-      <div style="font-size:15px;font-weight:700;margin-bottom:14px;text-align:center;">Chart Scanner</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:14px;text-align:center;">Chart Scanner · Gemini AI</div>
 
       <div class="hp-toggle">
         <span>High Probability Mode</span>
@@ -888,24 +893,25 @@
 
       <div class="upload-area" id="uploadBtn" onclick="document.getElementById('galleryInput').click()">
         <div class="upload-title">Upload chart screenshot</div>
-        <div class="upload-sub">PNG or JPG</div>
+        <div class="upload-sub">PNG or JPG · Gemini will read the chart</div>
         <img id="previewImage" alt="Chart preview" />
       </div>
 
       <input type="file" id="galleryInput" accept="image/*" style="display:none" onchange="handleImage(event)" />
 
-      <button class="scan-btn" id="scanBtn" disabled onclick="runAIScan()">Scan Chart</button>
+      <button class="scan-btn" id="scanBtn" disabled onclick="runAIScan()">Scan Chart with AI</button>
+      <div class="error-box" id="scanError"></div>
 
       <div class="skeleton-wrap" id="skeleton">
         <div class="scanner-ring"></div>
-        <div class="scan-text">Reading structure & confluence...</div>
+        <div class="scan-text">Gemini is reading structure & confluence...</div>
       </div>
     </div>
 
     <div class="ai-result" id="aiResult">
       <div class="gx-header">
         <div class="gx-title">LIVE SETUP</div>
-        <div class="gx-live">SCAN COMPLETE</div>
+        <div class="gx-live">GEMINI AI</div>
       </div>
 
       <div class="gx-main">
@@ -1122,18 +1128,6 @@
       'theme-crimson','theme-amber','theme-rose','theme-lime','theme-arctic'
     ];
 
-    // Consistency cache: same symbol + image = same result
-    const scanCache = {};
-
-    function simpleHash(str) {
-      let h = 0;
-      for (let i = 0; i < str.length; i++) {
-        h = ((h << 5) - h) + str.charCodeAt(i);
-        h |= 0;
-      }
-      return Math.abs(h);
-    }
-
     function checkAccess() {
       const input = document.getElementById('accessInput').value.trim();
       if (input === ACCESS_CODE) {
@@ -1264,6 +1258,7 @@
         document.getElementById('uploadBtn').classList.add('active');
         document.getElementById('aiResult').style.display = 'none';
         document.getElementById('executeBtn').style.display = 'none';
+        document.getElementById('scanError').style.display = 'none';
         checkScanReady();
       };
       reader.readAsDataURL(file);
@@ -1285,21 +1280,6 @@
       return 'Swing Trading (4H–Daily)';
     }
 
-    function getTFHint() {
-      if (tradingMode === 'super') return 'M1 / M5';
-      if (tradingMode === 'scalping') return 'M5 / M15';
-      if (tradingMode === 'day') return 'M15 / H1';
-      return 'H4 / Daily';
-    }
-
-    function getSession() {
-      const h = new Date().getUTCHours();
-      if (h >= 0 && h < 7) return 'Asian Session';
-      if (h >= 7 && h < 12) return 'London Session';
-      if (h >= 12 && h < 17) return 'New York Session';
-      return 'London / NY Overlap';
-    }
-
     function calcRisk() {
       const balance = parseFloat(document.getElementById('riskBalance').value) || 1000;
       const riskPct = parseFloat(document.getElementById('riskPercent').value) || 1;
@@ -1317,139 +1297,31 @@
       document.getElementById('lotValue').textContent = suggested.toFixed(2);
     }
 
-    // Deterministic random from seed
-    function seededRandom(seed) {
-      let s = seed;
-      return function() {
-        s = (s * 16807) % 2147483647;
-        return (s - 1) / 2147483646;
-      };
-    }
-
-    function runConfluenceScan(symbol, seed) {
-      const rand = seededRandom(seed);
-      const r = () => rand();
-
-      let waitChance = highProbMode ? 0.48 : 0.32;
-      if (tradingMode === 'super') waitChance = highProbMode ? 0.40 : 0.28;
-
-      const isWait = r() < waitChance;
-
-      if (isWait) {
-        return {
-          bias: 'WAIT',
-          conf: 42 + Math.floor(r() * 16),
-          phase: 'Accumulation',
-          strategy: 'No clear setup',
-          structureType: 'Structure not confirmed',
-          entryZone: '—',
-          entryQuality: '—',
-          rr: '—',
-          slPips: tradingMode === 'super' ? 10 : 20,
-          tpPips: tradingMode === 'super' ? 12 : 40,
-          confluences: ['Waiting for liquidity sweep', 'No clean displacement', 'Structure incomplete'],
-          comment: 'Setup quality too low. Wait for clear BOS + FVG or Order Block reaction before entry.',
-          tf: getTFHint(),
-          session: getSession()
+    // Compress image before sending to Gemini (avoids payload errors)
+    function compressImage(dataUrl, maxWidth = 720, quality = 0.55) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+          if (height > 900) {
+            width = Math.round((width * 900) / height);
+            height = 900;
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', quality));
         };
-      }
-
-      const isBuy = r() > 0.48;
-      let confBase = highProbMode ? 80 : 70;
-      if (tradingMode === 'super') confBase = highProbMode ? 76 : 68;
-      const conf = Math.min(93, confBase + Math.floor(r() * 14));
-
-      const phase = r() > 0.45 ? 'Distribution' : 'Manipulation';
-
-      let structureType;
-      if (isBuy) {
-        structureType = r() > 0.25 ? 'Higher High + Higher Low (HH + HL)' : 'Higher Low (HL) confirmed';
-      } else {
-        structureType = r() > 0.25 ? 'Lower High + Lower Low (LH + LL)' : 'Lower High (LH) confirmed';
-      }
-
-      const possibleBuy = [
-        'Bullish Order Block holding',
-        'Fair Value Gap (FVG) in discount',
-        'Liquidity Sweep below lows',
-        'Break of Structure (BOS) to upside',
-        'Change of Character (CHoCH)',
-        'Breaker Block support',
-        'Demand Zone reaction',
-        'Equal highs liquidity taken'
-      ];
-      const possibleSell = [
-        'Bearish Order Block holding',
-        'Fair Value Gap (FVG) in premium',
-        'Liquidity Sweep above highs',
-        'Break of Structure (BOS) to downside',
-        'Change of Character (CHoCH)',
-        'Breaker Block resistance',
-        'Supply Zone reaction',
-        'Equal lows liquidity taken'
-      ];
-
-      const pool = isBuy ? possibleBuy : possibleSell;
-      const minCount = highProbMode ? 5 : 4;
-      const count = minCount + Math.floor(r() * 2);
-      // deterministic shuffle
-      const shuffled = [...pool].sort(() => r() - 0.5);
-      const confluences = shuffled.slice(0, Math.min(count, pool.length));
-
-      const qualities = highProbMode ? ['A+', 'A+', 'A'] : ['A+', 'A', 'A', 'B'];
-      const entryQuality = qualities[Math.floor(r() * qualities.length)];
-
-      let rr, slPips, tpPips;
-      if (tradingMode === 'super') {
-        slPips = 8 + Math.floor(r() * 7);
-        tpPips = Math.round(slPips * (1.0 + r() * 0.5));
-        rr = tpPips >= slPips * 1.3 ? '1 : 1.4' : '1 : 1.1';
-      } else if (tradingMode === 'scalping') {
-        slPips = 12 + Math.floor(r() * 12);
-        tpPips = Math.round(slPips * (1.5 + r() * 0.7));
-        rr = '1 : ' + (tpPips / slPips).toFixed(1);
-      } else if (tradingMode === 'day') {
-        slPips = 22 + Math.floor(r() * 16);
-        tpPips = Math.round(slPips * (1.9 + r() * 0.8));
-        rr = '1 : ' + (tpPips / slPips).toFixed(1);
-      } else {
-        slPips = 35 + Math.floor(r() * 28);
-        tpPips = Math.round(slPips * (2.1 + r()));
-        rr = '1 : ' + (tpPips / slPips).toFixed(1);
-      }
-
-      const commentsBuy = [
-        'Strong bullish confluence. Liquidity taken + displacement into discount. Prefer limit entry in the FVG / Order Block.',
-        'Clean market structure shift. HH + HL forming with Order Block support. High probability long.',
-        'Judas sweep complete. Looking for continuation higher from the demand zone.'
-      ];
-      const commentsSell = [
-        'Strong bearish confluence. Liquidity taken above + displacement into premium. Prefer limit entry in the FVG / Order Block.',
-        'Clean market structure shift. LH + LL forming with Order Block resistance. High probability short.',
-        'Judas sweep complete. Looking for continuation lower from the supply zone.'
-      ];
-
-      let strategyName = 'PO3 + Full Confluence';
-      if (tradingMode === 'super') strategyName = 'Super Scalp Confluence';
-
-      return {
-        bias: isBuy ? 'BUY' : 'SELL',
-        conf,
-        phase,
-        strategy: strategyName,
-        structureType,
-        entryZone: isBuy ? 'Discount / FVG / OB' : 'Premium / FVG / OB',
-        entryQuality,
-        rr,
-        slPips,
-        tpPips,
-        confluences,
-        comment: isBuy
-          ? commentsBuy[Math.floor(r() * commentsBuy.length)]
-          : commentsSell[Math.floor(r() * commentsSell.length)],
-        tf: getTFHint(),
-        session: getSession()
-      };
+        img.onerror = () => resolve(dataUrl);
+        img.src = dataUrl;
+      });
     }
 
     function saveToHistory(analysis) {
@@ -1462,7 +1334,7 @@
         id: Date.now(),
         symbol: analysis.symbol,
         bias: analysis.bias,
-        conf: analysis.conf,
+        conf: analysis.confidence || analysis.conf,
         entryZone: analysis.entryZone,
         entryQuality: analysis.entryQuality,
         rr: analysis.rr,
@@ -1496,10 +1368,10 @@
 
       clearBtn.style.display = 'block';
       list.innerHTML = history.map(h => `
-        <div class="history-item ${h.bias.toLowerCase()}">
+        <div class="history-item ${(h.bias || '').toLowerCase()}">
           <div class="hist-top">
             <div class="hist-symbol">${h.symbol}</div>
-            <div class="hist-bias ${h.bias.toLowerCase()}">${h.bias}</div>
+            <div class="hist-bias ${(h.bias || '').toLowerCase()}">${h.bias}</div>
           </div>
           <div class="hist-meta">
             <span>${h.conf}% conf</span>
@@ -1519,82 +1391,102 @@
       }
     }
 
-    function runAIScan() {
+    async function runAIScan() {
       const symbol = document.getElementById('manualSymbol').value.trim().toUpperCase();
       if (!symbol || !selectedImage) return;
 
       const btn = document.getElementById('scanBtn');
       const skeleton = document.getElementById('skeleton');
       const result = document.getElementById('aiResult');
+      const errBox = document.getElementById('scanError');
 
       btn.disabled = true;
       skeleton.style.display = 'block';
       result.style.display = 'none';
+      errBox.style.display = 'none';
       document.getElementById('executeBtn').style.display = 'none';
 
-      // Consistency key: symbol + mode + image fingerprint
-      const imgKey = selectedImage.slice(0, 120) + selectedImage.length;
-      const cacheKey = symbol + '|' + tradingMode + '|' + (highProbMode ? '1' : '0') + '|' + simpleHash(imgKey);
+      try {
+        const compressed = await compressImage(selectedImage, 720, 0.55);
 
-      setTimeout(() => {
-        let analysis;
-        if (scanCache[cacheKey]) {
-          analysis = JSON.parse(JSON.stringify(scanCache[cacheKey]));
-        } else {
-          const seed = simpleHash(cacheKey);
-          analysis = runConfluenceScan(symbol, seed);
-          analysis.symbol = symbol;
-          scanCache[cacheKey] = JSON.parse(JSON.stringify(analysis));
+        const res = await fetch('/api/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            image: compressed,
+            symbol,
+            mode: tradingMode,
+            highProb: highProbMode
+          })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || 'Scan failed');
         }
 
-        saveToHistory(analysis);
-        displayAnalysis(analysis);
+        // Normalize fields
+        data.conf = data.confidence || data.conf || 0;
+        data.symbol = data.symbol || symbol;
 
+        saveToHistory(data);
+        displayAnalysis(data);
+      } catch (err) {
+        console.error(err);
+        errBox.textContent = err.message || 'Could not reach Gemini. Check Railway logs / API key.';
+        errBox.style.display = 'block';
+      } finally {
         skeleton.style.display = 'none';
         btn.disabled = false;
-      }, 1400 + Math.random() * 400);
+      }
     }
 
     function displayAnalysis(analysis) {
       const result = document.getElementById('aiResult');
+      const bias = (analysis.bias || 'WAIT').toUpperCase();
+      const conf = analysis.confidence || analysis.conf || 0;
 
-      document.getElementById('aiBias').textContent = analysis.bias;
-      document.getElementById('aiBias').className = 'gx-direction ' + analysis.bias.toLowerCase();
-      document.getElementById('aiConfidence').textContent = analysis.conf + '%';
-      document.getElementById('po3Phase').textContent = analysis.phase + ' Phase';
-      document.getElementById('gxStrategy').textContent = analysis.strategy;
-      document.getElementById('aiTF').textContent = analysis.tf;
-      document.getElementById('aiSymbolDisplay').textContent = analysis.symbol;
-      document.getElementById('gxSession').textContent = analysis.session;
-      document.getElementById('entryZone').textContent = analysis.entryZone;
-      document.getElementById('gxSL').textContent = analysis.slPips + ' pips';
-      document.getElementById('gxTP').textContent = analysis.tpPips + ' pips';
-      document.getElementById('structureType').textContent = analysis.structureType;
-      document.getElementById('entryQuality').textContent = analysis.entryQuality;
-      document.getElementById('entryRR').textContent = analysis.rr;
-      document.getElementById('aiComment').textContent = analysis.comment;
+      document.getElementById('aiBias').textContent = bias;
+      document.getElementById('aiBias').className = 'gx-direction ' + bias.toLowerCase();
+      document.getElementById('aiConfidence').textContent = conf + '%';
+      document.getElementById('po3Phase').textContent = (analysis.phase || '—') + ' Phase';
+      document.getElementById('gxStrategy').textContent = analysis.strategy || 'Confluence';
+      document.getElementById('aiTF').textContent = analysis.tf || '—';
+      document.getElementById('aiSymbolDisplay').textContent = analysis.symbol || '—';
+      document.getElementById('gxSession').textContent = analysis.session || '—';
+      document.getElementById('entryZone').textContent = analysis.entryZone || '—';
+      document.getElementById('gxSL').textContent = (analysis.slPips || '—') + (analysis.slPips ? ' pips' : '');
+      document.getElementById('gxTP').textContent = (analysis.tpPips || '—') + (analysis.tpPips ? ' pips' : '');
+      document.getElementById('structureType').textContent = analysis.structureType || '—';
+      document.getElementById('entryQuality').textContent = analysis.entryQuality || '—';
+      document.getElementById('entryRR').textContent = analysis.rr || '—';
+      document.getElementById('aiComment').textContent = analysis.comment || '—';
 
       const confList = document.getElementById('confluenceList');
-      confList.innerHTML = (analysis.confluences || []).map(c => `
-        <div class="conf-item">
-          <div class="conf-check">✓</div>
-          <div>${c}</div>
-        </div>
-      `).join('');
+      const items = analysis.confluences || [];
+      confList.innerHTML = items.length
+        ? items.map(c => `
+          <div class="conf-item">
+            <div class="conf-check">✓</div>
+            <div>${c}</div>
+          </div>
+        `).join('')
+        : '<div class="conf-item"><div class="conf-check">–</div><div>No strong confluence listed</div></div>';
 
-      document.getElementById('slPips').value = analysis.slPips;
-      document.getElementById('tpPips').value = analysis.tpPips;
+      if (analysis.slPips) document.getElementById('slPips').value = analysis.slPips;
+      if (analysis.tpPips) document.getElementById('tpPips').value = analysis.tpPips;
 
       const bar = document.getElementById('confBar');
       bar.style.width = '0%';
-      setTimeout(() => { bar.style.width = analysis.conf + '%'; }, 50);
+      setTimeout(() => { bar.style.width = conf + '%'; }, 50);
 
       lastAnalysis = analysis;
       result.style.display = 'block';
 
       calcRisk();
 
-      document.getElementById('executeBtn').style.display = analysis.bias === 'WAIT' ? 'none' : 'block';
+      document.getElementById('executeBtn').style.display = bias === 'WAIT' ? 'none' : 'block';
       document.getElementById('executeBtn').disabled = !mtConnected;
       document.getElementById('executeBtn').textContent = mtConnected ? 'Execute Trade' : 'Connect MT Account to Execute';
     }
@@ -1610,7 +1502,7 @@
       const data = { apiKey, login, server, balance: mockBalance + ' USD', equity: mockBalance + ' USD' };
       localStorage.setItem('eahost_mt', JSON.stringify(data));
       updateMtUI(data);
-      if (lastAnalysis && lastAnalysis.bias !== 'WAIT') {
+      if (lastAnalysis && (lastAnalysis.bias || '').toUpperCase() !== 'WAIT') {
         document.getElementById('executeBtn').disabled = false;
         document.getElementById('executeBtn').textContent = 'Execute Trade';
       }
@@ -1633,7 +1525,7 @@
         showPage('account', document.querySelectorAll('.nav-item')[3]);
         return;
       }
-      if (!lastAnalysis || lastAnalysis.bias === 'WAIT') return;
+      if (!lastAnalysis || (lastAnalysis.bias || '').toUpperCase() === 'WAIT') return;
 
       const sl = document.getElementById('slPips').value;
       const tp = document.getElementById('tpPips').value;
@@ -1641,8 +1533,8 @@
 
       document.getElementById('modalText').innerHTML =
         `<strong>${a.bias}</strong> <strong>${a.symbol}</strong><br>
-         Phase: ${a.phase}<br>
-         Structure: ${a.structureType}<br>
+         Phase: ${a.phase || '—'}<br>
+         Structure: ${a.structureType || '—'}<br>
          Lot: <strong>${lotSize.toFixed(2)}</strong> × <strong>${numTrades}</strong><br>
          SL: <strong>${sl} pips</strong> | TP: <strong>${tp} pips</strong>`;
       document.getElementById('executeModal').style.display = 'flex';
