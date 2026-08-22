@@ -1,128 +1,121 @@
 const express = require('express');
 const path = require('path');
-const cors = require('cors');
-
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-app.use(cors());
-app.use(express.json({ limit: '200mb' }));
-app.use(express.urlencoded({ extended: true, limit: '200mb' }));
+app.use(express.json({ limit: '15mb' }));
+app.use(express.urlencoded({ extended: true, limit: '15mb' }));
+app.use(express.static(path.join(__dirname, 'public')));
+
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
 app.post('/api/analyze', async (req, res) => {
   try {
-    const { image, symbol, tradingMode, highProbMode } = req.body;
+    if (!GEMINI_API_KEY) {
+      return res.status(500).json({ error: 'GEMINI_API_KEY not set on Railway' });
+    }
 
+    const { image, symbol, mode, highProb } = req.body;
     if (!image || !symbol) {
       return res.status(400).json({ error: 'Missing image or symbol' });
     }
 
-    if (!process.env.OPENAI_API_KEY) {
-      return res.status(500).json({ error: 'OpenAI API key not configured' });
-    }
-
-    const modeHint = tradingMode === 'scalping'
-      ? 'Focus on 1–15 minute structure'
-      : tradingMode === 'day'
-      ? 'Focus on 15m–1H structure'
-      : 'Focus on 4H–Daily structure';
+    // image should be pure base64 (no data:image/... prefix)
+    const base64 = image.replace(/^data:image\/\w+;base64,/, '');
 
     const prompt = `
-You are a professional Smart Money Concepts (SMC/ICT) chart analyst.
-Analyze the uploaded trading chart screenshot carefully.
+You are an expert SMC / ICT / PO3 price action analyst.
+Analyze this trading chart screenshot for symbol ${symbol}.
+Trading mode: ${mode || 'scalping'}.
+High probability mode: ${highProb ? 'yes' : 'no'}.
 
-Symbol: ${symbol}
-Trading mode: ${tradingMode} (${modeHint})
-High probability mode: ${highProbMode ? 'YES' : 'NO'}
-
-Return ONLY valid JSON in this exact format (no markdown, no extra text):
-
+Return ONLY valid JSON (no markdown, no extra text) with this exact structure:
 {
-  "bias": "BUY" | "SELL" | "WAIT",
-  "confidence": number between 50 and 95,
-  "marketType": "string",
-  "structureType": "string (e.g. Higher High + Higher Low (HH + HL))",
-  "keyLevel": "string (Support holding / Resistance holding / None)",
-  "entryType": "Limit Entry" | "Market Entry" | "Pullback Entry" | "—",
-  "entryZone": "string",
-  "entryQuality": "A+" | "A" | "B" | "C" | "—",
-  "rr": "string e.g. 1 : 2",
-  "confluences": ["string", "string"],
-  "comment": "short practical comment",
-  "tf": "string timeframe hint"
+  "bias": "BUY" or "SELL" or "WAIT",
+  "confidence": number 0-100,
+  "phase": "Accumulation" or "Manipulation" or "Distribution",
+  "strategy": "short strategy name",
+  "structureType": "e.g. HH+HL or LH+LL or unclear",
+  "entryZone": "e.g. Discount FVG / Order Block",
+  "entryQuality": "A+" or "A" or "B" or "—",
+  "rr": "e.g. 1 : 2",
+  "slPips": number,
+  "tpPips": number,
+  "confluences": ["item1", "item2", "item3"],
+  "comment": "1-2 sentence explanation",
+  "tf": "suggested timeframe",
+  "session": "current session if relevant"
 }
 
 Rules:
-- Base everything on what is actually visible in the chart.
-- If structure is unclear, use bias "WAIT".
-- Prefer quality over forcing a trade.
-- Keep confluences realistic (Order Block, FVG, BOS, CHoCH, Liquidity Sweep, Support/Resistance, HH/HL/LH/LL).
+- Only BUY or SELL when structure + liquidity/displacement are clear.
+- Prefer WAIT when chart is unclear or low quality.
+- Be honest. Do not invent levels you cannot see.
+- Keep confluences to real SMC/ICT concepts only.
 `;
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        messages: [
-          {
-            role: 'user',
-            content: [
-              { type: 'text', text: prompt },
-              {
-                type: 'image_url',
-                image_url: {
-                  url: image,
-                  detail: 'low'
-                }
+    const body = {
+      contents: [
+        {
+          parts: [
+            { text: prompt },
+            {
+              inline_data: {
+                mime_type: 'image/jpeg',
+                data: base64
               }
-            ]
-          }
-        ],
-        max_tokens: 800,
-        temperature: 0.2
-      })
+            }
+          ]
+        }
+      ],
+      generationConfig: {
+        temperature: 0.2,
+        maxOutputTokens: 1024
+      }
+    };
+
+    const response = await fetch(GEMINI_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-      console.error('OpenAI error:', data);
+      console.error('Gemini error:', data);
       return res.status(500).json({
-        error: data.error?.message || 'OpenAI request failed'
+        error: data?.error?.message || 'Gemini request failed'
       });
     }
 
-    let content = data.choices?.[0]?.message?.content || '';
-    content = content.replace(/```json/gi, '').replace(/```/g, '').trim();
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    // Strip markdown code fences if model wraps JSON
+    const cleaned = text.replace(/```json|```/g, '').trim();
 
     let analysis;
     try {
-      analysis = JSON.parse(content);
+      analysis = JSON.parse(cleaned);
     } catch (e) {
-      console.error('JSON parse failed:', content);
-      return res.status(500).json({ error: 'AI returned invalid JSON' });
+      console.error('JSON parse failed:', cleaned);
+      return res.status(500).json({
+        error: 'AI returned invalid JSON',
+        raw: cleaned.slice(0, 500)
+      });
     }
 
-    // Basic safety defaults
     analysis.symbol = symbol;
-    analysis.bias = (analysis.bias || 'WAIT').toUpperCase();
-    analysis.confidence = Math.min(95, Math.max(50, Number(analysis.confidence) || 60));
-    analysis.confluences = Array.isArray(analysis.confluences) ? analysis.confluences : [];
-
     res.json(analysis);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Server error while analysing chart' });
+    res.status(500).json({ error: err.message || 'Server error' });
   }
 });
 
+// SPA fallback
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log('Server running on port', PORT);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log('SignalsPro running on', PORT));
