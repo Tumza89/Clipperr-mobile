@@ -7,60 +7,70 @@ app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-
-// Current Gemini model
 const MODEL = 'gemini-2.0-flash';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_URL =
+  'https://generativelanguage.googleapis.com/v1beta/models/' +
+  MODEL +
+  ':generateContent?key=' +
+  GEMINI_API_KEY;
 
-app.post('/api/analyze', async (req, res) => {
+app.get('/api/health', function (req, res) {
+  res.json({
+    ok: true,
+    hasKey: !!process.env.GEMINI_API_KEY
+  });
+});
+
+app.post('/api/analyze', async function (req, res) {
   try {
     if (!GEMINI_API_KEY) {
       return res.status(500).json({ error: 'GEMINI_API_KEY is missing on Railway' });
     }
 
-    const { image, symbol, mode, highProb } = req.body || {};
+    const body = req.body || {};
+    const image = body.image;
+    const symbol = body.symbol;
+    const mode = body.mode || 'scalping';
+    const highProb = body.highProb;
+
     if (!image || !symbol) {
       return res.status(400).json({ error: 'Missing image or symbol' });
     }
 
     const base64 = String(image).replace(/^data:image\/[a-zA-Z+]+;base64,/, '');
-
     if (base64.length < 100) {
       return res.status(400).json({ error: 'Image data too small or invalid' });
     }
 
-    const prompt = `
-You are an expert SMC / ICT / PO3 price action analyst.
-Analyze this trading chart screenshot for symbol ${symbol}.
-Trading mode: ${mode || 'scalping'}.
-High probability mode: ${highProb ? 'yes' : 'no'}.
+    const prompt =
+      'You are an expert SMC / ICT / PO3 price action analyst.\n' +
+      'Analyze this trading chart screenshot for symbol ' + symbol + '.\n' +
+      'Trading mode: ' + mode + '.\n' +
+      'High probability mode: ' + (highProb ? 'yes' : 'no') + '.\n\n' +
+      'Return ONLY valid JSON (no markdown, no extra text) with this exact structure:\n' +
+      '{\n' +
+      '  "bias": "BUY" or "SELL" or "WAIT",\n' +
+      '  "confidence": number 0-100,\n' +
+      '  "phase": "Accumulation" or "Manipulation" or "Distribution",\n' +
+      '  "strategy": "short strategy name",\n' +
+      '  "structureType": "e.g. HH+HL or LH+LL or unclear",\n' +
+      '  "entryZone": "e.g. Discount FVG / Order Block",\n' +
+      '  "entryQuality": "A+" or "A" or "B" or "—",\n' +
+      '  "rr": "e.g. 1 : 2",\n' +
+      '  "slPips": number,\n' +
+      '  "tpPips": number,\n' +
+      '  "confluences": ["item1", "item2", "item3"],\n' +
+      '  "comment": "1-2 sentence explanation",\n' +
+      '  "tf": "suggested timeframe",\n' +
+      '  "session": "current session if relevant"\n' +
+      '}\n\n' +
+      'Rules:\n' +
+      '- Only BUY or SELL when structure + liquidity/displacement are clear.\n' +
+      '- Prefer WAIT when chart is unclear or low quality.\n' +
+      '- Be honest. Do not invent levels you cannot see.\n' +
+      '- Keep confluences to real SMC/ICT concepts only.';
 
-Return ONLY valid JSON (no markdown, no extra text) with this exact structure:
-{
-  "bias": "BUY" or "SELL" or "WAIT",
-  "confidence": number 0-100,
-  "phase": "Accumulation" or "Manipulation" or "Distribution",
-  "strategy": "short strategy name",
-  "structureType": "e.g. HH+HL or LH+LL or unclear",
-  "entryZone": "e.g. Discount FVG / Order Block",
-  "entryQuality": "A+" or "A" or "B" or "—",
-  "rr": "e.g. 1 : 2",
-  "slPips": number,
-  "tpPips": number,
-  "confluences": ["item1", "item2", "item3"],
-  "comment": "1-2 sentence explanation",
-  "tf": "suggested timeframe",
-  "session": "current session if relevant"
-}
-
-Rules:
-- Only BUY or SELL when structure + liquidity/displacement are clear.
-- Prefer WAIT when chart is unclear or low quality.
-- Be honest. Do not invent levels you cannot see.
-- Keep confluences to real SMC/ICT concepts only.
-`;
-
-    const body = {
+    const payload = {
       contents: [
         {
           parts: [
@@ -83,7 +93,7 @@ Rules:
     const response = await fetch(GEMINI_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+      body: JSON.stringify(payload)
     });
 
     const data = await response.json();
@@ -91,12 +101,21 @@ Rules:
     if (!response.ok) {
       console.error('Gemini error:', JSON.stringify(data));
       return res.status(500).json({
-        error: data?.error?.message || 'Gemini request failed'
+        error: (data && data.error && data.error.message) || 'Gemini request failed'
       });
     }
 
-    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    const cleaned = text.replace(/```json/gi, '').replace(/```/g, '').trim();
+    const text =
+      data &&
+      data.candidates &&
+      data.candidates[0] &&
+      data.candidates[0].content &&
+      data.candidates[0].content.parts &&
+      data.candidates[0].content.parts[0]
+        ? data.candidates[0].content.parts[0].text
+        : '';
+
+    const cleaned = String(text).replace(/```json/gi, '').replace(/```/g, '').trim();
 
     let analysis;
     try {
@@ -111,16 +130,19 @@ Rules:
 
     analysis.symbol = symbol;
     analysis.confidence = analysis.confidence || analysis.conf || 0;
-    res.json(analysis);
+    return res.json(analysis);
   } catch (err) {
-    console.error('Server crash:', err);
-    res.status(500).json({ error: err.message || 'Server error' });
+    console.error('Server error:', err);
+    return res.status(500).json({ error: err.message || 'Server error' });
   }
 });
 
-app.get('*', (req, res) => {
+// Fallback last — NO star route
+app.use(function (req, res) {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log('SignalsPro running on', PORT));
+app.listen(PORT, function () {
+  console.log('SignalsPro running on', PORT);
+});
