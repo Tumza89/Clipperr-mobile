@@ -7,21 +7,27 @@ app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+// Current Gemini model
+const MODEL = 'gemini-2.0-flash';
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${GEMINI_API_KEY}`;
 
 app.post('/api/analyze', async (req, res) => {
   try {
     if (!GEMINI_API_KEY) {
-      return res.status(500).json({ error: 'GEMINI_API_KEY not set on Railway' });
+      return res.status(500).json({ error: 'GEMINI_API_KEY is missing on Railway' });
     }
 
-    const { image, symbol, mode, highProb } = req.body;
+    const { image, symbol, mode, highProb } = req.body || {};
     if (!image || !symbol) {
       return res.status(400).json({ error: 'Missing image or symbol' });
     }
 
-    // image should be pure base64 (no data:image/... prefix)
-    const base64 = image.replace(/^data:image\/\w+;base64,/, '');
+    const base64 = String(image).replace(/^data:image\/[a-zA-Z+]+;base64,/, '');
+
+    if (base64.length < 100) {
+      return res.status(400).json({ error: 'Image data too small or invalid' });
+    }
 
     const prompt = `
 You are an expert SMC / ICT / PO3 price action analyst.
@@ -83,15 +89,14 @@ Rules:
     const data = await response.json();
 
     if (!response.ok) {
-      console.error('Gemini error:', data);
+      console.error('Gemini error:', JSON.stringify(data));
       return res.status(500).json({
         error: data?.error?.message || 'Gemini request failed'
       });
     }
 
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    // Strip markdown code fences if model wraps JSON
-    const cleaned = text.replace(/```json|```/g, '').trim();
+    const cleaned = text.replace(/```json/gi, '').replace(/```/g, '').trim();
 
     let analysis;
     try {
@@ -99,20 +104,20 @@ Rules:
     } catch (e) {
       console.error('JSON parse failed:', cleaned);
       return res.status(500).json({
-        error: 'AI returned invalid JSON',
-        raw: cleaned.slice(0, 500)
+        error: 'AI returned invalid JSON. Try another screenshot.',
+        raw: cleaned.slice(0, 300)
       });
     }
 
     analysis.symbol = symbol;
+    analysis.confidence = analysis.confidence || analysis.conf || 0;
     res.json(analysis);
   } catch (err) {
-    console.error(err);
+    console.error('Server crash:', err);
     res.status(500).json({ error: err.message || 'Server error' });
   }
 });
 
-// SPA fallback
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
