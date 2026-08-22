@@ -137,12 +137,12 @@ app.post('/api/analyze', async function (req, res) {
   }
 });
 
-// Fallback last — NO star route
+// Fallback last — no star route
 app.use(function (req, res) {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, function () {
+app.listen(PORT, '0.0.0.0', function () {
   console.log('SignalsPro running on', PORT);
 });
