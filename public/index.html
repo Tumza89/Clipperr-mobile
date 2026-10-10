@@ -65,8 +65,11 @@ canvas{width:100%;height:330px;display:block;border-radius:16px;background:rgba(
 .empty{text-align:center;padding:40px 10px;color:var(--t2);font-size:14px}
 label{display:block;font-size:13px;color:var(--t2);margin:6px 0}
 .note{font-size:12px;color:var(--t2);line-height:1.5;margin-top:10px}
+.pl{border-radius:16px;padding:14px;margin-bottom:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-left:4px solid var(--buy)}.pl.sell{border-left-color:var(--sell)}.pl.on{background:rgba(255,255,255,.07);box-shadow:0 0 22px var(--glow)}
+.pl h4{display:flex;justify-content:space-between;align-items:center;font-size:15px;margin-bottom:8px}.pl h4 em{font-style:normal;font-size:10px;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.08);color:var(--t2)}.pl.on h4 em{background:var(--glow);color:#fff}
+.pr{display:flex;justify-content:space-between;padding:7px 0;font-size:14px;border-bottom:1px solid rgba(255,255,255,.05)}.pr:last-of-type{border:0}.pr span:first-child{color:var(--t2)}.pr .sl{color:var(--sell);font-weight:700}.pr .tp{color:var(--buy);font-weight:700}.pr .en{color:var(--accent);font-weight:700}
 nav{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:360px;background:rgba(18,18,28,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.1);border-radius:40px;display:flex;justify-content:space-around;padding:10px 8px 12px;z-index:100;box-shadow:0 8px 32px rgba(0,0,0,.45)}
-nav button{display:flex;flex-direction:column;align-items:center;gap:4px;color:rgba(255,255,255,.45);font-size:10px;background:none;border:none;min-width:64px}
+nav button{display:flex;flex-direction:column;align-items:center;gap:4px;color:rgba(255,255,255,.45);font-size:10px;background:none;border:none;min-width:52px}
 nav button span{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:.25s}
 nav svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 nav button.on{color:var(--accent)}nav button.on span{background:var(--glow);box-shadow:0 0 20px var(--glow)}
@@ -95,7 +98,17 @@ nav button.on{color:var(--accent)}nav button.on span{background:var(--glow);box-
 <div class="legend"><span style="--c:var(--buy)">Buy / support</span><span style="--c:var(--sell)">Sell / resistance</span></div>
 <div class="grid"><div class="g s"><div class="k">Nearest support</div><div id="ns">—</div></div><div class="g r"><div class="k">Nearest resistance</div><div id="nr">—</div></div>
 <div class="g"><div class="k">Zones found</div><div id="zc">—</div></div><div class="g"><div class="k">Last signal</div><div id="ls">—</div></div></div>
-<div id="st">Open Settings to add your data key.</div></div></section>
+<div id="st">Open Settings to add your data key.</div></div>
+<div class="card"><div style="font-size:16px;font-weight:800;margin-bottom:12px">Trade plan</div><div id="plans"><div class="empty">Load a chart to see entries and targets.</div></div>
+<div class="note">Rule-based levels: entry at the zone, stop a quarter ATR beyond the far edge of the zone, targets at the next opposite zones (or 1.5R and 3R if none). A plan marked ACTIVE means price is in the zone now. Not financial advice.</div></div></section>
+
+<section class="page" id="p-scan"><div class="card"><div style="font-size:18px;font-weight:800;margin-bottom:12px">Market Scanner</div>
+<label>Watchlist (comma separated)</label><input class="inp" id="scWl" autocapitalize="characters">
+<label>Timeframe</label><select class="inp" id="scTf"><option>M15</option><option>M30</option><option>H1</option><option>H4</option></select>
+<button class="btn" id="scBtn">Scan now</button><button class="btn ghost" id="scAuto">Auto-scan every 30 min: Off</button>
+<div class="note" id="scSt">Each symbol uses 1 data credit and takes about 8 seconds, to stay inside the free 8-per-minute limit.</div><div class="note" id="scCr"></div></div>
+<div id="scList"></div>
+<div class="note" style="padding:0 6px 10px">Ranking = trend (EMA20 vs EMA50 and price side), movement versus normal, and trade-plan quality. It only shows trades that go with the trend. Not backtested and not financial advice.</div></section>
 
 <section class="page" id="p-sig"><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
 <div style="font-size:18px;font-weight:800">Signal History</div><div class="k" id="cnt">0 signals</div></div><div id="list"></div>
@@ -111,6 +124,7 @@ nav button.on{color:var(--accent)}nav button.on span{background:var(--glow);box-
 
 <nav id="nav">
 <button class="on" data-p="home"><span><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></span>Home</button>
+<button data-p="scan"><span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 12l6-4"/></svg></span>Scanner</button>
 <button data-p="ind"><span><svg viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 6-8 3 3"/><path d="M3 21h18"/></svg></span>Indicator</button>
 <button data-p="sig"><span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>Signals</button>
 <button data-p="set"><span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 00-.1-1.3l2-1.5-2-3.4-2.3 1a7 7 0 00-2.2-1.3L14 3h-4l-.4 2.5a7 7 0 00-2.2 1.3l-2.3-1-2 3.4 2 1.5a7 7 0 000 2.6l-2 1.5 2 3.4 2.3-1a7 7 0 002.2 1.3L10 21h4l.4-2.5a7 7 0 002.2-1.3l2.3 1 2-3.4-2-1.5c.1-.4.1-.9.1-1.3z"/></svg></span>Settings</button></nav>
@@ -120,10 +134,10 @@ const $=id=>document.getElementById(id),CODE="Tumelo19";
 const TH={cobalt:['#3b82f6','59,130,246'],structure:['#ff6b1a','255,107,26'],cyan:['#22d3ee','34,211,238'],violet:['#a855f7','168,85,247'],emerald:['#10b981','16,185,129'],crimson:['#f43f5e','244,63,94'],amber:['#f59e0b','245,158,11'],rose:['#fb7185','251,113,133'],lime:['#a3e635','163,230,53'],arctic:['#e2e8f0','226,232,240']};
 const P={zf:.65,ff:2,sf:4,back:1200,shift:8,cool:60,show:{4:1,3:1,1:1,2:1}};
 const TFB={M1:'1m',M5:'5m',M15:'15m',M30:'30m',H1:'1h',H4:'4h',D1:'1d'},TFT={M1:'1min',M5:'5min',M15:'15min',M30:'30min',H1:'1h',H4:'4h',D1:'1day'},SN={4:'Proven',3:'Verified',2:'Untested',1:'Turncoat'};
-let S={src:'twelve',sym:'EUR/USD',tf:'M15',key:'',hook:'',iv:120,theme:'cobalt'};
+let S={src:'twelve',sym:'EUR/USD',tf:'M15',key:'',hook:'',iv:120,theme:'cobalt',wl:'EUR/USD,GBP/USD,USD/JPY,AUD/USD,USD/CAD,NZD/USD,USD/CHF,EUR/JPY',stf:'H1'};
 try{Object.assign(S,JSON.parse(localStorage.getItem('sp_cfg')||'{}'))}catch(e){}
 let sigs=[];try{sigs=JSON.parse(localStorage.getItem('sp_sig')||'[]')}catch(e){}
-let D=null,R=null,run=false,timer=null,advice=0,lastB=0,lastS=0;
+let D=null,R=null,PLN=null,run=false,timer=null,advice=0,lastB=0,lastS=0;
 const save=()=>{try{localStorage.setItem('sp_cfg',JSON.stringify(S))}catch(e){}};
 
 // lock
@@ -143,10 +157,10 @@ Object.keys(TFB).forEach(t=>{const b=document.createElement('button');b.textCont
 const mark=()=>document.querySelectorAll('#tfs button').forEach(b=>b.classList.toggle('on',b.dataset.t===S.tf));mark();
 $('symIn').value=S.sym;$('symIn').onchange=()=>{S.sym=$('symIn').value.trim();save();tick()};
 // data
-async function load(){
- const sym=S.sym.trim();let u;
- if(S.src==='binance')u=`https://api.binance.com/api/v3/klines?symbol=${sym.toUpperCase().replace('/','')}&interval=${TFB[S.tf]}&limit=1000`;
- else{if(!S.key)throw Error('Add your Twelve Data key in Settings');u=`https://api.twelvedata.com/time_series?symbol=${encodeURIComponent(sym)}&interval=${TFT[S.tf]}&outputsize=1500&apikey=${S.key}`}
+async function load(sym,tf){
+ sym=(sym||S.sym).trim();tf=tf||S.tf;let u;
+ if(S.src==='binance')u=`https://api.binance.com/api/v3/klines?symbol=${sym.toUpperCase().replace('/','')}&interval=${TFB[tf]}&limit=1000`;
+ else{if(!S.key)throw Error('Add your Twelve Data key in Settings');u=`https://api.twelvedata.com/time_series?symbol=${encodeURIComponent(sym)}&interval=${TFT[tf]}&outputsize=1500&apikey=${S.key}`}
  const j=await(await fetch(u)).json();let rows,dec=2;
  if(S.src==='binance'){if(!Array.isArray(j))throw Error(j.msg||'Bad symbol');rows=j.reverse().map(k=>({o:+k[1],h:+k[2],l:+k[3],c:+k[4],s:k[4]}))}
  else{if(j.status==='error')throw Error(j.message);rows=j.values.map(v=>({o:+v.open,h:+v.high,l:+v.low,c:+v.close,s:v.close}))}
@@ -174,7 +188,24 @@ function compute(d){
   if(res)sell[i]=h[i]+off;else buy[i]=l[i]-off;zones.push({hi,lo,res,s})}
  for(let i=lim;i>=4;i--){if(F.up[i]>0)scan(i,true);if(F.dn[i]>0)scan(i,false)}
  let b=false,s=false;for(const z of zones)if(l[0]<=z.hi&&h[0]>=z.lo){if(!z.res){buy[0]=l[0]-off;b=true}else{sell[0]=h[0]+off;s=true}}
- return{buy,sell,zones,b,s}}
+ return{buy,sell,zones,b,s,atr:atr[0],rv:atr[0]/(atr.slice(0,100).reduce((x,y)=>x+y,0)/100)}}
+function plans(px,Rr){
+ Rr=Rr||R;const z=Rr.zones,a=Rr.atr,out={};
+ const sup=z.filter(x=>!x.res&&x.lo<px).sort((p,q)=>q.hi-p.hi)[0],res=z.filter(x=>x.res&&x.hi>px).sort((p,q)=>p.lo-q.lo)[0];
+ if(sup){const e=Math.min(px,sup.hi),sl=sup.lo-.25*a,k=e-sl,up=z.filter(x=>x.res&&x.lo>e).sort((p,q)=>p.lo-q.lo);
+  const t1=up[0]?up[0].lo:e+1.5*k,t2=up[1]?up[1].lo:Math.max(e+3*k,t1+k);out.buy={side:'BUY',z:sup,e,sl,t1,t2,r1:(t1-e)/k,r2:(t2-e)/k,on:Rr.b}}
+ if(res){const e=Math.max(px,res.lo),sl=res.hi+.25*a,k=sl-e,dn=z.filter(x=>!x.res&&x.hi<e).sort((p,q)=>q.hi-p.hi);
+  const t1=dn[0]?dn[0].hi:e-1.5*k,t2=dn[1]?dn[1].hi:Math.min(e-3*k,t1-k);out.sell={side:'SELL',z:res,e,sl,t1,t2,r1:(e-t1)/k,r2:(e-t2)/k,on:Rr.s}}
+ return out}
+function renderPlans(px){
+ const P2=plans(px),f=v=>v.toFixed(D.dec);
+ const card=p=>!p?'':`<div class="pl ${p.side==='SELL'?'sell':''} ${p.on?'on':''}"><h4><span>${p.side} plan · ${SN[p.z.s]} zone</span><em>${p.on?'ACTIVE NOW':'WAIT FOR PRICE'}</em></h4>
+ <div class="pr"><span>${p.on?'Entry (now)':'Entry (limit)'}</span><span class="en">${f(p.e)}</span></div>
+ <div class="pr"><span>Stop loss</span><span class="sl">${f(p.sl)}</span></div>
+ <div class="pr"><span>Target 1</span><span class="tp">${f(p.t1)} · ${p.r1.toFixed(1)}R</span></div>
+ <div class="pr"><span>Target 2</span><span class="tp">${f(p.t2)} · ${p.r2.toFixed(1)}R</span></div>
+ ${p.r1<1?'<div class="note" style="color:var(--wait)">TP1 is under 1R, so this setup is weak. Consider skipping it.</div>':''}</div>`;
+ $('plans').innerHTML=card(P2.buy)+card(P2.sell)||'<div class="empty">No zones near price.</div>';return P2}
 // chart
 function fit(){const cv=$('cv'),r=devicePixelRatio||1;cv.width=cv.clientWidth*r;cv.height=cv.clientHeight*r}
 function draw(){
@@ -186,23 +217,25 @@ function draw(){
   g.fillRect(X(i)-bw*.3,Math.min(Y(o[i]),Y(c[i])),bw*.6,Math.max(r,Math.abs(Y(o[i])-Y(c[i]))))}
  for(let i=0;i<N;i++){for(const[a,col]of[[R.buy,'#00ff55'],[R.sell,'#ff3b30']])if(a[i]!=null){g.fillStyle=col;g.shadowColor=col;g.shadowBlur=10*r;g.beginPath();g.arc(X(i),Y(a[i]),bw*.35+2*r,0,7);g.fill();g.shadowBlur=0}}
  const y=Y(c[0]);g.setLineDash([4*r,4*r]);g.strokeStyle=getComputedStyle(document.documentElement).getPropertyValue('--accent');g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke();g.setLineDash([]);
- g.fillStyle=g.strokeStyle;g.fillRect(W-52*r,y-9*r,52*r,18*r);g.fillStyle='#000';g.font=`700 ${10*r}px sans-serif`;g.fillText(c[0].toFixed(D.dec),W-50*r,y+4*r)}
+ g.fillStyle=g.strokeStyle;g.fillRect(W-52*r,y-9*r,52*r,18*r);g.fillStyle='#000';g.font=`700 ${10*r}px sans-serif`;g.fillText(c[0].toFixed(D.dec),W-50*r,y+4*r);
+ const ap=PLN&&(PLN.buy&&PLN.buy.on?PLN.buy:PLN.sell&&PLN.sell.on?PLN.sell:null);
+ if(ap)for(const[v,n,col]of[[ap.e,'ENTRY','#ffffff'],[ap.sl,'SL','#ff3b30'],[ap.t1,'TP1','#00ff55'],[ap.t2,'TP2','#00ff55']]){if(v<mn||v>mx)continue;const yy=Y(v);g.setLineDash([2*r,5*r]);g.strokeStyle=col;g.beginPath();g.moveTo(0,yy);g.lineTo(W-52*r,yy);g.stroke();g.setLineDash([]);g.fillStyle=col;g.font=`700 ${10*r}px sans-serif`;g.fillText(n,6*r,yy-4*r)}}
 // alerts
 function beep(){try{const a=new AudioContext(),o=a.createOscillator();o.connect(a.destination);o.frequency.value=880;o.start();o.stop(a.currentTime+.25)}catch(e){}}
-function fire(type,price){
- const t=new Date(),msg=`${S.sym} ${S.tf} → ${type} signal (${type==='BUY'?'support':'resistance'} zone)`;
- sigs.unshift({sym:S.sym,tf:S.tf,type,price:price.toFixed(D.dec),t:t.toLocaleString()});sigs=sigs.slice(0,100);try{localStorage.setItem('sp_sig',JSON.stringify(sigs))}catch(e){}
+function fire(type,price,p){
+ const t=new Date(),f=v=>v.toFixed(D.dec),pl=p?{e:f(p.e),sl:f(p.sl),t1:f(p.t1),t2:f(p.t2)}:null,msg=`${S.sym} ${S.tf} ${type}`+(pl?` · Entry ${pl.e} SL ${pl.sl} TP1 ${pl.t1} TP2 ${pl.t2}`:'');
+ sigs.unshift({sym:S.sym,tf:S.tf,type,price:price.toFixed(D.dec),t:t.toLocaleString(),pl});sigs=sigs.slice(0,100);try{localStorage.setItem('sp_sig',JSON.stringify(sigs))}catch(e){}
  beep();navigator.vibrate&&navigator.vibrate([200,100,200]);
  if(window.Notification&&Notification.permission==='granted'&&navigator.serviceWorker)navigator.serviceWorker.ready.then(r=>r.showNotification('SignalsPro',{body:msg,icon:'icon-192.png'})).catch(()=>{});
- if(S.hook)fetch(S.hook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({symbol:S.sym,timeframe:S.tf,signal:type,price,time:t.toISOString().slice(0,19),indicator:'SignalsPro'})}).catch(()=>{})}
+ if(S.hook)fetch(S.hook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({symbol:S.sym,timeframe:S.tf,signal:type,price,plan:pl,time:t.toISOString().slice(0,19),indicator:'SignalsPro'})}).catch(()=>{})}
 function renderSigs(){$('cnt').textContent=sigs.length+(sigs.length===1?' signal':' signals');$('clr').style.display=sigs.length?'block':'none';
- $('list').innerHTML=sigs.length?sigs.map(s=>`<div class="sg ${s.type}"><div class="t"><span>${s.sym} · ${s.tf}</span><em>${s.type}</em></div><div class="m">Price ${s.price} · ${s.t}</div></div>`).join(''):'<div class="empty">No signals yet.<br>Start the app and they will appear here.</div>'}
+ $('list').innerHTML=sigs.length?sigs.map(s=>`<div class="sg ${s.type}"><div class="t"><span>${s.sym} · ${s.tf}</span><em>${s.type}</em></div><div class="m">Price ${s.price} · ${s.t}</div>${s.pl?`<div class="m">Entry ${s.pl.e} · SL ${s.pl.sl} · TP1 ${s.pl.t1} · TP2 ${s.pl.t2}</div>`:''}</div>`).join(''):'<div class="empty">No signals yet.<br>Start the app and they will appear here.</div>'}
 $('clr').onclick=()=>{if(confirm('Clear all signal history?')){sigs=[];localStorage.removeItem('sp_sig');renderSigs()}};
 // main loop
 async function tick(){
- try{D=await load();R=compute(D);const px=D.c[0];
+ try{D=await load();R=compute(D);const px=D.c[0],PL=renderPlans(px);PLN=PL;
   if(run){if(R.b)advice=1;if(R.s)advice=-1;const now=Date.now()/1000;
-   if(R.b&&now-lastB>=P.cool){fire('BUY',px);lastB=now}if(R.s&&now-lastS>=P.cool){fire('SELL',px);lastS=now}}
+   if(R.b&&now-lastB>=P.cool){fire('BUY',px,PL.buy);lastB=now}if(R.s&&now-lastS>=P.cool){fire('SELL',px,PL.sell);lastS=now}}
   const a=$('adv');a.textContent=advice>0?'BUY':advice<0?'SELL':'WAIT';a.className='adv '+(advice>0?'buy':advice<0?'sell':'');
   $('sym').textContent=`${S.sym} · ${S.tf}`;$('px').textContent=px.toFixed(D.dec);
   const sup=R.zones.filter(z=>!z.res&&z.lo<px).sort((a,b)=>b.hi-a.hi)[0],res=R.zones.filter(z=>z.res&&z.hi>px).sort((a,b)=>a.lo-b.lo)[0],f=z=>z?`${z.lo.toFixed(D.dec)}–${z.hi.toFixed(D.dec)} · ${SN[z.s]}`:'None';
@@ -212,6 +245,46 @@ async function tick(){
 function setRun(v){run=v;clearInterval(timer);$('go').classList.toggle('stop',v);$('pill').classList.toggle('live',v);$('pill').textContent=v?'Live':'Stopped';
  $('hint').textContent=v?'Running. Tap to stop':'Tap to start live signals';if(v){advice=0;tick();timer=setInterval(tick,S.iv*1000)}}
 $('go').onclick=()=>{setRun(!run);if(run)page('ind')};
+// scanner
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));let scanning=false,autoT=null,notified={};
+function ema(a,n){const k=2/(n+1);let e=a[a.length-1];for(let i=a.length-2;i>=0;i--)e=a[i]*k+e*(1-k);return e}
+function rate(sym,d,Rr){
+ const px=d.c[0],a=Rr.atr,cs=d.c.slice(0,300),e20=ema(cs,20),e50=ema(cs,50),dir=e20>e50?1:-1,sep=Math.abs(e20-e50)/a,al=dir>0?px>e20:px<e20;
+ const pl=plans(px,Rr),p=dir>0?pl.buy:pl.sell,ok=p&&p.r1>=1;
+ const sc=Math.min(sep,3)/3*40+(al?20:0)+Math.min(Rr.rv,1.5)/1.5*15+(ok?Math.min(p.r1,3)/3*25:0)+(ok&&p.on?10:0);
+ let why='',v='NO TRADE';
+ if(!al)why='Price is not moving with the trend';else if(sep<.5)why='No clear trend';else if(!p)why='No zone to trade from';else if(!ok)why='Target is too close to the stop';else v=p.on?'ACTIVE NOW':'WAIT FOR PRICE';
+ return{sym,dec:d.dec,dir,p,v,why,score:Math.round(Math.min(sc,100)),trend:(dir>0?'Uptrend':'Downtrend')+(sep>1.5&&al?' (strong)':' (moderate)')}}
+function renderScan(list){
+ const L=list.slice().sort((x,y)=>y.score-x.score);
+ $('scList').innerHTML=L.map(r=>{
+  if(r.err)return `<div class="sg" style="border-left-color:var(--wait)"><div class="t"><span>${r.sym}</span><em style="background:rgba(255,204,0,.15);color:var(--wait)">Error</em></div><div class="m">${r.err}</div></div>`;
+  if(r.v==='NO TRADE')return `<div class="sg" style="opacity:.6;border-left-color:#555"><div class="t"><span>${r.sym}</span><em style="background:rgba(255,255,255,.08);color:var(--t2)">No trade</em></div><div class="m">${r.why}</div></div>`;
+  const p=r.p,f=v=>v.toFixed(r.dec);
+  return `<div class="pl ${p.side==='SELL'?'sell':''} ${p.on?'on':''}" onclick="openSym('${r.sym}')"><h4><span>${r.sym} · ${p.side}</span><em>${r.v} · ${r.score}</em></h4>
+  <div class="note" style="margin:0 0 6px">${r.trend} · ${SN[p.z.s]} zone</div>
+  <div class="pr"><span>${p.on?'Entry (now)':'Entry (limit)'}</span><span class="en">${f(p.e)}</span></div>
+  <div class="pr"><span>Stop loss</span><span class="sl">${f(p.sl)}</span></div>
+  <div class="pr"><span>Target 1</span><span class="tp">${f(p.t1)} · ${p.r1.toFixed(1)}R</span></div>
+  <div class="pr"><span>Target 2</span><span class="tp">${f(p.t2)} · ${p.r2.toFixed(1)}R</span></div></div>`}).join('')}
+function addCred(){const t=new Date().toDateString();let c={};try{c=JSON.parse(localStorage.getItem('sp_cr')||'{}')}catch(e){}if(c.d!==t)c={d:t,n:0};c.n++;try{localStorage.setItem('sp_cr',JSON.stringify(c))}catch(e){}showCred()}
+function showCred(){let c={};try{c=JSON.parse(localStorage.getItem('sp_cr')||'{}')}catch(e){}$('scCr').textContent=`Scanner credits used today: ${c.d===new Date().toDateString()?c.n:0} (the daily limit of 800 is shared with the Indicator page)`}
+function notify(msg){beep();navigator.vibrate&&navigator.vibrate([200,100,200]);if(window.Notification&&Notification.permission==='granted'&&navigator.serviceWorker)navigator.serviceWorker.ready.then(r=>r.showNotification('SignalsPro Scanner',{body:msg,icon:'icon-192.png'})).catch(()=>{})}
+async function scan(){
+ if(scanning)return;scanning=true;const list=S.wl.split(',').map(x=>x.trim()).filter(Boolean),out=[];let stop=false;$('scBtn').disabled=true;
+ for(let i=0;i<list.length&&!stop;i++){let tries=0;
+  while(true){$('scSt').textContent=`Scanning ${list[i]} (${i+1}/${list.length})…`;
+   try{const d=await load(list[i],S.stf);out.push(rate(list[i],d,compute(d)));addCred();break}
+   catch(e){if(/minute/i.test(e.message)&&tries++<1){$('scSt').textContent='Minute limit hit, waiting 30 seconds…';await sleep(30000);continue}
+    out.push({sym:list[i],err:e.message,score:-1});if(/day|credits/i.test(e.message)&&!/minute/i.test(e.message))stop=true;break}}
+  renderScan(out);if(i<list.length-1&&!stop)await sleep(S.src==='twelve'?8000:300)}
+ const now=Date.now()/1000;out.filter(x=>!x.err&&x.v==='ACTIVE NOW'&&x.score>=60&&now-(notified[x.sym]||0)>3600).forEach(x=>{notified[x.sym]=now;const f=v=>v.toFixed(x.dec);notify(`${x.sym} ${x.p.side} ACTIVE · Entry ${f(x.p.e)} SL ${f(x.p.sl)} TP1 ${f(x.p.t1)}`)});
+ scanning=false;$('scBtn').disabled=false;$('scSt').textContent='Scan finished at '+new Date().toLocaleTimeString()+'. Tap a result to open its chart.'}
+function openSym(sym){S.sym=sym;S.tf=S.stf;save();$('symIn').value=sym;mark();page('ind')}
+$('scWl').value=S.wl;$('scTf').value=S.stf;showCred();
+$('scWl').onchange=()=>{S.wl=$('scWl').value;save()};$('scTf').onchange=()=>{S.stf=$('scTf').value;save()};
+$('scBtn').onclick=scan;
+$('scAuto').onclick=()=>{if(autoT){clearInterval(autoT);autoT=null;$('scAuto').textContent='Auto-scan every 30 min: Off'}else{scan();autoT=setInterval(scan,1800000);$('scAuto').textContent='Auto-scan every 30 min: On'}};
 // settings
 $('src').value=S.src;$('key').value=S.key;$('iv').value=S.iv;$('hook').value=S.hook;
 $('save').onclick=()=>{S.src=$('src').value;S.key=$('key').value.trim();S.iv=+$('iv').value;S.hook=$('hook').value.trim();save();if(run)setRun(true);$('save').textContent='Saved';setTimeout(()=>$('save').textContent='Save settings',1200)};
